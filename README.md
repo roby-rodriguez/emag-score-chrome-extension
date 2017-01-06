@@ -1,0 +1,1 @@
+A chrome extension for tracking product price changes on emag.ro
