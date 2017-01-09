@@ -15,7 +15,7 @@
     "persistent": false
   },
   "options_page": "bower_components/fancy-settings/source/index.html",
-  "page_action": {
+  "browser_action": {
     "default_icon": "icons/icon19.png",
     "default_title": "eMag price tracker"
   },
@@ -39,6 +39,7 @@
     }
   ],
   "permissions": [
+    "https://script.google.com/",
     "tabs",
     "storage"
   ]
