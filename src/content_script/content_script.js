@@ -1,5 +1,6 @@
 /**
- * Extracts price as a string value
+ * Extracts price as a string value from a page
+ * with multiple products (grid)
  *
  * @param container
  * @returns {string}
@@ -15,6 +16,12 @@ function extractPriceGrid(container) {
         }
     }
 }
+/**
+ * Extracts price from the product's home page
+ *
+ * @param container
+ * @returns {string}
+ */
 function extractPriceProductPage(container) {
     var price = $(".product-new-price", container)
     if (price.length) {
@@ -24,37 +31,40 @@ function extractPriceProductPage(container) {
             (dec.length ?  "." + dec.text().replace(/\D+/g, '') : "")
     }
 }
-function addProductToStore(pid, product, callback) {
-    chrome.storage.sync.get(pid, function(item) {
-        if (!$.isEmptyObject(item)) {
-            console.warn("Found previously existing tracked product: " + pid)
-        }
-        chrome.storage.sync.remove(pid, function() {
-            chrome.storage.sync.set(product, function () {
+/**
+ * Adds product id to sync store
+ *
+ * @param pid
+ * @param callback
+ */
+function addProductToSyncStore(pid, callback) {
+    var pidObj = {}
+    pidObj[pid] = {}
+    chrome.storage.sync.set(pidObj, function () {
+        if (chrome.runtime.lastError) {
+            callback(chrome.runtime.lastError.message)
+        } else {
+            chrome.storage.sync.getBytesInUse(null, function(bytesInUse) {
                 if (chrome.runtime.lastError) {
                     callback(chrome.runtime.lastError.message)
                 } else {
-                    chrome.storage.sync.getBytesInUse(null, function(bytesInUse) {
-                        if (chrome.runtime.lastError) {
-                            callback(chrome.runtime.lastError.message)
-                        } else {
-                            callback(null, bytesInUse)
-                        }
-                    })
+                    callback(null, bytesInUse)
                 }
             })
-        })
-    })
-}
-//TODO
-function updateProductPrice(pid, newPrice, callback) {
-    chrome.storage.sync.get(pid, function(item) {
-        if (!$.isEmptyObject(item)) {
-
         }
     })
 }
 /**
+ * Adds product to local store
+ *
+ * @param pid
+ * @param product
+ */
+function addProductToLocalStore(pid, product) {
+    // TODO
+}
+/**
+ * Adds price-checker button to product grid
  * Template for grid:
  *
  <button class="emg-button add-to-price-checker">
@@ -82,12 +92,12 @@ function addGridButton(target) {
                     if (container.length) {
                         var priceValue = extractPriceGrid(container)
                         if (priceValue) {
-                            result["price"] = [ priceValue ]
+                            result.price = [ priceValue ]
 
                             var link = container.find("a")
                             if (link.attr("href") && (link.attr("title") || link.attr("text"))) {
-                                result["title"] = link.attr("title") || link.attr("text")
-                                result["link"] = location.origin + link.attr("href")
+                                result.title = link.attr("title") || link.attr("text")
+                                result.link = location.origin + link.attr("href")
                             } else {
                                 crashed = true
                             }
@@ -102,16 +112,20 @@ function addGridButton(target) {
                     if (crashed) {
                         swal("Oops...", "Something went wrong! (DOM structure change)", "error")
                     } else {
-                        addProductToStore(pid, {
-                            [pid]: result
-                        }, function(err, bytesInUse) {
-                            if (err) {
-                                swal("Oops...", "Something went wrong! (" + err + ")", "error")
-                            } else {
-                                swal("Added", "Product " + pid + " is now tracked: " + JSON.stringify(result)
-                                    + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
-                                $(self).hide()
-                            }
+                        addProductToSyncStore(pid, function(err, bytesInUse) {
+                            addProduct(pid, result)
+                                .done(function() {
+                                    swal("Added", "Product " + pid + " is now tracked: " + JSON.stringify(result)
+                                        + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
+                                    $(self).hide()
+                                })
+                                .fail(function(xhr) {
+                                    swal("Oops...", "Something went wrong! (API: " + xhr.responseText + ")", "error")
+                                })
+                                .always(function() {
+                                    // TODO add product to local store anyways - make this configurable
+                                    addProductToLocalStore(pid, result)
+                                })
                         })
                     }
                 }
@@ -129,6 +143,7 @@ function addGridButton(target) {
     })
 }
 /**
+ * Adds price-checker button to product home page
  * Template for product home page:
  *
  <button class="btn btn-primary btn-emag btn-xl btn-block">
@@ -158,12 +173,12 @@ function addProductPageButton(target) {
                     if (container.length) {
                         var priceValue = extractPriceProductPage(container)
                         if (priceValue) {
-                            result["price"] = priceValue
+                            result.price = priceValue
 
                             var link = $(".page-title")
                             if (link.length) {
-                                result["title"] = link.text().trim()
-                                result["link"] = location.href
+                                result.title = link.text().trim()
+                                result.link = location.href
                             } else {
                                 crashed = true
                             }
@@ -178,16 +193,20 @@ function addProductPageButton(target) {
                     if (crashed) {
                         swal("Oops...", "Something went wrong! (DOM structure change)", "error")
                     } else {
-                        addProductToStore(pid, {
-                            [pid]: result
-                        }, function(err, bytesInUse) {
-                            if (err) {
-                                swal("Oops...", "Something went wrong! (" + err + ")", "error")
-                            } else {
-                                swal("Added", "Product " + pid + " is now tracked: " + JSON.stringify(result)
-                                    + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
-                                $(self).hide()
-                            }
+                        addProductToSyncStore(pid, function(err, bytesInUse) {
+                            addProduct(pid, result)
+                                .done(function() {
+                                    swal("Added", "Product " + pid + " is now tracked: " + JSON.stringify(result)
+                                        + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
+                                    $(self).hide()
+                                })
+                                .fail(function(xhr) {
+                                    swal("Oops...", "Something went wrong! (API: " + xhr.responseText + ")", "error")
+                                })
+                                .always(function() {
+                                    // TODO add product to local store anyways - make this configurable
+                                    addProductToLocalStore(pid, result)
+                                })
                         })
                     }
                 }
