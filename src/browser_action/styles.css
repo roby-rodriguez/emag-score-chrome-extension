@@ -39,11 +39,6 @@ body {
     padding: 15px;
 }
 
-#wrapper.toggled #page-content-wrapper {
-    position: absolute;
-    margin-right: -250px;
-}
-
 .sidebar-nav {
     position: absolute;
     top: 0;
@@ -114,11 +109,6 @@ body {
     #page-content-wrapper {
         padding: 20px;
         position: relative;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
     }
 }
 

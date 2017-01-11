@@ -11,3 +11,7 @@ chrome.extension.onMessage.addListener(
   	chrome.pageAction.show(sender.tab.id);
     sendResponse();
   });
+
+chrome.browserAction.onClicked.addListener(function () {
+  chrome.tabs.create({ url: chrome.runtime.getURL("src/browser_action/tracked_products.html") });
+});
