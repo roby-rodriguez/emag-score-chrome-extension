@@ -5,3 +5,15 @@
 .add-to-price-checker {
     margin-top: 1px;
 }
+
+.loading-grid {
+    margin-top: 10px;
+    width: 140px;
+    height: 9px;
+}
+
+.loading-homepage {
+    margin-top: -3px;
+    margin-left: 10px;
+    width: 200px;
+}

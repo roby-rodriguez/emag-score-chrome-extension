@@ -39,6 +39,9 @@
       "run_at": "document_end"
     }
   ],
+  "web_accessible_resources": [
+    "icons/ajax-loader.gif"
+  ],
   "permissions": [
     "https://script.google.com/",
     "tabs",

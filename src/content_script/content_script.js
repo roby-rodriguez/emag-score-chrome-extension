@@ -58,10 +58,60 @@ function addProductToSyncStore(pid, callback) {
  * Adds product to local store
  *
  * @param pid
- * @param product
+ * @param productData
  */
-function addProductToLocalStore(pid, product) {
-    // TODO
+function addProductToLocalStore(pid, productData) {
+    // TODO make this configurable - read from user options
+    chrome.storage.sync.get(pid, function(item) {
+        if ($.isEmptyObject(item)) {
+            var product = {}
+            product[pid] = productData
+            chrome.storage.sync.set(product, function () {
+                if (chrome.runtime.lastError) {
+                    console.warn("Could not save product to local store: " + pid)
+                    console.warn(chrome.runtime.lastError.message)
+                }
+            })
+        }
+    })
+}
+function setLoadingGrid(elem) {
+    $(elem).empty()
+    $(elem).css("padding-left", "10px")
+    $(elem).append($('<img/>', {
+        src: chrome.extension.getURL("icons/ajax-loader.gif"),
+        class: "loading-grid"
+    }))
+}
+function unsetLoadingGrid(elem) {
+    $(elem).text("track price")
+    $(elem).css("padding-left", "35px")
+    $(elem).append(
+        $('<div/>', {
+            class: "emg-btn-icon"
+        }).append(
+            $('<span/>', {
+                class: "icon-i52-list-add"
+            })
+        )
+    )
+}
+function setLoadingHomepage(elem) {
+    $(elem).empty()
+    $(elem).css("padding-left", "10px")
+    $(elem).append($('<img/>', {
+        src: chrome.extension.getURL("icons/ajax-loader.gif"),
+        class: "loading-homepage"
+    }))
+}
+function unsetLoadingHomepage(elem) {
+    $(elem).text("track price")
+    $(elem).css("padding-left", "58px")
+    $(elem).append(
+        $('<i/>', {
+            class: "em em-list-add_fill"
+        })
+    )
 }
 /**
  * Adds price-checker button to product grid
@@ -88,11 +138,12 @@ function addGridButton(target) {
                 class: "emg-button add-to-price-checker",
                 click: function () {
                     var crashed, result = {}
+                    setLoadingGrid(this)
                     var container = $(target).closest("form") || $(target).closest(".product-holder-grid")
                     if (container.length) {
                         var priceValue = extractPriceGrid(container)
                         if (priceValue) {
-                            result.price = [ priceValue ]
+                            result.price = priceValue
 
                             var link = container.find("a"), imageLink = $("img", link)
                             if (link.attr("href") && (link.attr("title") || link.attr("text"))) {
@@ -113,6 +164,7 @@ function addGridButton(target) {
                     var self = this
                     if (crashed) {
                         swal("Oops...", "Something went wrong! (DOM structure change)", "error")
+                        unsetLoadingGrid(this)
                     } else {
                         addProductToSyncStore(pid, function(err, bytesInUse) {
                             addProduct(pid, result)
@@ -124,15 +176,17 @@ function addGridButton(target) {
                                 })
                                 .fail(function(xhr) {
                                     swal("Oops...", "Something went wrong! (API: " + xhr.responseText + ")", "error")
+                                    unsetLoadingGrid(this)
                                 })
                                 .always(function() {
-                                    // TODO add product to local store anyways - make this configurable
+                                    // add product to local store anyways
                                     addProductToLocalStore(pid, result)
                                 })
                         })
                     }
                 }
-            }).append(
+            })
+            .append(
                 $('<div/>', {
                     class: "emg-btn-icon"
                 }).append(
@@ -168,6 +222,7 @@ function addProductPageButton(target) {
                 class: "btn btn-primary btn-emag btn-xl btn-block",
                 click: function () {
                     var crashed, result = {}
+                    setLoadingHomepage(this)
                     var container = $(target).closest("form.main-product-form")
                     if (container.length) {
                         var priceValue = extractPriceProductPage(container)
@@ -194,6 +249,7 @@ function addProductPageButton(target) {
                     var self = this
                     if (crashed) {
                         swal("Oops...", "Something went wrong! (DOM structure change)", "error")
+                        unsetLoadingHomepage(this)
                     } else {
                         addProductToSyncStore(pid, function(err, bytesInUse) {
                             addProduct(pid, result)
@@ -205,9 +261,10 @@ function addProductPageButton(target) {
                                 })
                                 .fail(function(xhr) {
                                     swal("Oops...", "Something went wrong! (API: " + xhr.responseText + ")", "error")
+                                    unsetLoadingHomepage(this)
                                 })
                                 .always(function() {
-                                    // TODO add product to local store anyways - make this configurable
+                                    // add product to local store anyways
                                     addProductToLocalStore(pid, result)
                                 })
                         })
