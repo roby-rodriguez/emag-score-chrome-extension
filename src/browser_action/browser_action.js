@@ -133,6 +133,7 @@ function addProductToList(pid, item) {
 $(function() {
     homeView()
     chrome.storage.sync.get(null, function(items) {
+        delete items.lastCheck
         if ($.isEmptyObject(items)) {
             // show some text - no products marked yet
         } else {

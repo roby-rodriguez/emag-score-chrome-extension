@@ -15,3 +15,26 @@ chrome.extension.onMessage.addListener(
 chrome.browserAction.onClicked.addListener(function () {
   chrome.tabs.create({ url: chrome.runtime.getURL("src/browser_action/tracked_products.html") });
 });
+/*
+$.ajax({
+  url: "https://script.google.com/macros/s/AKfycbymgNqBL-Fgr0OsLsBLhcSkp-xKx5W-YshVbzLkgX8H9FrKI-w/exec",
+  type: "POST",
+  contentType: "application/json",//"x-www-form-urlencoded",
+  data: {
+    a: "1",
+    b: 1,
+    c: "Fancy title",
+    d: "http://www.emag.ro/geanta-laptop-asus-nereus-16-black-90-xb4000ba00010/pd/EPLRNBBBM/",
+    e: "https://s0emagst.akamaized.net/products/69/68269/images/img292807_02052013093733_0_150x150_uql6.jpg",
+    f: "59.49"
+  },
+  success: function (response) {
+    console.log(response);
+  },
+  error: function (err) {
+    console.log(err)
+  }
+})
+
+var i = 0;
+*/

@@ -45,6 +45,8 @@
   "permissions": [
     "https://script.google.com/",
     "tabs",
-    "storage"
+    "storage",
+    "alarms",
+    "background"
   ]
 }

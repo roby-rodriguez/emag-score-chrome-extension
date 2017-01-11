@@ -62,11 +62,11 @@ function addProductToSyncStore(pid, callback) {
  */
 function addProductToLocalStore(pid, productData) {
     // TODO make this configurable - read from user options
-    chrome.storage.sync.get(pid, function(item) {
+    chrome.storage.local.get(pid, function(item) {
         if ($.isEmptyObject(item)) {
             var product = {}
             product[pid] = productData
-            chrome.storage.sync.set(product, function () {
+            chrome.storage.local.set(product, function () {
                 if (chrome.runtime.lastError) {
                     console.warn("Could not save product to local store: " + pid)
                     console.warn(chrome.runtime.lastError.message)
