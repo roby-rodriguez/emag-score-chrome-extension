@@ -12,7 +12,6 @@ function addProduct(pid, product) {
             b: pid,
             c: product.title,
             d: product.link,
-            // TODO
             e: product.imageLink,
             f: product.price
         }

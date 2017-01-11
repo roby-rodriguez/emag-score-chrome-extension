@@ -87,17 +87,19 @@ function addGridButton(target) {
                 text: "track price", // urmareste pret
                 class: "emg-button add-to-price-checker",
                 click: function () {
-                    var crashed, result = {};
+                    var crashed, result = {}
                     var container = $(target).closest("form") || $(target).closest(".product-holder-grid")
                     if (container.length) {
                         var priceValue = extractPriceGrid(container)
                         if (priceValue) {
                             result.price = [ priceValue ]
 
-                            var link = container.find("a")
+                            var link = container.find("a"), imageLink = $("img", link)
                             if (link.attr("href") && (link.attr("title") || link.attr("text"))) {
                                 result.title = link.attr("title") || link.attr("text")
                                 result.link = location.origin + link.attr("href")
+                                if (imageLink.length)
+                                    result.imageLink = imageLink.attr("src")
                             } else {
                                 crashed = true
                             }
@@ -108,14 +110,15 @@ function addGridButton(target) {
                         crashed = true
                     }
 
-                    var self = this;
+                    var self = this
                     if (crashed) {
                         swal("Oops...", "Something went wrong! (DOM structure change)", "error")
                     } else {
                         addProductToSyncStore(pid, function(err, bytesInUse) {
                             addProduct(pid, result)
                                 .done(function() {
-                                    swal("Added", "Product " + pid + " is now tracked: " + JSON.stringify(result)
+                                    console.log("Product " + pid + " is now tracked:" + JSON.stringify(result))
+                                    swal("Added", "Product " + pid + " is now tracked!"
                                         + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
                                     $(self).hide()
                                 })
@@ -154,13 +157,9 @@ function addGridButton(target) {
 function addProductPageButton(target) {
     var pid = $(target).attr("data-offer-id")
     if (!pid) {
-        var container = $(target).closest("form") || $(target).closest(".product-holder-grid")
+        var container = $(target).closest("form")
         pid = container.find("input[type='hidden']").first().val()
     }
-    chrome.storage.sync.get(null, function(item) {
-        console.log("Store is: ")
-        console.log(item)
-    })
     chrome.storage.sync.get(pid, function(item) {
         if ($.isEmptyObject(item)) {
             var cloned = $('<button/>', {
@@ -168,17 +167,20 @@ function addProductPageButton(target) {
                 text: "track price", // urmareste pret
                 class: "btn btn-primary btn-emag btn-xl btn-block",
                 click: function () {
-                    var crashed, result = {};
+                    var crashed, result = {}
                     var container = $(target).closest("form.main-product-form")
                     if (container.length) {
                         var priceValue = extractPriceProductPage(container)
                         if (priceValue) {
                             result.price = priceValue
 
-                            var link = $(".page-title")
+                            var link = $(".page-title"),
+                                imageLink = $("a.product-gallery-image");
                             if (link.length) {
                                 result.title = link.text().trim()
                                 result.link = location.href
+                                if (imageLink.length)
+                                    result.imageLink = imageLink.attr("href")
                             } else {
                                 crashed = true
                             }
@@ -189,14 +191,15 @@ function addProductPageButton(target) {
                         crashed = true
                     }
 
-                    var self = this;
+                    var self = this
                     if (crashed) {
                         swal("Oops...", "Something went wrong! (DOM structure change)", "error")
                     } else {
                         addProductToSyncStore(pid, function(err, bytesInUse) {
                             addProduct(pid, result)
                                 .done(function() {
-                                    swal("Added", "Product " + pid + " is now tracked: " + JSON.stringify(result)
+                                    console.log("Product " + pid + " is now tracked:" + JSON.stringify(result))
+                                    swal("Added", "Product " + pid + " is now tracked!"
                                         + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
                                     $(self).hide()
                                 })
