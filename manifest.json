@@ -11,7 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "page": "src/background/background.html",
+    "page": "src/background/index.html",
     "persistent": false
   },
   "options_page": "bower_components/fancy-settings/source/index.html",
@@ -30,7 +30,7 @@
         "bower_components/jquery/dist/jquery.min.js",
         "bower_components/sweetalert/dist/sweetalert.min.js",
         "src/backend/api.js",
-        "src/content_script/content_script.js"
+        "src/content_script/main.js"
       ],
       "css": [
         "bower_components/sweetalert/dist/sweetalert.css",
