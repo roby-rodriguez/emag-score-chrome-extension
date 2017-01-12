@@ -142,11 +142,11 @@ $(function() {
                     .done(function(data) {
                         addProductToList(item, data)
                     })
-                    .fail(function(xhr) {
-                        console.warn("Remote fetch failed for pid=" + item + ". Loading from local.")
+                    .fail(function(xhr, status, error) {
+                        console.warn("Remote fetch failed for pid=" + item + ". Loading from local. Problem was " + JSON.stringify({xhr: xhr, status: status, error: error}))
                         chrome.storage.get(item, function(data) {
                             if (chrome.runtime.lastError) {
-                                console.error("Local fetch failed for pid=" + item + ". Cause: " + chrome.runtime.lastError)
+                                console.error("Local fetch failed for pid=" + item + ". Problem was " + chrome.runtime.lastError)
                             } else {
                                 addProductToList(item, data)
                             }

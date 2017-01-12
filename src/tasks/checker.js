@@ -6,10 +6,8 @@
         chrome.storage.sync.set({
             lastCheck: formattedDate
         }, function () {
-            if (chrome.runtime.lastError) {
-                console.error("Could not set starting point. Cause: " )
-                console.warn(chrome.runtime.lastError.message)
-            }
+            if (chrome.runtime.lastError)
+                console.error("Could not set starting point. Problem was " + chrome.runtime.lastError.message)
         })
     }
 
@@ -43,14 +41,15 @@
                                     // load product data from remote
                                     getProduct(pid)
                                         .success(function (found) {
-                                            scanProductHomepage(found)
+                                            scanProductHomepage(pid, found)
                                         })
-                                        .fail(function () {
-                                            console.warn('Could not get product from remote. Pid=' + pid)
+                                        .fail(function(xhr, status, error) {
+                                            console.warn("Could not get product from remote for pid=" + item + ". Scan aborted. " +
+                                                "Problem was " + JSON.stringify({xhr: xhr, status: status, error: error}))
                                         })
                                 } else {
                                     // scan this product's home page
-                                    scanProductHomepage(local)
+                                    scanProductHomepage(pid, local)
                                 }
                             })
 

@@ -174,8 +174,8 @@ function addGridButton(target) {
                                         + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
                                     $(self).hide()
                                 })
-                                .fail(function(xhr) {
-                                    swal("Oops...", "Something went wrong! (API: " + xhr.responseText + ")", "error")
+                                .fail(function(xhr, status, error) {
+                                    swal("Oops...", "Something went wrong!\n\nProblem was " + JSON.stringify({xhr: xhr, status: status, error: error}), "error")
                                     unsetLoadingGrid(this)
                                 })
                                 .always(function() {
@@ -259,8 +259,8 @@ function addProductPageButton(target) {
                                         + "\n\nSpace usage: " + Math.round(bytesInUse * 10000/102400)/100 + "%", "success")
                                     $(self).hide()
                                 })
-                                .fail(function(xhr) {
-                                    swal("Oops...", "Something went wrong! (API: " + xhr.responseText + ")", "error")
+                                .fail(function(xhr, status, error) {
+                                    swal("Oops...", "Something went wrong!\n\nProblem was " + JSON.stringify({xhr: xhr, status: status, error: error}), "error")
                                     unsetLoadingHomepage(this)
                                 })
                                 .always(function() {
