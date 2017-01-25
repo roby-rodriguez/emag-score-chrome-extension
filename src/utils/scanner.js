@@ -36,7 +36,7 @@ function scanProductHomepage(pid, product) {
                 // TODO check for captchas and if none found then just update price
                 var newPrice = extractPriceRaw(data)
                 if (newPrice)
-                    updatePrice(pid, newPrice)
+                    EmagTrackerAPI.updatePrice(pid, newPrice)
                         .done(function() {
                             console.log('Finished scan for pid=' + pid)
                         })

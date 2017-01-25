@@ -1,10 +1,12 @@
-window.EmagTrackerAPI = (function() {
+/**
+ * The solution is to move everything to ES6 since we're using webpack anyways for Vue
+*/
 
-    return {
-        getProduct: function(pid) {
+const EmagTrackerAPI = {
+        getProduct(pid) {
             return $.get("https://script.google.com/macros/s/AKfycbymgNqBL-Fgr0OsLsBLhcSkp-xKx5W-YshVbzLkgX8H9FrKI-w/exec?a=" + pid)
         },
-        addProduct: function(pid, product) {
+        addProduct(pid, product) {
             return $.ajax({
                 url: "https://script.google.com/macros/s/AKfycbymgNqBL-Fgr0OsLsBLhcSkp-xKx5W-YshVbzLkgX8H9FrKI-w/exec",
                 type: "POST",
@@ -19,7 +21,7 @@ window.EmagTrackerAPI = (function() {
                 }
             })
         },
-        updatePrice: function(pid, newPrice) {
+        updatePrice(pid, newPrice) {
             return $.ajax({
                 url: "https://script.google.com/macros/s/AKfycbymgNqBL-Fgr0OsLsBLhcSkp-xKx5W-YshVbzLkgX8H9FrKI-w/exec",
                 type: "POST",
@@ -31,5 +33,6 @@ window.EmagTrackerAPI = (function() {
                 }
             })
         }
-    }
-})()
+}
+
+export { EmagTrackerAPI }

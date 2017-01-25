@@ -1,0 +1,81 @@
+#sidebar {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #005eb8;
+    transition: all 0.5s ease;
+}
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+        text-indent: 20px;
+        line-height: 40px;
+
+        a {
+            text-decoration: none;
+            text-overflow: ellipsis;
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 90%;
+            color: #fff;
+
+            &:hover, &:active, &:focus {
+                text-decoration: none;
+                color: #fff;
+                background: rgba(255,255,255,0.2);
+            }
+        }
+    }
+
+    &  > .sidebar-brand {
+        height: 65px;
+        font-size: 18px;
+        line-height: 60px;
+
+        a {
+            color: #fff;
+            &:hover {
+                background: none;
+            }
+        }
+    }
+}
+
+.form-control {
+    border-radius: 0;
+    margin-top: 27px;
+
+    &:hover {
+        color: #005eb8;
+    }
+
+    &+.glyphicon {
+        color: #ccc;
+        position: absolute;
+        right: 0;
+        padding: 33px 10px;
+    }
+}
+
+@media(min-width:768px) {
+
+    #sidebar {
+        width: 250px;
+    }
+
+    #app.toggled #sidebar {
+        width: 0;
+    }
+}

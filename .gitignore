@@ -26,6 +26,7 @@ logs
 dist
 
 # Dependency directory
+src/browser_action/src/node_modules
 node_modules
 bower_components
 

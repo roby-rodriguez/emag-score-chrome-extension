@@ -167,7 +167,7 @@ function addGridButton(target) {
                         unsetLoadingGrid(this)
                     } else {
                         addProductToSyncStore(pid, function(err, bytesInUse) {
-                            addProduct(pid, result)
+                            EmagTrackerAPI.addProduct(pid, result)
                                 .done(function() {
                                     console.log("Product " + pid + " is now tracked:" + JSON.stringify(result))
                                     swal("Added", "Product " + pid + " is now tracked!"
@@ -252,7 +252,7 @@ function addProductPageButton(target) {
                         unsetLoadingHomepage(this)
                     } else {
                         addProductToSyncStore(pid, function(err, bytesInUse) {
-                            addProduct(pid, result)
+                            EmagTrackerAPI.addProduct(pid, result)
                                 .done(function() {
                                     console.log("Product " + pid + " is now tracked:" + JSON.stringify(result))
                                     swal("Added", "Product " + pid + " is now tracked!"

@@ -39,7 +39,7 @@
                             chrome.storage.local.get(pid, function (local) {
                                 if ($.isEmptyObject(local)) {
                                     // load product data from remote
-                                    getProduct(pid)
+                                    EmagTrackerAPI.getProduct(pid)
                                         .success(function (found) {
                                             scanProductHomepage(pid, found)
                                         })
