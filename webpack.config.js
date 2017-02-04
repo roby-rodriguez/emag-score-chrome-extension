@@ -1,18 +1,27 @@
 var autoprefixer = require('autoprefixer')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var ProvidePlugin = require('webpack/lib/ProvidePlugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
+var HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
-    entry: [
-        'babel-polyfill',
-        'raphael',
-        'morris',
-        './src/main',
-    ],
+    entry: {
+        // Content Script
+        content_script: [ './src/content_script', './src/content_script/main'],
+        // Background Page
+        background: './src/background',
+        // Browser Page
+        browser_action: [
+            'babel-polyfill',
+            'raphael',
+            'morris',
+            './src/browser_action/main',
+        ],
+    },
     output: {
         // TODO change this later on
         path: './dist',
-        filename: 'build.js',
+        filename: '[name].build.js',
     },
     module: {
         loaders: [
@@ -82,5 +91,38 @@ module.exports = {
             jQuery: "jquery",
             Raphael: "raphael",
         }),
+        new HtmlWebpackPlugin({
+            template: "./src/index.html",
+            filename: "background.html",
+            chunks: [ "background" ]
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/index.html",
+            filename: "options_page.html",
+        }),
+        new HtmlWebpackPlugin({
+            title: "Tracked products",
+            favicon: "./res/icons/icon16.png",
+            template: "./src/index.html",
+            filename: "browser_action.html",
+            chunks: [ "browser_action" ]
+        }),
+        new CopyWebpackPlugin([
+            { from: "manifest.json" },
+            { from: "node_modules/sweetalert/dist/sweetalert.min.js" },
+            { from: "node_modules/sweetalert/dist/sweetalert.css" },
+            {
+                from: "_locales",
+                to: "_locales"
+            },
+            {
+                from: "res",
+                to: "res"
+            },
+            {
+                from: "src/content_script/style.css",
+                to: "content_script.css"
+            },
+        ]),
     ],
 }

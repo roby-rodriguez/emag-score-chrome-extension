@@ -5,18 +5,18 @@
   "author": "RobyRodriguez",
   "description": "Track price evolution on emag.ro",
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "res/icons/icon16.png",
+    "48": "res/icons/icon48.png",
+    "128": "res/icons/icon128.png"
   },
   "default_locale": "en",
   "background": {
-    "page": "src/background/index.html",
+    "scripts": [ "background.build.js" ],
     "persistent": false
   },
-  "options_page": "bower_components/fancy-settings/source/index.html",
+  "options_page": "options_page.html",
   "browser_action": {
-    "default_icon": "icons/icon19.png",
+    "default_icon": "res/icons/icon19.png",
     "default_title": "eMag price tracker"
   },
   "content_scripts": [
@@ -27,20 +27,18 @@
         "*://*.emag.bg/*"
       ],
       "js": [
-        "bower_components/jquery/dist/jquery.min.js",
-        "bower_components/sweetalert/dist/sweetalert.min.js",
-        "src/backend/api.js",
-        "src/content_script/main.js"
+        "sweetalert.min.js",
+        "content_script.build.js"
       ],
       "css": [
-        "bower_components/sweetalert/dist/sweetalert.css",
-        "src/content_script/style.css"
+        "sweetalert.css",
+        "content_script.css"
       ],
       "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [
-    "icons/ajax-loader.gif"
+    "res/images/ajax-loader.gif"
   ],
   "permissions": [
     "https://script.google.com/",

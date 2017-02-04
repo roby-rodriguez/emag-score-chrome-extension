@@ -1,47 +1,12 @@
 import co from 'co'
-import { EmagTrackerAPI } from "./duplicate"
+import { EmagTrackerAPI } from "../../backend"
+import { StoreAPI } from "../../store"
 
 /**
- * Promisify callback-based API call
- *
- * @param item
- * @returns {Promise}
+ * Load user products from remote or local if not available
  */
-const getSync = item => {
-    return new Promise((resolve, reject) => {
-        chrome.storage.sync.get(item, found => {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError)
-            } else {
-                resolve(found)
-            }
-        })
-    })
-}
-
-/**
- * Promisify callback-based API call
- *
- * @param item
- * @returns {Promise}
- */
-const getLocal = item => {
-    return new Promise((resolve, reject) => {
-        chrome.storage.local.get(item, found => {
-            if (chrome.runtime.lastError) {
-                reject(chrome.runtime.lastError)
-            } else {
-                resolve(found)
-            }
-        })
-    })
-}
-
-/**
- *
- */
-export const load = () => {
-    return getSync(null)
+export const load = () =>
+    StoreAPI.getSync(null)
         .then(items => {
             delete items.lastCheck
             if ($.isEmptyObject(items)) {
@@ -54,7 +19,7 @@ export const load = () => {
                             const remote = yield EmagTrackerAPI.getProduct(pid)
                             if ($.isEmptyObject(remote)) {
                                 console.warn("Remote fetch failed for pid=" + pid + ". Loading from local. Problem was ")
-                                const local = yield getLocal(pid)
+                                const local = yield StoreAPI.getLocal(pid)
                                 remoteProducts.push(local)
                             } else {
                                 remoteProducts.push(remote)
@@ -64,4 +29,3 @@ export const load = () => {
                     })
             }
         })
-}

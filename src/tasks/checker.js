@@ -1,20 +1,18 @@
-(function() {
+import $ from "jquery"
+import { EmagTrackerAPI } from "../backend"
+import { StoreAPI } from "../store"
+import { scanProductHomepage } from "../utils/scanner"
 
-    var alarmName = 'priceChecker'
+const alarmName = 'priceChecker'
 
-    function updateStartingPoint(formattedDate) {
-        chrome.storage.sync.set({
-            lastCheck: formattedDate
-        }, function () {
-            if (chrome.runtime.lastError)
-                console.error("Could not set starting point. Problem was " + chrome.runtime.lastError.message)
-        })
-    }
+const updateStartingPoint = formattedDate =>
+    StoreAPI.setSync({
+        lastCheck: formattedDate
+    }).catch(reason => {
+        console.error("Could not set starting point. Problem was " + JSON.stringify(reason))
+    })
 
-    // 1 - setup starting point
-    var now = moment(new Date()).format('DD-MM-YYYY')
-    updateStartingPoint(now)
-
+const initChecker = () => {
     //TODO make this configurable
     // on minutes option change - reset alarm
     // 2 - create alarm
@@ -23,21 +21,25 @@
         periodInMinutes: 1
     })
 
-    chrome.alarms.onAlarm.addListener(function (alarm) {
+    chrome.alarms.onAlarm.addListener(alarm => {
         if (alarm.name === alarmName) {
-            chrome.storage.sync.get('lastCheck', function (date) {
-                var now = moment(new Date()).format('DD-MM-YYYY')
+
+            StoreAPI.getSync('lastCheck', date => {
+
+                const now = moment(new Date()).format('DD-MM-YYYY')
                 if (now !== date.lastCheck) {
                     console.log('Started scheduled scan')
                     updateStartingPoint(now)
 
-                    // get all user-marked products
-                    chrome.storage.sync.get(null, function(pids) {
+                    StoreAPI.getSync(null, pids => {
+
                         delete pids.lastCheck
                         for (var pid in pids) {
+
                             // first try to find them in the local store
-                            chrome.storage.local.get(pid, function (local) {
+                            StoreAPI.get(pid, local => {
                                 if ($.isEmptyObject(local)) {
+
                                     // load product data from remote
                                     EmagTrackerAPI.getProduct(pid)
                                         .success(function (found) {
@@ -52,11 +54,16 @@
                                     scanProductHomepage(pid, local)
                                 }
                             })
-
                         }
                     })
+                }
+                // set scan date if first run
+                if ($.isEmptyObject(date)) {
+                    updateStartingPoint(now)
                 }
             })
         }
     })
-})()
+}
+
+export { initChecker }

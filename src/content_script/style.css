@@ -13,7 +13,6 @@
 }
 
 .loading-homepage {
-    margin-top: -3px;
-    margin-left: 10px;
+    margin: -3px 0 0 10px;
     width: 200px;
 }
