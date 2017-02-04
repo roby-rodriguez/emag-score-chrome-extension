@@ -97,10 +97,6 @@ module.exports = {
             chunks: [ "background" ]
         }),
         new HtmlWebpackPlugin({
-            template: "./src/index.html",
-            filename: "options_page.html",
-        }),
-        new HtmlWebpackPlugin({
             title: "Tracked products",
             favicon: "./res/icons/icon16.png",
             template: "./src/index.html",

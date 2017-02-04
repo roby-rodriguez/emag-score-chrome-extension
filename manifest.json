@@ -14,7 +14,7 @@
     "scripts": [ "background.build.js" ],
     "persistent": false
   },
-  "options_page": "options_page.html",
+  "options_page": "browser_action.html#/settings",
   "browser_action": {
     "default_icon": "res/icons/icon19.png",
     "default_title": "eMag price tracker"
