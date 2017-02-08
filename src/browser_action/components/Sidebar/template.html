@@ -3,7 +3,8 @@
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
                 <input type="search" class="form-control" placeholder="Search products..." v-model="search">
-                <span class="glyphicon glyphicon-search"></span>
+                <span class="glyphicon glyphicon-search" v-show="!search"></span>
+                <span class="glyphicon glyphicon-remove" v-show="search" @click="search=''"></span>
             </li>
             <div id="products" v-show="products.length">
                 <li v-for="p in filterBy(products, 'title', search)">
