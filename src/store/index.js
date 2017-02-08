@@ -9,8 +9,6 @@ const StoreAPI = {}
 StoreAPI.getSync = item =>
     new Promise((resolve, reject) => {
         chrome.storage.sync.get(item, found => {
-            console.log("SYNC: ")
-            console.log(item)
             if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError)
             } else {

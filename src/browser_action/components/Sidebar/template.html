@@ -1,13 +1,19 @@
 <div id="sidebar">
-    <ul class="sidebar-nav">
-        <li class="sidebar-brand">
-            <input type="search" class="form-control" placeholder="Search products...">
-            <span class="glyphicon glyphicon-search"></span>
-        </li>
-        <div id="products">
-            <li v-for="p in products">
-                <a :title="p.title" @click="select(p)">{{ p.title }}</a>
+    <div class="sidebar-content" v-show="products.length">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <input type="search" class="form-control" placeholder="Search products...">
+                <span class="glyphicon glyphicon-search"></span>
             </li>
-        </div>
-    </ul>
+            <div id="products" v-show="products.length">
+                <li v-for="p in products">
+                    <a :title="p.title" @click="select(p)">{{ p.title }}</a>
+                </li>
+            </div>
+        </ul>
+    </div>
+    <div class="sidebar-loading" v-show="!products.length">
+        <span class="glyphicon glyphicon-refresh spinner" />
+        <div class="loading-content">Loading products</div>
+    </div>
 </div>
