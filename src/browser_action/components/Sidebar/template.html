@@ -2,11 +2,11 @@
     <div class="sidebar-content" v-show="products.length">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
-                <input type="search" class="form-control" placeholder="Search products...">
+                <input type="search" class="form-control" placeholder="Search products..." v-model="search">
                 <span class="glyphicon glyphicon-search"></span>
             </li>
             <div id="products" v-show="products.length">
-                <li v-for="p in products">
+                <li v-for="p in filterBy(products, 'title', search)">
                     <a :title="p.title" @click="select(p)">{{ p.title }}</a>
                 </li>
             </div>
