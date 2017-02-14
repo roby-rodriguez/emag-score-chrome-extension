@@ -7,20 +7,48 @@
             <h1>{{ selected.title }}</h1>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <emag-chart :data="selected.history">{{selected.history}}</emag-chart>
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <a class="btn btn-default" :href="selected.url">
+                    <i class="glyphicon glyphicon-home"></i> View on emag
+                </a>
+                <button type="submit" class="btn btn-default">
+                    <i class="glyphicon glyphicon-remove-sign"></i> Remove from tracked list
+                </button>
+                <button type="submit" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i> Report
+                </button>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-4">
-            <a class="btn btn-default" :href="selected.url">View product home page</a>
+    <div class="well well-lg">
+        <div class="row">
+            <div class="col-lg-12 chart-container">
+                <emag-chart>{{update}}</emag-chart>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <a href="#" class="btn btn-default">Remove from tracked list</a>
-        </div>
-        <div class="col-lg-2">
-            <a href="#" class="btn btn-danger">Report</a>
+    </div>
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-5">
+                <div id="from" class="input-group date">
+                    <input type="text" class="form-control" placeholder="From" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div id="until" class="input-group date">
+                    <input type="text" class="form-control" placeholder="Until" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

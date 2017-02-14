@@ -3,6 +3,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var ProvidePlugin = require('webpack/lib/ProvidePlugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require("html-webpack-plugin")
+var HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 
 module.exports = {
     entry: {
@@ -22,6 +23,9 @@ module.exports = {
         // TODO change this later on
         path: './dist',
         filename: '[name].build.js',
+    },
+    externals: {
+        jquery: "jQuery",
     },
     module: {
         loaders: [
@@ -76,9 +80,11 @@ module.exports = {
 
     resolve: {
         alias: {
-            jquery: "jquery/src/jquery",
-            raphael: "raphael/raphael.js",
-            morris: "morris.js/morris.js",
+            raphael: "raphael/raphael",
+            morris: "morris.js/morris",
+            moment: "moment/moment",
+            datepicker: "eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker",
+            'datepicker.css': "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker",
         },
         extensions: ['', '.js', '.vue', '.css'],
     },
@@ -103,10 +109,25 @@ module.exports = {
             filename: "browser_action.html",
             chunks: [ "browser_action" ]
         }),
+        new HtmlWebpackIncludeAssetsPlugin({
+            assets: [ "lib/jquery.min.js" ],
+            append: false
+        }),
         new CopyWebpackPlugin([
             { from: "manifest.json" },
-            { from: "node_modules/sweetalert/dist/sweetalert.min.js" },
-            { from: "node_modules/sweetalert/dist/sweetalert.css" },
+            // plugins shared between components (browser page, content script etc.)
+            {
+                from: "node_modules/jquery/dist/jquery.min.js",
+                to: "lib"
+            },
+            {
+                from: "node_modules/sweetalert/dist/sweetalert.min.js",
+                to: "lib"
+            },
+            {
+                from: "node_modules/sweetalert/dist/sweetalert.css",
+                to: "lib"
+            },
             {
                 from: "_locales",
                 to: "_locales"

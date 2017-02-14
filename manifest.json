@@ -11,7 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [ "background.build.js" ],
+    "page": "background.html",
     "persistent": false
   },
   "options_page": "browser_action.html#/settings",
@@ -27,11 +27,12 @@
         "*://*.emag.bg/*"
       ],
       "js": [
-        "sweetalert.min.js",
+        "lib/jquery.min.js",
+        "lib/sweetalert.min.js",
         "content_script.build.js"
       ],
       "css": [
-        "sweetalert.css",
+        "lib/sweetalert.css",
         "content_script.css"
       ],
       "run_at": "document_end"

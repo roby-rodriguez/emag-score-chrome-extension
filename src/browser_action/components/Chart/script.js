@@ -1,8 +1,4 @@
-const adapt = data => Array.from(Object.keys(data), item => ({
-        "dateRecorded": item,
-        "price": data[item]
-    })
-)
+import { mapGetters } from 'vuex'
 
 const renderGraph = (elem, data) =>
     new Morris.Area({
@@ -20,21 +16,13 @@ const renderGraph = (elem, data) =>
     })
 
 export default {
-    props: {
-        data: {
-            type: Object,
-            required: true
-        }
-    },
-    computed: {
-        history: function() {
-            return adapt(this.data)
-        }
-    },
+    computed: mapGetters({
+        data: 'chartData'
+    }),
     mounted() {
-        this.graph = renderGraph(this.$el, this.history)
+        this.graph = renderGraph(this.$el, this.data)
     },
     updated() {
-        this.graph.setData(this.history)
+        this.graph.setData(this.data)
     }
 }
