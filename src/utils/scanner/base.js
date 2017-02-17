@@ -89,8 +89,8 @@ export default class Base {
                         $(jqObj).hide()
                     })
                     .fail((xhr, status, error) => {
-                        swal("Oops...", "Something went wrong!\n\nProblem was "
-                            + JSON.stringify({xhr: xhr, status: status, error: error}), "error")
+                        swal("Oops...", "Something went wrong!\n\n" + JSON.stringify({xhr: xhr, status: status,
+                                error: error}), "error")
                         this._hideLoader.apply(jqObj)
                     })
                     .always(() => {

@@ -11,7 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "page": "background.html",
+    "scripts": [ "lib/jquery.min.js", "background.build.js" ],
     "persistent": false
   },
   "options_page": "browser_action.html#/settings",
@@ -45,6 +45,7 @@
     "https://script.google.com/",
     "tabs",
     "storage",
+    "notifications",
     "alarms",
     "background"
   ]

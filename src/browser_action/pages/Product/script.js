@@ -22,8 +22,7 @@ export default {
                     this.$store.dispatch('loadProducts')
                 })
                 .catch(reason => {
-                    console.log(reason)
-                    // TODO implement universal notification system
+                    swal("Oops...", "Something went wrong!\n\n" + reason, "error")
                 })
         },
         report() {

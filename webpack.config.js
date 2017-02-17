@@ -97,10 +97,13 @@ module.exports = {
             jQuery: "jquery",
             Raphael: "raphael",
         }),
-        new HtmlWebpackPlugin({
-            template: "./src/index.html",
-            filename: "background.html",
-            chunks: [ "background" ]
+        new HtmlWebpackIncludeAssetsPlugin({
+            assets: [
+                "lib/jquery.min.js",
+                "lib/sweetalert.min.js",
+                "lib/sweetalert.css"
+            ],
+            append: false
         }),
         new HtmlWebpackPlugin({
             title: "Tracked products",
@@ -108,10 +111,6 @@ module.exports = {
             template: "./src/index.html",
             filename: "browser_action.html",
             chunks: [ "browser_action" ]
-        }),
-        new HtmlWebpackIncludeAssetsPlugin({
-            assets: [ "lib/jquery.min.js" ],
-            append: false
         }),
         new CopyWebpackPlugin([
             { from: "manifest.json" },
