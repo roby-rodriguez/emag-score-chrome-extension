@@ -1,6 +1,7 @@
 import { mapGetters } from 'vuex'
 import Chart from "../../components/Chart"
 import DatePicker from "../../components/DatePicker"
+import { StorageAPI } from "../../../storage"
 
 export default {
     computed: mapGetters({
@@ -12,7 +13,22 @@ export default {
         datepicker: DatePicker
     },
     methods: {
-        // TODO add delete, report etc.
+        remove() {
+            StorageAPI
+                .removeSync(this.selected.pid)
+                .then(StorageAPI.removeLocal(this.selected.pid))
+                .then(() => {
+                    this.$router.push('/')
+                    this.$store.dispatch('loadProducts')
+                })
+                .catch(reason => {
+                    console.log(reason)
+                    // TODO implement universal notification system
+                })
+        },
+        report() {
+            console.log("report")
+        },
         updateFrom(date) {
             this.$store.dispatch("updateBounds", {
                 type: "selectedFrom",
