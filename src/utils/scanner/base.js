@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { EmagTrackerAPI } from "../../backend"
-import { StoreAPI } from "../../store"
+import { StorageAPI } from "../../storage"
 
 // TODO move this to index and refactor existing
 export default class Base {
@@ -43,11 +43,11 @@ export default class Base {
      * @private
      */
     _addProductToLocalStore(product) {
-        StoreAPI
+        StorageAPI
             .getLocal(this.pid)
             .then(item => {
                 if ($.isEmptyObject(item)) {
-                    StoreAPI
+                    StorageAPI
                         .setLocal(product)
                         .catch(reason => {
                             console.warn("Could not save product to local store: " + this.pid)
@@ -76,9 +76,9 @@ export default class Base {
         }, product = {
             [this.pid]: this.data
         }
-        StoreAPI
+        StorageAPI
             .setSync(pid)
-            .then(StoreAPI.getUsage)
+            .then(StorageAPI.getUsage)
             .then(bytesInUse =>
                 EmagTrackerAPI
                     .addProduct(product)
@@ -110,7 +110,7 @@ export default class Base {
      * @private
      */
     _addTrackButton(target) {
-        StoreAPI
+        StorageAPI
             .getSync(this.pid)
             .then(item => {
                 if ($.isEmptyObject(item)) {

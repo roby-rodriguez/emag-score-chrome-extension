@@ -1,4 +1,4 @@
-const StoreAPI = {}
+const StorageAPI = {}
 
 /**
  * Promisify callback-based API call
@@ -6,7 +6,7 @@ const StoreAPI = {}
  * @param item
  * @returns {Promise}
  */
-StoreAPI.getSync = item =>
+StorageAPI.getSync = item =>
     new Promise((resolve, reject) => {
         chrome.storage.sync.get(item, found => {
             if (chrome.runtime.lastError) {
@@ -17,7 +17,7 @@ StoreAPI.getSync = item =>
         })
     })
 
-StoreAPI.setSync = item =>
+StorageAPI.setSync = item =>
     new Promise((resolve, reject) => {
         chrome.storage.sync.set(item, () => {
             if (chrome.runtime.lastError) {
@@ -28,7 +28,7 @@ StoreAPI.setSync = item =>
         })
     })
 
-StoreAPI.getLocal = item =>
+StorageAPI.getLocal = item =>
     new Promise((resolve, reject) => {
         chrome.storage.local.get(item, found => {
             if (chrome.runtime.lastError) {
@@ -39,7 +39,7 @@ StoreAPI.getLocal = item =>
         })
     })
 
-StoreAPI.setLocal = item =>
+StorageAPI.setLocal = item =>
     new Promise((resolve, reject) => {
         chrome.storage.local.set(item, () => {
             if (chrome.runtime.lastError) {
@@ -50,7 +50,7 @@ StoreAPI.setLocal = item =>
         })
     })
 
-StoreAPI.getUsage = item =>
+StorageAPI.getUsage = item =>
     new Promise((resolve, reject) => {
         chrome.storage.sync.getBytesInUse(item, bytesInUse => {
             if (chrome.runtime.lastError) {
@@ -61,4 +61,26 @@ StoreAPI.getUsage = item =>
         })
     })
 
-export { StoreAPI }
+StorageAPI.removeSync = item =>
+    new Promise((resolve, reject) => {
+        chrome.storage.sync.remove(item, () => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError)
+            } else {
+                resolve()
+            }
+        })
+    })
+
+StorageAPI.removeLocal = item =>
+    new Promise((resolve, reject) => {
+        chrome.storage.local.remove(item, () => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError)
+            } else {
+                resolve()
+            }
+        })
+    })
+
+export { StorageAPI }

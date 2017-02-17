@@ -1,12 +1,12 @@
 import $ from "jquery"
 import { EmagTrackerAPI } from "../backend"
-import { StoreAPI } from "../store"
+import { StorageAPI } from "../storage"
 import { scanProductHomepage } from "../utils/scanner"
 
 const alarmName = 'priceChecker'
 
 const updateStartingPoint = formattedDate =>
-    StoreAPI.setSync({
+    StorageAPI.setSync({
         lastCheck: formattedDate
     }).catch(reason => {
         console.error("Could not set starting point. Problem was " + JSON.stringify(reason))
@@ -24,20 +24,20 @@ const initChecker = () => {
     chrome.alarms.onAlarm.addListener(alarm => {
         if (alarm.name === alarmName) {
 
-            StoreAPI.getSync('lastCheck', date => {
+            StorageAPI.getSync('lastCheck', date => {
 
                 const now = moment(new Date()).format('DD-MM-YYYY')
                 if (now !== date.lastCheck) {
                     console.log('Started scheduled scan')
                     updateStartingPoint(now)
 
-                    StoreAPI.getSync(null, pids => {
+                    StorageAPI.getSync(null, pids => {
 
                         delete pids.lastCheck
                         for (var pid in pids) {
 
                             // first try to find them in the local store
-                            StoreAPI.get(pid, local => {
+                            StorageAPI.get(pid, local => {
                                 if ($.isEmptyObject(local)) {
 
                                     // load product data from remote
