@@ -31,6 +31,8 @@ export default {
     },
 
     [UPDATE_CHART_BOUND] (state, data) {
-        state.chart[data.type] = data.date
+        state.chart = Object.assign({}, state.chart, {
+            [data.type]: data.date
+        })
     }
 }

@@ -1,0 +1,13 @@
+.disabled-date {
+    background-color: #f5f5f5;
+    border-radius: 0;
+}
+
+.datepicker {
+    .day.disabled {
+        .disabled-date;
+        &:hover {
+            .disabled-date
+        }
+    }
+}
