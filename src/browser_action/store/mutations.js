@@ -17,11 +17,13 @@ const initChart = history => {
 export default {
 
     [LOAD_PRODUCTS_REQUEST] (state) {
+        state.loading = true
         state.products = []
         state.selected = null
     },
 
     [LOAD_PRODUCTS_RESPONSE] (state, products) {
+        state.loading = false
         state.products = products
     },
 

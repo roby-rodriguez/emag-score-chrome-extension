@@ -8,6 +8,7 @@ export default {
         }
     },
     computed: mapGetters({
+        loading: 'loading',
         products: 'products'
     }),
     methods: {

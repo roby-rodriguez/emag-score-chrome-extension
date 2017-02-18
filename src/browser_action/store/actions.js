@@ -8,8 +8,8 @@ export const loadProducts = ({ commit }) => {
             commit(LOAD_PRODUCTS_RESPONSE, products)
         })
         .catch(reason => {
-            // TODO display this to the user
-            console.log(JSON.stringify(reason))
+            console.info(reason)
+            commit(LOAD_PRODUCTS_RESPONSE, [])
         })
 }
 

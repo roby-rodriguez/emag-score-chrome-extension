@@ -1,4 +1,5 @@
 export const state = {
+    loading: false,
     products: [],
     selected: null,
     chart: {
