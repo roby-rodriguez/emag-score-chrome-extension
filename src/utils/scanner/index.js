@@ -34,12 +34,13 @@ const extractPriceRaw = htmlText => {
 const scanProductHomepage = (pid, product) => {
     console.log('Scanning pid=' + pid + ' at page: ' + product.url)
     $.get(product.url)
-        .done(function(data) {
+        .done(data => {
             if (data && data.length) {
                 // TODO check for captchas and if none found then just update price
                 const newPrice = extractPriceRaw(data)
                 if (newPrice)
-                    EmagTrackerAPI.updatePrice(pid, newPrice)
+                    EmagTrackerAPI
+                        .updatePrice(pid, newPrice)
                         .done(() => {
                             console.log('Finished scan for pid=' + pid)
                         })

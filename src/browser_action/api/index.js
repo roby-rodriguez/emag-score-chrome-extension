@@ -1,12 +1,14 @@
 import co from 'co'
 import { EmagTrackerAPI } from "../../backend"
 import { StorageAPI } from "../../storage"
+import { NotificationsAPI } from "../../notifications"
 
 /**
  * Load user products from remote or local if not available
  */
 export const load = () =>
-    StorageAPI.getSync(null)
+    StorageAPI
+        .getSync(null)
         .then(items => {
             delete items.lastCheck
             if ($.isEmptyObject(items)) {
@@ -18,9 +20,13 @@ export const load = () =>
                         for (let pid of Object.getOwnPropertyNames(items)) {
                             const remote = yield EmagTrackerAPI.getProduct(pid)
                             if ($.isEmptyObject(remote)) {
-                                console.warn("Remote fetch failed for pid=" + pid + ". Loading from local. Problem was ")
+                                console.warn("Remote fetch failed for pid=" + pid + ". Attempting to load from local.")
                                 const local = yield StorageAPI.getLocal(pid)
-                                remoteProducts.push(local)
+                                if ($.isEmptyObject(remote)) {
+                                    NotificationsAPI.error("Could not find product " + pid)
+                                } else {
+                                    remoteProducts.push(local)
+                                }
                             } else {
                                 remoteProducts.push(remote)
                             }
