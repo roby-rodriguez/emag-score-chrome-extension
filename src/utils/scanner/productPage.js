@@ -62,9 +62,9 @@ export default class ProductPage extends Base {
             imageLink = $("a.product-gallery-image")
         if (link.length) {
             this.data.title = link.text().trim()
-            this.data.link = location.href
+            this.data.url = location.href
             if (imageLink.length)
-                this.data.imageLink = imageLink.attr("src")
+                this.data.imgUrl = imageLink.attr("src")
         } else {
             throw new Error("product data not found")
         }

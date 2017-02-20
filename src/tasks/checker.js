@@ -1,7 +1,12 @@
-import $ from "jquery"
+import co from 'co'
+import moment from 'moment'
 import { EmagTrackerAPI } from "../backend"
 import { StorageAPI } from "../storage"
+import { NotificationsAPI } from "../notifications"
 import { scanProductHomepage } from "../utils/scanner"
+import { checkPriceChange } from "../utils/product"
+// TODO remove this later
+import { PRICE_DECREASE } from "../utils/product/priceChangeType"
 
 const alarmName = 'priceChecker'
 
@@ -9,8 +14,50 @@ const updateStartingPoint = formattedDate =>
     StorageAPI.setSync({
         lastCheck: formattedDate
     }).catch(reason => {
-        console.error("Could not set starting point. Problem was " + JSON.stringify(reason))
+        NotificationsAPI.error(reason, 'Could not set starting point')
     })
+
+const updateProductsPrice = function* () {
+    try {
+        const date = yield StorageAPI.getSync('lastCheck')
+        const now = moment(new Date()).format('DD-MM-YYYY')
+
+        if (now !== date.lastCheck) {
+            updateStartingPoint(now)
+
+            const pids = yield StorageAPI.getSync(null)
+            delete pids.lastCheck
+            for (const pid of Object.keys(pids)) {
+                // first try to find them in the local store
+                let product = yield StorageAPI.getLocal(pid)
+                if ($.isEmptyObject(product)) {
+                    // load product data from remote
+                    let product = yield EmagTrackerAPI.getProduct(pid)
+                } else {
+                    product = product[pid]
+                }
+                // TODO make this configurable
+                // increment counter badge if price goes down
+                const newPrice = yield scanProductHomepage(product)
+                const change = checkPriceChange(product, newPrice, PRICE_DECREASE)
+                if (change) {
+                    // TODO add some flag to product in local store and display change in sidebar
+                    NotificationsAPI.info('Tracked product ' + pid + ' is now '+ change + '% cheaper!', 'Price change', pid)
+                    NotificationsAPI.badgeColor('#5fba7d') // green for decrease try #C91D2E red for increase
+                    NotificationsAPI.incrementBadgeCounter()
+                }
+            }
+        }
+        // set scan date if first run
+        if ($.isEmptyObject(date)) {
+            updateStartingPoint(now)
+        }
+    } catch (e) {
+        NotificationsAPI.error(e, 'Could not perform scheduled scan')
+        console.log('Could not perform scheduled scan ' + e)
+        console.log(e.stack)
+    }
+}
 
 const initChecker = () => {
     //TODO make this configurable
@@ -23,45 +70,7 @@ const initChecker = () => {
 
     chrome.alarms.onAlarm.addListener(alarm => {
         if (alarm.name === alarmName) {
-
-            StorageAPI.getSync('lastCheck', date => {
-
-                const now = moment(new Date()).format('DD-MM-YYYY')
-                if (now !== date.lastCheck) {
-                    console.log('Started scheduled scan')
-                    updateStartingPoint(now)
-
-                    StorageAPI.getSync(null, pids => {
-
-                        delete pids.lastCheck
-                        for (var pid in pids) {
-
-                            // first try to find them in the local store
-                            StorageAPI.get(pid, local => {
-                                if ($.isEmptyObject(local)) {
-
-                                    // load product data from remote
-                                    EmagTrackerAPI.getProduct(pid)
-                                        .success(function (found) {
-                                            scanProductHomepage(pid, found)
-                                        })
-                                        .fail(function(xhr, status, error) {
-                                            console.warn("Could not get product from remote for pid=" + item + ". Scan aborted. " +
-                                                "Problem was " + JSON.stringify({xhr: xhr, status: status, error: error}))
-                                        })
-                                } else {
-                                    // scan this product's home page
-                                    scanProductHomepage(pid, local)
-                                }
-                            })
-                        }
-                    })
-                }
-                // set scan date if first run
-                if ($.isEmptyObject(date)) {
-                    updateStartingPoint(now)
-                }
-            })
+            co(updateProductsPrice)
         }
     })
 }

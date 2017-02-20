@@ -10,7 +10,10 @@ module.exports = {
         // Content Script
         content_script: [ './src/content_script', './src/content_script/main'],
         // Background Page
-        background: './src/background',
+        background: [
+            'babel-polyfill',
+            './src/background'
+        ],
         // Browser Page
         browser_action: [
             'babel-polyfill',

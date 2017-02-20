@@ -1,0 +1,2 @@
+export const PRICE_INCREASE = 'PRICE_INCREASE'
+export const PRICE_DECREASE = 'PRICE_DECREASE'

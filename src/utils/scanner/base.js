@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import { EmagTrackerAPI } from "../../backend"
 import { StorageAPI } from "../../storage"
+import { updatePrice } from "../product"
 
 // TODO move this to index and refactor existing
 export default class Base {
@@ -48,7 +49,10 @@ export default class Base {
             .then(item => {
                 if ($.isEmptyObject(item)) {
                     StorageAPI
-                        .setLocal(product)
+                        .setLocal({
+                            [this.pid]: product
+                        })
+                        .then(() => updatePrice(this.pid, product.price))
                         .catch(reason => {
                             console.warn("Could not save product to local store: " + this.pid)
                             console.warn(reason)
@@ -73,9 +77,9 @@ export default class Base {
 
         const pid= {
             [this.pid]: {}
-        }, product = {
-            [this.pid]: this.data
-        }
+        }, product = Object.assign({}, this.data, {
+            pid: this.pid
+        })
         StorageAPI
             .setSync(pid)
             .then(StorageAPI.getUsage)

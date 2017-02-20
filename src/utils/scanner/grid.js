@@ -70,9 +70,9 @@ export default class Grid extends Base {
             imageLink = $("img", link)
         if (link.attr("href") && (link.attr("title") || link.attr("text"))) {
             this.data.title = link.attr("title") || link.attr("text")
-            this.data.link = location.origin + link.attr("href")
+            this.data.url = location.origin + link.attr("href")
             if (imageLink.length)
-                this.data.imageLink = imageLink.attr("src")
+                this.data.imgUrl = imageLink.attr("src")
         } else {
             throw new Error("product data not found")
         }

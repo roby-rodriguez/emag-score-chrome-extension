@@ -11,8 +11,8 @@ const EmagTrackerAPI = {
                 a: "1",
                 b: product.pid,
                 c: product.title,
-                d: product.link,
-                e: product.imageLink,
+                d: product.url,
+                e: product.imgUrl,
                 f: product.price
             }
         })

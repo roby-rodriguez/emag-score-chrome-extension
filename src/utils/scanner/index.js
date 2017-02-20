@@ -1,4 +1,6 @@
 import $ from 'jquery'
+import { EmagTrackerAPI } from "../../backend"
+import { updatePrice } from "../product"
 
 const productNewPriceRegex = /.*>\D*(\d+)<sup>(\d+)<\/sup>.*/
 
@@ -8,7 +10,7 @@ const productNewPriceRegex = /.*>\D*(\d+)<sup>(\d+)<\/sup>.*/
  * @param htmlText
  * @returns {string}
  */
-const extractPriceRaw = htmlText => {
+const _extractPriceRaw = htmlText => {
     let index = htmlText.indexOf('"price":')
     if (index > -1) {
         htmlText = htmlText.substring(index + 8)
@@ -28,30 +30,36 @@ const extractPriceRaw = htmlText => {
 /**
  * Makes GET request on product home page and updates price
  *
- * @param pid
  * @param product
  */
-const scanProductHomepage = (pid, product) => {
-    console.log('Scanning pid=' + pid + ' at page: ' + product.url)
-    $.get(product.url)
-        .done(data => {
-            if (data && data.length) {
-                // TODO check for captchas and if none found then just update price
-                const newPrice = extractPriceRaw(data)
-                if (newPrice)
-                    EmagTrackerAPI
-                        .updatePrice(pid, newPrice)
-                        .done(() => {
-                            console.log('Finished scan for pid=' + pid)
-                        })
-                        .fail((xhr, status, error) => {
-                            console.warn('Could not scan pid=' + pid + '. Problem was ' + JSON.stringify({xhr: xhr, status: status, error: error}))
-                        })
-            }
-        })
-        .fail((xhr, status, error) => {
-            console.warn('Could not scan pid=' + pid + '. Caused by: ' + JSON.stringify({xhr: xhr, status: status, error: error}))
-        })
-}
+const scanProductHomepage = product =>
+    new Promise((resolve, reject) => {
+        // first load product page
+        $.get(product.url)
+            .done(data => {
+                if (data && data.length) {
+                    // TODO check for captchas and if none found then just update price
+                    const newPrice = _extractPriceRaw(data)
+                    if (newPrice)
+                        EmagTrackerAPI
+                            .updatePrice(product.pid, newPrice)
+                            .done(() => resolve(newPrice))
+                            .fail((xhr, status, error) => {
+                                console.warn('Could not scan pid=' + product.pid + '. Problem was '
+                                    + JSON.stringify({xhr: xhr, status: status, error: error}))
+                                reject('Could not update price for pid=' + product.pid)
+                            })
+                            .always(() => {
+                                // also update price for local product
+                                updatePrice(product.pid, newPrice)
+                            })
+                }
+            })
+            .fail((xhr, status, error) => {
+                console.warn('Could not scan pid=' + product.pid + '. Caused by: '
+                    + JSON.stringify({xhr: xhr, status: status, error: error}))
+                reject('Could not load product page for pid=' + product.pid)
+            })
+    })
 
 export { scanProductHomepage }
