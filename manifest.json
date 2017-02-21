@@ -39,7 +39,8 @@
     }
   ],
   "web_accessible_resources": [
-    "res/images/ajax-loader.gif"
+    "res/images/ajax-loader.gif",
+    "browser_action.html"
   ],
   "permissions": [
     "https://script.google.com/",

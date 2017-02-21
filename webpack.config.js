@@ -17,6 +17,7 @@ module.exports = {
         // Browser Page
         browser_action: [
             'babel-polyfill',
+            'bootstrap.js',
             'raphael',
             'morris',
             './src/browser_action/main',
@@ -83,6 +84,7 @@ module.exports = {
 
     resolve: {
         alias: {
+            'bootstrap.js': "bootstrap/dist/js/bootstrap.min.js",
             raphael: "raphael/raphael",
             morris: "morris.js/morris",
             moment: "moment/moment",

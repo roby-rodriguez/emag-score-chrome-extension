@@ -1,6 +1,38 @@
-<div class="row">
-    <div class="col-lg-12">
-        <h1>User settings</h1>
-        <p>TODO add user settings</p>
+<div class="container-fluid">
+    <h2>User settings</h2>
+
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <router-link to="/settings" data-target="#settings" data-toggle="tab">General</router-link>
+        </li>
+        <li>
+            <router-link to="/settings/notifications" data-target="#settings" data-toggle="tab">Notifications</router-link>
+        </li>
+        <li>
+            <router-link to="/settings/scan" data-target="#settings" data-toggle="tab">Scan</router-link>
+        </li>
+    </ul>
+
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-2">
+                <button type="button" class="btn btn-success" >
+                    <i class="glyphicon glyphicon-floppy-save"></i> Save
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-floppy-remove"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div id="settings" class="tab-pane active">
+            <div class="well well-lg">
+                <router-view name="settings"></router-view>
+            </div>
+        </div>
     </div>
 </div>
