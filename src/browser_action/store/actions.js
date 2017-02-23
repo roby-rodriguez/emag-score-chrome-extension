@@ -1,5 +1,7 @@
 import { load } from "../api"
-import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT, UPDATE_CHART_BOUND } from "./mutation-types"
+import { StorageAPI } from "../../storage"
+import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
+    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS } from "./mutation-types"
 
 export const loadProducts = ({ commit }) => {
     commit(LOAD_PRODUCTS_REQUEST)
@@ -19,4 +21,31 @@ export const selectProduct = ({ commit }, product) => {
 
 export const updateBounds = ({ commit }, data) => {
     commit(UPDATE_CHART_BOUND, data)
+}
+
+export const updateSettings = ({ commit }, data) => {
+    commit(UPDATE_SETTINGS, data)
+}
+
+export const saveSettings = ({ commit, state }) => {
+    StorageAPI.setSync({
+        settings: state.settings
+    })
+}
+
+export const loadSettings = ({ commit }) => {
+    StorageAPI
+        .getSync('settings')
+        .then(settings => {
+            if (!$.isEmptyObject(settings))
+                commit(LOAD_SETTINGS, settings)
+        })
+        .catch(reason => {
+            console.warn('Could not read user settings. ' + reason)
+        })
+}
+
+export const resetSettings = ({ commit }) => {
+    commit(RESET_SETTINGS)
+    StorageAPI.removeSync('settings')
 }

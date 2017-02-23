@@ -4,7 +4,7 @@
             <label>Allow notifications</label>
         </div>
         <div class="col-lg-2">
-            <input type="checkbox">
+            <input type="checkbox" v-model="settings.notifications.allow">
         </div>
     </div>
     <div class="row">
@@ -12,7 +12,7 @@
             <label>Price variation</label>
         </div>
         <div class="col-lg-2">
-            <input type="checkbox">
+            <input type="checkbox" v-model="priceVariation">
         </div>
     </div>
 </div>

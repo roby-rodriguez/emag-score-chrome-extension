@@ -1,0 +1,14 @@
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" :id="id"
+            data-toggle="dropdown"aria-haspopup="true">
+        {{ displayTitle }}
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" :aria-labelledby="id">
+        <li v-for="p in options">
+            <a @click="select(p.value)">
+                <i :class="{ 'glyphicon glyphicon-ok pull-right': isSelected(p.value) }"></i> {{ p.label }}
+            </a>
+        </li>
+    </ul>
+</div>

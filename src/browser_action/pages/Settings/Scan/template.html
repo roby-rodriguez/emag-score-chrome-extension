@@ -4,23 +4,8 @@
             <label>Timeout</label>
         </div>
         <div class="col-lg-4">
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="timeout" data-toggle="dropdown" aria-haspopup="true">
-                    Interval
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="timeout">
-                    <li><a href="#">1 min</a></li>
-                    <li><a href="#">5 min</a></li>
-                    <li><a href="#">10 min</a></li>
-                    <li><a href="#">30 min</a></li>
-                    <li><a href="#">1 h</a></li>
-                    <li><a href="#">3 h</a></li>
-                    <li><a href="#">6 h</a></li>
-                    <li><a href="#">12 h</a></li>
-                    <li><a href="#">24 h</a></li>
-                </ul>
-            </div>
+            <dropdown title="Interval" :value="settings.scan.timeout" :options="timeouts"
+                      @dropdown-selected="updateTimeout"></dropdown>
         </div>
     </div>
     <div class="row">

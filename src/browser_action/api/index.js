@@ -11,6 +11,7 @@ export const load = () =>
         .getSync(null)
         .then(items => {
             delete items.lastCheck
+            delete items.settings
             if ($.isEmptyObject(items)) {
                 // show some text - no products marked yet
                 return Promise.reject("No products tracked yet")

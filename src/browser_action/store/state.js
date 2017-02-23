@@ -1,3 +1,5 @@
+import defaultSettings from "../../utils/settings/defaultValues"
+
 export const state = {
     loading: false,
     products: [],
@@ -7,5 +9,6 @@ export const state = {
         selectedFrom: null,
         until: null,
         selectedUntil: null
-    }
+    },
+    settings: defaultSettings
 }

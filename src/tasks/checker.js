@@ -27,6 +27,7 @@ const updateProductsPrice = function* () {
 
             const pids = yield StorageAPI.getSync(null)
             delete pids.lastCheck
+            delete pids.settings
             for (const pid of Object.keys(pids)) {
                 // first try to find them in the local store
                 let product = yield StorageAPI.getLocal(pid)
