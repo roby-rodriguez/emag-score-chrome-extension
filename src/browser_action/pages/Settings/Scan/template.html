@@ -3,14 +3,19 @@
         <div class="col-lg-2">
             <label>Timeout</label>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-2">
             <dropdown title="Interval" :value="settings.scan.timeout" :options="timeouts"
                       @dropdown-selected="updateTimeout"></dropdown>
+        </div>
+        <div class="col-lg-2">
+            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" title="Bla bla bla TODO">
+                <span class="glyphicon glyphicon-info-sign"></span>
+            </a>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-offset-2 col-lg-2">
-            <button type="button" class="btn btn-info" >
+            <button type="button" class="btn btn-info" @click="scan">
                 <i class="glyphicon glyphicon-refresh"></i> Scan now
             </button>
         </div>

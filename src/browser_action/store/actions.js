@@ -1,11 +1,12 @@
 import { load } from "../api"
 import { StorageAPI } from "../../storage"
+import { resetChecker } from "../../tasks/checker"
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
     UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS } from "./mutation-types"
 
-export const loadProducts = ({ commit }) => {
+export const loadProducts = ({ commit, state }) => {
     commit(LOAD_PRODUCTS_REQUEST)
-    load()
+    load(state.settings.notifications.allow)
         .then(products => {
             commit(LOAD_PRODUCTS_RESPONSE, products)
         })
@@ -27,10 +28,16 @@ export const updateSettings = ({ commit }, data) => {
     commit(UPDATE_SETTINGS, data)
 }
 
-export const saveSettings = ({ commit, state }) => {
-    StorageAPI.setSync({
-        settings: state.settings
-    })
+export const saveSettings = ({ state }) => {
+    StorageAPI
+        .getSync('settings')
+        .then(data => {
+            if (!$.isEmptyObject(data) && data.settings.scan.timeout !== state.settings.scan.timeout) {
+                resetChecker(state.settings)
+            }
+            StorageAPI.setSync({ settings: state.settings })
+        })
+        .catch(reason => StorageAPI.setSync({ settings: state.settings }))
 }
 
 export const loadSettings = ({ commit }) => {
@@ -49,3 +56,8 @@ export const resetSettings = ({ commit }) => {
     commit(RESET_SETTINGS)
     StorageAPI.removeSync('settings')
 }
+
+export const scanByDemand = ({ state }) =>
+    StorageAPI
+        .removeSync('lastCheck')
+        .then(() => resetChecker(state.settings))

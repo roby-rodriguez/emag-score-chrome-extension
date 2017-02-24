@@ -16,6 +16,7 @@ const router = new VueRouter({
     //base: __dirname,
     routes: [
         { path: '/', component: Home },
+        // TODO add pid in link to make bookmarkable
         { path: '/product', component: Product },
         {
             path: '/settings',

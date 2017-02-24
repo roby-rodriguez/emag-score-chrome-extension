@@ -6,7 +6,7 @@ import { NotificationsAPI } from "../../notifications"
 /**
  * Load user products from remote or local if not available
  */
-export const load = () =>
+export const load = allowNotifications =>
     StorageAPI
         .getSync(null)
         .then(items => {
@@ -24,7 +24,8 @@ export const load = () =>
                                 console.warn("Remote fetch failed for pid=" + pid + ". Attempting to load from local.")
                                 const local = yield StorageAPI.getLocal(pid)
                                 if ($.isEmptyObject(remote)) {
-                                    NotificationsAPI.error("Could not find product " + pid)
+                                    if (allowNotifications)
+                                        NotificationsAPI.error("Could not find product " + pid)
                                 } else {
                                     remoteProducts.push(local)
                                 }

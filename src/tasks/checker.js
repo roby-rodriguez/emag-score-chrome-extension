@@ -5,25 +5,25 @@ import { StorageAPI } from "../storage"
 import { NotificationsAPI } from "../notifications"
 import { scanProductHomepage } from "../utils/scanner"
 import { checkPriceChange } from "../utils/product"
-// TODO remove this later
-import { PRICE_DECREASE } from "../utils/product/priceChangeType"
+import { bagdeBackgroundColor, priceChangedText } from "../utils/notifications"
 
 const alarmName = 'priceChecker'
 
-const updateStartingPoint = formattedDate =>
+const updateStartingPoint = (formattedDate, allowNotifications) =>
     StorageAPI.setSync({
         lastCheck: formattedDate
     }).catch(reason => {
-        NotificationsAPI.error(reason, 'Could not set starting point')
+        if (allowNotifications)
+            NotificationsAPI.error(reason, 'Could not set starting point')
     })
 
-const updateProductsPrice = function* () {
+const updateProductsPrice = settings => function* () {
     try {
         const date = yield StorageAPI.getSync('lastCheck')
         const now = moment(new Date()).format('DD-MM-YYYY')
 
         if (now !== date.lastCheck) {
-            updateStartingPoint(now)
+            updateStartingPoint(now, settings.notifications.allow)
 
             const pids = yield StorageAPI.getSync(null)
             delete pids.lastCheck
@@ -33,47 +33,55 @@ const updateProductsPrice = function* () {
                 let product = yield StorageAPI.getLocal(pid)
                 if ($.isEmptyObject(product)) {
                     // load product data from remote
-                    let product = yield EmagTrackerAPI.getProduct(pid)
+                    product = yield EmagTrackerAPI.getProduct(pid)
                 } else {
                     product = product[pid]
                 }
-                // TODO make this configurable
-                // increment counter badge if price goes down
+
+                const variationType = settings.notifications.priceVariation
                 const newPrice = yield scanProductHomepage(product)
-                const change = checkPriceChange(product, newPrice, PRICE_DECREASE)
-                if (change) {
-                    // TODO add some flag to product in local store and display change in sidebar
-                    NotificationsAPI.info('Tracked product ' + pid + ' is now '+ change + '% cheaper!', 'Price change', pid)
-                    NotificationsAPI.badgeColor('#5fba7d') // green for decrease try #C91D2E red for increase
+                const percentage = checkPriceChange(product, newPrice, variationType)
+                if (percentage) {
+                    // TODO maybe add some flag to product in local store and display change in sidebar
+                    if (settings.notifications.allow)
+                        NotificationsAPI.info(priceChangedText(pid, percentage, variationType), 'Price change', pid)
+                    NotificationsAPI.badgeColor(bagdeBackgroundColor(variationType))
                     NotificationsAPI.incrementBadgeCounter()
                 }
             }
+            if (settings.notifications.allow && !$.isEmptyObject(pids))
+                NotificationsAPI.info('Scan finished', 'Scheduled scan')
         }
         // set scan date if first run
         if ($.isEmptyObject(date)) {
-            updateStartingPoint(now)
+            updateStartingPoint(now, settings.notifications.allow)
         }
     } catch (e) {
-        NotificationsAPI.error(e, 'Could not perform scheduled scan')
+        if (settings.notifications.allow)
+            NotificationsAPI.error(e, 'Could not perform scheduled scan')
         console.log('Could not perform scheduled scan ' + e)
         console.log(e.stack)
     }
 }
 
-const initChecker = () => {
-    //TODO make this configurable
-    // on minutes option change - reset alarm
-    // 2 - create alarm
+const initChecker = settings => {
+
     chrome.alarms.create(alarmName, {
-        delayInMinutes: 1,
-        periodInMinutes: 1
+        delayInMinutes: 10,
+        periodInMinutes: settings.scan.timeout
     })
 
     chrome.alarms.onAlarm.addListener(alarm => {
         if (alarm.name === alarmName) {
-            co(updateProductsPrice)
+            co(updateProductsPrice(settings))
         }
     })
 }
 
-export { initChecker }
+const resetChecker = settings =>
+    chrome.alarms.create(alarmName, {
+        when: Date.now(),
+        periodInMinutes: settings.scan.timeout
+    })
+
+export { initChecker, resetChecker }
