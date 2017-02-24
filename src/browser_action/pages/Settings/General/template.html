@@ -4,7 +4,7 @@
             <label>Online data</label>
         </div>
         <div class="col-lg-2">
-            <input type="checkbox" v-model="settings.general.onlineData">
+            <toggle :value="settings.general.onlineData" @toggle-changed="updateOnlineData"></toggle>
         </div>
     </div>
     <div class="row">

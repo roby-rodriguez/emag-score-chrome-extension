@@ -1,6 +1,7 @@
 import { mapGetters } from 'vuex'
 import updateInput from "../../../mixin"
 import DropDown from "../../../components/DropDown"
+import Toggle from "../../../components/Toggle"
 import defaultLanguages from "../../../../utils/settings/defaultLanguageValues"
 
 export default {
@@ -17,7 +18,8 @@ export default {
         settings: 'settings'
     }),
     components: {
-        dropdown: DropDown
+        dropdown: DropDown,
+        toggle: Toggle
     },
     methods: {
         updateLanguage(value) {

@@ -4,7 +4,7 @@
             <label>Allow notifications</label>
         </div>
         <div class="col-lg-2">
-            <input type="checkbox" v-model="settings.notifications.allow">
+            <toggle :value="settings.notifications.allow" @toggle-changed="updateAllow"></toggle>
         </div>
     </div>
     <div class="row">
@@ -12,7 +12,8 @@
             <label>Price variation</label>
         </div>
         <div class="col-lg-2">
-            <input type="checkbox" v-model="priceVariation">
+            <toggle :value="priceVariation" @toggle-changed="updatePriceVariation"
+                    on="Decreasing" off="Increasing" special="true"></toggle>
         </div>
     </div>
 </div>

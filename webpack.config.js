@@ -84,12 +84,14 @@ module.exports = {
 
     resolve: {
         alias: {
-            'bootstrap.js': "bootstrap/dist/js/bootstrap.min.js",
+            'bootstrap.js': "bootstrap/dist/js/bootstrap.min",
             raphael: "raphael/raphael",
             morris: "morris.js/morris",
             moment: "moment/moment",
-            datepicker: "eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker",
-            'datepicker.css': "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker",
+            datepicker: "eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min",
+            'datepicker.css': "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min",
+            'bootstrap-toggle.js': "bootstrap-toggle/js/bootstrap-toggle.min",
+            'bootstrap-toggle.css': "bootstrap-toggle/css/bootstrap-toggle.min",
         },
         extensions: ['', '.js', '.vue', '.css'],
     },
