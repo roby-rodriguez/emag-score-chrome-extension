@@ -6,7 +6,7 @@ import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
 
 export const loadProducts = ({ commit, state }) => {
     commit(LOAD_PRODUCTS_REQUEST)
-    load(state.settings.notifications.allow)
+    load(state.settings.general.onlineData, state.settings.notifications.allow)
         .then(products => {
             commit(LOAD_PRODUCTS_RESPONSE, products)
         })

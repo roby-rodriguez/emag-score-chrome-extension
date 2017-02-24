@@ -6,7 +6,7 @@ import { NotificationsAPI } from "../../notifications"
 /**
  * Load user products from remote or local if not available
  */
-export const load = allowNotifications =>
+export const load = (onlineData, allowNotifications) =>
     StorageAPI
         .getSync(null)
         .then(items => {
@@ -17,23 +17,24 @@ export const load = allowNotifications =>
                 return Promise.reject("No products tracked yet")
             } else {
                 return co(function* () {
-                        const remoteProducts = []
+                        const products = []
                         for (let pid of Object.getOwnPropertyNames(items)) {
-                            const remote = yield EmagTrackerAPI.getProduct(pid)
-                            if ($.isEmptyObject(remote)) {
-                                console.warn("Remote fetch failed for pid=" + pid + ". Attempting to load from local.")
-                                const local = yield StorageAPI.getLocal(pid)
-                                if ($.isEmptyObject(remote)) {
-                                    if (allowNotifications)
-                                        NotificationsAPI.error("Could not find product " + pid)
-                                } else {
-                                    remoteProducts.push(local)
-                                }
-                            } else {
-                                remoteProducts.push(remote)
+                            let product = {}
+                            if (onlineData) {
+                                product = yield EmagTrackerAPI.getProduct(pid)
                             }
+                            if ($.isEmptyObject(product)) {
+                                if (onlineData)
+                                    console.warn("Remote fetch failed for pid=" + pid + ". Attempting to load from local.")
+                                product = yield StorageAPI.getLocal(pid)
+                                if (allowNotifications && $.isEmptyObject(product))
+                                    NotificationsAPI.error("Could not find product " + pid)
+                                else
+                                    products.push(product)
+                            } else
+                                products.push(product)
                         }
-                        return remoteProducts
+                        return products
                     })
             }
         })
