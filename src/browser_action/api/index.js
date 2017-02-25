@@ -30,7 +30,7 @@ export const load = (onlineData, allowNotifications) =>
                                 if (allowNotifications && $.isEmptyObject(product))
                                     NotificationsAPI.error("Could not find product " + pid)
                                 else
-                                    products.push(product)
+                                    products.push(product[pid])
                             } else
                                 products.push(product)
                         }
