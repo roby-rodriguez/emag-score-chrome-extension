@@ -28,7 +28,7 @@ export const updateSettings = ({ commit }, data) => {
     commit(UPDATE_SETTINGS, data)
 }
 
-export const saveSettings = ({ state }) => {
+export const saveSettings = ({ state }) =>
     StorageAPI
         .getSync('settings')
         .then(data => {
@@ -38,9 +38,8 @@ export const saveSettings = ({ state }) => {
             StorageAPI.setSync({ settings: state.settings })
         })
         .catch(reason => StorageAPI.setSync({ settings: state.settings }))
-}
 
-export const loadSettings = ({ commit }) => {
+export const loadSettings = ({ commit }) =>
     StorageAPI
         .getSync('settings')
         .then(settings => {
@@ -50,7 +49,6 @@ export const loadSettings = ({ commit }) => {
         .catch(reason => {
             console.warn('Could not read user settings. ' + reason)
         })
-}
 
 export const resetSettings = ({ commit }) => {
     commit(RESET_SETTINGS)

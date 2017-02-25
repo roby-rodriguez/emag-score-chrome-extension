@@ -21,25 +21,25 @@ const router = new VueRouter({
         {
             path: '/settings',
             components: {
-                default: Settings,
+                default: Settings
             },
             children: [
                 {
                     path: '',
                     components: {
-                        settings: General,
+                        settings: General
                     }
                 },
                 {
                     path: 'notifications',
                     components: {
-                        settings: Notifications,
+                        settings: Notifications
                     }
                 },
                 {
                     path: 'scan',
                     components: {
-                        settings: Scan,
+                        settings: Scan
                     }
                 }
             ]
@@ -47,9 +47,11 @@ const router = new VueRouter({
     ]
 })
 
-new Vue({
-    el: '#app',
-    router,
-    store,
-    render: h => h(App)
-})
+store
+    .dispatch('loadSettings')
+    .then(() => new Vue({
+        el: '#app',
+        router,
+        store,
+        render: h => h(App)
+    }))

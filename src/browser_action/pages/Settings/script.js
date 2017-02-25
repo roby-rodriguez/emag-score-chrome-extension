@@ -10,8 +10,5 @@ export default {
                 .then(() => swal("Reset", "You are now using default settings", "info"))
                 .catch(reason => swal("Oops...", "Something went wrong!\n\n" + reason, "error"))
         }
-    },
-    created () {
-        this.$store.dispatch('loadSettings')
     }
 }
