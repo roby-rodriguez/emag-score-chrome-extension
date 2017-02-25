@@ -2,7 +2,8 @@
     <div class="sidebar-content">
         <ul class="sidebar-nav" v-show="products.length">
             <li class="sidebar-brand">
-                <input type="search" class="form-control" placeholder="Search products..." v-model="search">
+                <input type="search" class="form-control" data-toggle="tooltip" title="Lookup product by name or pid"
+                       placeholder="Search products..." v-model="search">
                 <span class="glyphicon glyphicon-search" v-show="!search"></span>
                 <span class="glyphicon glyphicon-remove" v-show="search" @click="search=''"></span>
             </li>

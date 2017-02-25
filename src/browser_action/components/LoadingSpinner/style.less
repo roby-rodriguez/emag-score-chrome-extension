@@ -1,0 +1,36 @@
+.loading-mixin {
+
+    .glyphicon.spinner {
+        animation: glyphicon-spin 2s infinite cubic-bezier(.85, .15, .85, .15);
+        margin: 20px 0 0 20px;
+        padding: 10px 5px;
+    }
+
+    @keyframes glyphicon-spin {
+        0% {
+            transform: rotate(0deg)
+        }
+        100% {
+            transform: rotate(359deg)
+        }
+    }
+
+    .loading-content {
+        display: inline-block;
+
+        &:after {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            animation: ellipsis steps(4,end) 1s infinite;
+            content: "\2026";
+            width: 0;
+
+            @keyframes ellipsis {
+                to {
+                    width: 1.25em;
+                }
+            }
+        }
+    }
+}

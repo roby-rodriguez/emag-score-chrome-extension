@@ -1,5 +1,6 @@
 import { load } from "../api"
 import { StorageAPI } from "../../storage"
+import { EmagTrackerAPI } from "../../backend"
 import { resetChecker } from "../../tasks/checker"
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
     UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS } from "./mutation-types"
@@ -16,8 +17,16 @@ export const loadProducts = ({ commit, state }) => {
         })
 }
 
-export const selectProduct = ({ commit }, product) => {
-    commit(SELECT_PRODUCT, product)
+export const selectProduct = ({ commit, state }, product) => {
+    if($.type(product) === "string") {
+        const online = state.settings.general.onlineData
+        let method = online ? EmagTrackerAPI.getProduct : StorageAPI.getLocal
+        return method(product)
+                    .then(found =>
+                        commit(SELECT_PRODUCT, online ? found : found[product])
+                    )
+    } else
+        commit(SELECT_PRODUCT, product)
 }
 
 export const updateBounds = ({ commit }, data) => {

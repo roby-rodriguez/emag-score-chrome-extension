@@ -1,4 +1,4 @@
-<div id="product" class="container-fluid">
+<div id="product" class="container-fluid" v-if="selected">
     <div class="row">
         <div class="col-lg-2">
             <img :src="selected.imgUrl" :alt="selected.title" width="150" height="150">
@@ -41,4 +41,8 @@
             </div>
         </div>
     </div>
+</div>
+<div class="product-loading" v-else-if="loading">
+    <span class="glyphicon glyphicon-refresh spinner" />
+    <div class="loading-content">Loading product</div>
 </div>

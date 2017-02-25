@@ -14,7 +14,7 @@ export default {
     methods: {
         select (p) {
             this.$store.dispatch('selectProduct', p)
-                .then(() => this.$router.push('/product'))
+                .then(() => this.$router.push('/product?pid=' + p.pid))
         },
         filterBy
     },

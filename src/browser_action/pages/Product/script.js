@@ -6,11 +6,22 @@ import { StorageAPI } from "../../../storage"
 export default {
     computed: mapGetters({
         selected: 'selected',
-        bounds: 'chartBounds'
+        bounds: 'chartBounds',
+        loading: 'loading'
     }),
     components: {
         'emag-chart': Chart,
         datepicker: DatePicker
+    },
+    created() {
+        if (!this.selected) {
+            const pid = this.$route.query.pid
+            if (pid)
+                this.$store.dispatch('selectProduct', pid)
+                    .catch(reason => this.$router.push('/'))
+            else
+                this.$router.push('/')
+        }
     },
     methods: {
         remove() {
