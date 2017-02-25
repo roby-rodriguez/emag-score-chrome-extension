@@ -14,7 +14,7 @@ export default class Base {
             this._extractLink(container)
             this._addTrackButton(target)
         } catch (e) {
-            swal("Oops...", "Something went wrong! (DOM structure change)", "error")
+            swal("Oops...", "Something went wrong! (DOM structure change)\n\n" + e, "error")
         }
     }
     _icon() {
