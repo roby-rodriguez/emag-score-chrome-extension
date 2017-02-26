@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-export const bounds = history => {
+export const bounds = (history={}) => {
     // TODO maybe sort array first
     const dates = Object.keys(history)
     return {

@@ -59,12 +59,17 @@ export default class ProductPage extends Base {
     }
     _extractLink() {
         const link = $(".page-title"),
-            imageLink = $("a.product-gallery-image")
+            imageLink = $("img", $("#product-gallery")).first()
         if (link.length) {
             this.data.title = link.text().trim()
             this.data.url = location.href
-            if (imageLink.length)
-                this.data.imgUrl = imageLink.attr("src")
+            if (imageLink.length) {
+                let imageLinkUrl = imageLink.attr("src")
+                if (imageLinkUrl)
+                    this.data.imgUrl = imageLinkUrl
+                else
+                    imageLink.on('load',() => this.data.imgUrl = imageLink.attr("src"))
+            }
         } else {
             throw new Error("product data not found")
         }

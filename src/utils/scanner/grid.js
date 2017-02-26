@@ -42,11 +42,15 @@ export default class Grid extends Base {
      * e.g. @Extractor("container")
      */
     _findContainer(target) {
-        const container = $(target).closest("form") || $(target).closest(".product-holder-grid")
+        let container = $(target).closest("form")
         if (container.length)
             return container
-        else
-            throw new Error("container not found")
+        else {
+            container = $(target).closest(".product-holder-grid")
+            if (container.length)
+                return container
+        }
+        throw new Error("container not found")
     }
     _extractPid(target, container) {
         this.pid = $(target).attr("p") || container.find("input[type='hidden']").first().val()
@@ -71,8 +75,13 @@ export default class Grid extends Base {
         if (link.attr("href") && (link.attr("title") || link.attr("text"))) {
             this.data.title = link.attr("title") || link.attr("text")
             this.data.url = location.origin + link.attr("href")
-            if (imageLink.length)
-                this.data.imgUrl = imageLink.attr("src")
+            if (imageLink.length) {
+                let imageLinkUrl = imageLink.attr("data-src")
+                if (imageLinkUrl)
+                    this.data.imgUrl = imageLinkUrl
+                else
+                    imageLink.on('load',() => this.data.imgUrl = imageLink.attr("src"))
+            }
         } else {
             throw new Error("product data not found")
         }

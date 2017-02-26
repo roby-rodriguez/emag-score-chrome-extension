@@ -10,6 +10,6 @@ export default {
         priceVariation: PRICE_DECREASE
     },
     scan: {
-        timeout: 1440
+        timeout: 10
     }
 }
