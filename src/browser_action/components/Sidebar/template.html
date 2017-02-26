@@ -2,10 +2,12 @@
     <div class="sidebar-content">
         <ul class="sidebar-nav" v-show="products.length">
             <li class="sidebar-brand">
-                <input type="search" class="form-control" data-toggle="tooltip" title="Lookup product by name or pid"
-                       placeholder="Search products..." v-model="search">
-                <span class="glyphicon glyphicon-search" v-show="!search"></span>
-                <span class="glyphicon glyphicon-remove" v-show="search" @click="search=''"></span>
+                <div class="form-group has-feedback">
+                    <input type="search" class="form-control" data-toggle="tooltip" title="Lookup product by name or pid"
+                           placeholder="Search products..." v-model="search">
+                    <i class="form-control-feedback glyphicon glyphicon-search" v-show="!search"></i>
+                    <i class="form-control-feedback glyphicon glyphicon-remove" v-show="search" @click="search=''"></i>
+                </div>
             </li>
             <div id="products" v-show="products.length">
                 <li v-for="p in filterBy(products, 'title', search)">

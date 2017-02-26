@@ -8,6 +8,7 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
+    overflow-x: hidden;
     background: #005eb8;
     transition: all 0.5s ease;
 }
@@ -56,9 +57,7 @@
 
     .glyphicon {
         color: #ccc;
-        position: absolute;
-        right: 0;
-        padding: 33px 10px;
+        margin-right: 20px;
     }
 
     .glyphicon-remove:hover {
@@ -70,6 +69,10 @@
     margin-top: 20px;
     text-align: center;
     color: #fff;
+}
+
+.form-control-feedback {
+    pointer-events: inherit;
 }
 
 .form-control {
