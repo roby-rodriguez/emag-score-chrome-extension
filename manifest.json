@@ -1,9 +1,9 @@
 {
-  "name": "eMag price tracker",
-  "version": "0.0.1",
+  "name": "__MSG_appName__",
+  "version": "1.0.0",
   "manifest_version": 2,
   "author": "RobyRodriguez",
-  "description": "Track price evolution on emag.ro",
+  "description": "__MSG_appDesc__",
   "icons": {
     "16": "res/icons/icon16.png",
     "48": "res/icons/icon48.png",
@@ -17,14 +17,13 @@
   "options_page": "browser_action.html#/settings",
   "browser_action": {
     "default_icon": "res/icons/icon19.png",
-    "default_title": "eMag price tracker"
+    "default_title": "__MSG_appName__"
   },
   "content_scripts": [
     {
       "matches": [
         "*://*.emag.ro/*",
-        "*://*.emag.hu/*",
-        "*://*.emag.bg/*"
+        "*://*.emag.hu/*"
       ],
       "js": [
         "lib/jquery.min.js",
