@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import updateInput from "../../../mixin"
+import { updateInput } from "../../../mixin"
 import Toggle from "../../../components/Toggle"
 import { PRICE_DECREASE, PRICE_INCREASE } from "../../../../utils/product/priceChangeType"
 

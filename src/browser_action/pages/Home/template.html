@@ -1,39 +1,39 @@
 <div class="row">
     <div class="header col-lg-12">
         <img :src="icon">
-        <h1>{{title}}</h1>
+        <h1>{{ i18n('title') }}</h1>
     </div>
     <div class="col-lg-12">
         <dl>
-            <dt>{{aboutTitle}}</dt>
-            <dd>{{aboutDescription}}</dd>
+            <dt>{{ i18n('about') }}</dt>
+            <dd>{{ i18n('description') }}</dd>
         </dl>
     </div>
     <div class="col-lg-12">
         <dl class="dl-horizontal">
-            <dt>{{how}}</dt>
-            <dd>{{howText}}</dd>
+            <dt>{{ i18n('how.title') }}</dt>
+            <dd>{{ i18n('how.text') }}</dd>
         </dl>
     </div>
     <div class="col-lg-12">
         <dl class="dl-horizontal">
-            <dt>{{userActions}}</dt>
-            <dd>{{userActionsText}}</dd>
+            <dt>{{ i18n('userActions.title') }}</dt>
+            <dd>{{ i18n('userActions.text') }}</dd>
         </dl>
     </div>
     <div class="col-lg-12">
         <dl class="dl-horizontal">
-            <dt>{{settings}}</dt>
-            <dd>{{settingsText}}
+            <dt>{{ i18n('settings.title') }}</dt>
+            <dd>{{ i18n('settings.text') }}
                 <ul class="list-unstyled">
                     <li>
                         <ul>
-                            <li>{{settingsOnlineData}}</li>
-                            <li>{{settingsLanguage}}</li>
-                            <li>{{settingsAllowNotifications}}</li>
-                            <li>{{settingsPriceVariation}}</li>
-                            <li>{{settingsTimeout}}</li>
-                            <li>{{settingsScanNow}}</li>
+                            <li>{{ i18n('settings.onlineData') }}</li>
+                            <li>{{ i18n('settings.language') }}</li>
+                            <li>{{ i18n('settings.allowNotifications') }}</li>
+                            <li>{{ i18n('settings.priceVariation') }}</li>
+                            <li>{{ i18n('settings.timeout') }}</li>
+                            <li>{{ i18n('settings.scanNow') }}</li>
                         </ul>
                     </li>
                 </ul>
@@ -42,8 +42,8 @@
     </div>
     <div class="col-lg-12">
         <dl class="dl-horizontal">
-            <dt>{{otherInfo}}</dt>
-            <dd>{{otherInfoText}}</dd>
+            <dt>{{ i18n('otherInfo.title') }}</dt>
+            <dd>{{ i18n('otherInfo.text') }}</dd>
         </dl>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import updateInput from "../../../mixin"
+import { updateInput } from "../../../mixin"
 import DropDown from "../../../components/DropDown"
 import defaultTimeouts from "../../../../utils/settings/defaultTimeoutValues"
 

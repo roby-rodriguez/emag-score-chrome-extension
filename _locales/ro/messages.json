@@ -4,53 +4,5 @@
   },
   "appDesc": {
     "message": "Urmăreşte evoluţia prețurilor pe emag.ro"
-  },
-  "home_about": {
-    "message": "La ce foloseşte?"
-  },
-  "home_description": {
-    "message": "Cu ajutorul acestei aplicații se poate vizualiza istoria evoluţiei prețurilor unor produse marcate de utilizator pe emag.ro"
-  },
-  "home_how": {
-    "message": "Cum funcționează?"
-  },
-  "home_how_text": {
-    "message": "La navigarea pe site utilizatorul va observa butonul 'urmăreşte prețul' aferent produsului. La click se marchează produsul ca favorit în cadrul acestei aplicații. Ca urmare, la un interval (care poate fi setat de utilizator) se va face o verificare online (în fundal) a prețului tuturor produselor marcate ca favorit. Aceasta verificare ('scan') se efectueaza doar o data pe zi indiferent de valoarea intervalului. Totuşi, o valoare mai mică este indicată în cazul unei utilizări mai puțin frecvente a browser-ului deoarce verificarea se va face doar cand aveți calculatorul pornit. (ex. în zilele în care nu folosiți calculatorul va lipsi afişarea prețului în grafic)"
-  },
-  "home_useractions": {
-    "message": "Acțiuni utilizator"
-  },
-  "home_useractions_text": {
-    "message": "Ca utilizator se pot adăuga sau şterge produse din lista de urmărire. Lista permite filtrarea acestora după nume sau PID (număr de indentificare produs)"
-  },
-  "home_settings": {
-    "message": "Setări utilizator"
-  },
-  "home_settings_text": {
-    "message": "Printre setări utilizator care pot fi modificate se numără următoarele:"
-  },
-  "home_settings_onlinedata": {
-    "message": "Date online - se poate alege dacă se doreşte folosirea de date în comun. De exemplu cineva doreşte să urmăreasca evolutia de pret a unui produs. În cazul în care acesta era pus deja sub urmărire de către altă persoană, se va vedea întreaga istorie de prețuri, încă de la prima urmărire. Ca alternativă, această opțiune poate fi oprită, astfel se vor folosi doar datele acumulate local de propria persoană. Încărcarea produselor va fi mai rapidă şi fară posibile inconsistențe. Ca observație, datele obținute în urma scanării locale vor fi trimise oricum pentru utilizarea în comun, indiferent de setări."
-  },
-  "home_settings_language": {
-    "message": "Limba - schimbarea limbii"
-  },
-  "home_settings_allownotifications": {
-    "message": "Permite notificari - se alege dacă aplicația poate afişa notificări sau nu, în cazul în care se alege să nu se afişeze nu se va mai afişa nimic (nici erorile)"
-  },
-  "home_settings_pricevariation": {
-    "message": "Variatia de pret - se poate specifica variația de pret care interesează - crescătoare (scumpire) sau descrescătoare (ieftinire)"
-  },
-  "home_settings_timeout": {
-    "message": "Interval - se poate alege cat de des se va încerca efectuarea scanării. Dacă s-a scanat deja nu se va mai scana din nou"
-  },
-  "home_settings_scannow": {
-    "message": "Scaneaza acum - Lansează o nouă verificare de preturi online indiferent dacă a avut deja loc una sau nu"
-  },
-  "home_otherinfo": {
-    "message": "Alte informații"
-  },
-  "home_otherinfo_text": {
-    "message": "Această aplicație este software open source şi este gratis. Nu se utilizează date şi nu se întreprind alte acțiuni în afară de cele mentionate aici. Puteți raporta probleme, inconsistențe de date sau abuzuri pe pagina oficială a extensiei. Dacă nu sunteți de acord cu modul de funcționare, este recomandată dezinstalarea acesteia. Mersi pt utilizare şi dați mai departe!"
   }
 }

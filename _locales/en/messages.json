@@ -4,53 +4,5 @@
   },
   "appDesc": {
     "message": "Track price evolution on emag.ro"
-  },
-  "home_about": {
-    "message": "About this app"
-  },
-  "home_description": {
-    "message": "By using this app you can keep track of price evolution for certain products that you mark yourself on emag.ro"
-  },
-  "home_how": {
-    "message": "How does it work?"
-  },
-  "home_how_text": {
-    "message": "When browsing emag sites the app will add a 'track price' button for trackable products. On clicking it the product is marked as favorite within this app. As a result, a scan of all marked products will be made at given timeout intervals (it will run once per day regardless of timeout value). However, lower values are better suited for less frequent use of your device. (i.e. it should ensure the scan runs daily)"
-  },
-  "home_useractions": {
-    "message": "User actions"
-  },
-  "home_useractions_text": {
-    "message": "As a user you can add/remove tracked products. You can also filter them by name or PID."
-  },
-  "home_settings": {
-    "message": "User settings"
-  },
-  "home_settings_text": {
-    "message": "This apps comes along with some default settings you may change:"
-  },
-  "home_settings_onlinedata": {
-    "message": "Online data - you may choose to use shared data (e.g. another user might have been previously tracking one of your favorite products, so when using online-'shared' data you will gain access to its price history so far). Alternately, when not using online data, loading of product price history will be faster and consistent. As a side note, upload of scan data occurs regardless of user settings."
-  },
-  "home_settings_language": {
-    "message": "Language - switch app language"
-  },
-  "home_settings_allownotifications": {
-    "message": "Allow notifications - choose if this app should show you notifications, if you turn this off all notifications (including error messages) will be turned off"
-  },
-  "home_settings_pricevariation": {
-    "message": "Price variation - specify if you're interested in price increases or decreases. You will see them as a number in the app's badge after each scan."
-  },
-  "home_settings_timeout": {
-    "message": "Timeout - choose how often the timer should try to launch the scan. If already scanned for today, it will do nothing"
-  },
-  "home_settings_scannow": {
-    "message": "Scan now - Triggers a price scan for all products, regardless of whether it has already been made or not"
-  },
-  "home_otherinfo": {
-    "message": "Other information"
-  },
-  "home_otherinfo_text": {
-    "message": "This is free open source software. No user data or other actions aside from those mentioned in this page are held. Feel free to report any problems/data inconsistencies/abuse on the chrome extension page. Thanks for using this and share!"
   }
 }

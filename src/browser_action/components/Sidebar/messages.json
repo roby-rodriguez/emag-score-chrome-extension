@@ -1,0 +1,14 @@
+{
+  "en": {
+    "placeholder": "Search products...",
+    "tooltip": "Lookup product by name or pid",
+    "loading": "Loading products",
+    "empty": "No products tracked yet"
+  },
+  "ro": {
+    "placeholder": "Caută produse...",
+    "tooltip": "Filtrează produse după nume sau PID",
+    "loading": "Se încarcă produsele",
+    "empty": "Nu urmăreşti niciun produs"
+  }
+}

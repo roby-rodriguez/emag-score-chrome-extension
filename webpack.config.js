@@ -24,12 +24,12 @@ module.exports = {
         ],
     },
     output: {
-        // TODO change this later on
         path: './dist',
         filename: '[name].build.js',
     },
     externals: {
         jquery: "jQuery",
+        i18next: "i18next",
     },
     module: {
         loaders: [
@@ -41,6 +41,10 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel',
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.json$/,
+                loader: 'json',
             },
             {
                 test: /\.css$/,
@@ -93,7 +97,7 @@ module.exports = {
             'bootstrap-toggle.js': "bootstrap-toggle/js/bootstrap-toggle.min",
             'bootstrap-toggle.css': "bootstrap-toggle/css/bootstrap-toggle.min",
         },
-        extensions: ['', '.js', '.vue', '.css'],
+        extensions: ['', '.js', '.json', '.vue', '.css'],
     },
 
     plugins: [
@@ -107,6 +111,7 @@ module.exports = {
         new HtmlWebpackIncludeAssetsPlugin({
             assets: [
                 "lib/jquery.min.js",
+                "lib/i18next.min.js",
                 "lib/sweetalert.min.js",
                 "lib/sweetalert.css"
             ],
@@ -124,6 +129,10 @@ module.exports = {
             // plugins shared between components (browser page, content script etc.)
             {
                 from: "node_modules/jquery/dist/jquery.min.js",
+                to: "lib"
+            },
+            {
+                from: "node_modules/i18next/i18next.min.js",
                 to: "lib"
             },
             {
@@ -147,5 +156,17 @@ module.exports = {
                 to: "content_script.css"
             },
         ]),
-    ],
+    ].concat(// options.production ?
+        [
+            // see globalizer webpack plugin
+            //new webpack.optimize.DedupePlugin(),
+            //new CommonsChunkPlugin("vendor", "vendor.[hash].js"),
+            //new webpack.optimize.UglifyJsPlugin({
+            //    compress: {
+            //        warnings: false
+            //    }
+            //})
+        ]
+        // : []
+    )
 }

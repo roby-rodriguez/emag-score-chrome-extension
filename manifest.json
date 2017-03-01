@@ -27,6 +27,7 @@
       ],
       "js": [
         "lib/jquery.min.js",
+        "lib/i18next.min.js",
         "lib/sweetalert.min.js",
         "content_script.build.js"
       ],
