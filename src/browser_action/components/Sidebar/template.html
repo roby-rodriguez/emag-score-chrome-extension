@@ -3,8 +3,8 @@
         <ul class="sidebar-nav" v-show="products.length">
             <li class="sidebar-brand">
                 <div class="form-group has-feedback">
-                    <input type="search" class="form-control" data-toggle="tooltip" title="Lookup product by name or pid"
-                           placeholder="Search products..." v-model="search">
+                    <input type="search" class="form-control" data-toggle="tooltip" :title="i18n('tooltip')"
+                           :placeholder="i18n('placeholder')" v-model="search">
                     <i class="form-control-feedback glyphicon glyphicon-search" v-show="!search"></i>
                     <i class="form-control-feedback glyphicon glyphicon-remove" v-show="search" @click="search=''"></i>
                 </div>
@@ -18,9 +18,9 @@
     </div>
     <div class="sidebar-loading" v-show="loading">
         <span class="glyphicon glyphicon-refresh spinner" />
-        <div class="loading-content">Loading products</div>
+        <div class="loading-content">{{ i18n('loading') }}</div>
     </div>
     <div class="sidebar-empty" v-show="!(loading || products.length)">
-        No products tracked yet
+        {{ i18n('empty') }}
     </div>
 </div>

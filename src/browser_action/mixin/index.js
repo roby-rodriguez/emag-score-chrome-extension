@@ -1,12 +1,10 @@
 const i18n = messages => ({
     created() {
-        // TODO only the resource bundle coresponding to current language should be selected
-        i18next.addResourceBundle('en', 'translation', messages['en'], true, true)
-        i18next.addResourceBundle('ro', 'translation', messages['ro'], true, true)
+        const lang = this.$store.state.settings.general.language
+        i18next.addResourceBundle(lang, 'translation', messages[lang], true)
     },
     methods: {
         i18n(key) {
-            // return Globalize(this.settings.general.language).formatMessage(key)
             return i18next.t(key)
         }
     }

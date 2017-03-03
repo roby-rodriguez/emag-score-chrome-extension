@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { now } from "../../utils"
 import { StorageAPI } from "../../storage"
 import { PRICE_INCREASE, PRICE_DECREASE } from "./priceChangeType"
 
@@ -8,10 +8,9 @@ const updatePrice = (localProductPid, newPrice) => {
         .then(item => {
             const product = item[localProductPid]
             if (product) {
-                const now = moment(new Date()).format('DD-MM-YYYY')
                 if (!product.history)
                     product.history = {}
-                product.history[now] = newPrice
+                product.history[now()] = newPrice
                 StorageAPI
                     .setLocal({
                         [localProductPid]: product

@@ -1,13 +1,10 @@
-import moment from 'moment'
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
     UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS } from "./mutation-types"
 import { bounds } from "../util"
 import defaultSettings from "../../utils/settings/defaultValues"
 
 const initChart = history => {
-    const { first, last } = bounds(history),
-        from = moment(first, "DD-MM-YYYY"),
-        until = moment(last, "DD-MM-YYYY")
+    const { from, until } = bounds(history)
     return {
         from,
         selectedFrom: from,

@@ -46,11 +46,6 @@ const router = new VueRouter({
     ]
 })
 
-i18next.init({
-    initImmediate: false,
-    lng: 'ro'
-})
-
 store
     .dispatch('loadSettings')
     .then(() => new Vue({

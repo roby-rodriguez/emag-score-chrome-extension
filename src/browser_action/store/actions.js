@@ -20,7 +20,7 @@ export const loadProducts = ({ commit, state }) => {
 export const selectProduct = ({ commit, state }, product) => {
     if($.type(product) === "string") {
         const online = state.settings.general.onlineData
-        let method = online ? EmagTrackerAPI.getProduct : StorageAPI.getLocal
+        const method = online ? EmagTrackerAPI.getProduct : StorageAPI.getLocal
         return method(product)
                     .then(found =>
                         commit(SELECT_PRODUCT, online ? found : found[product])
@@ -48,16 +48,18 @@ export const saveSettings = ({ state }) =>
         })
         .catch(reason => StorageAPI.setSync({ settings: state.settings }))
 
-export const loadSettings = ({ commit }) =>
+export const loadSettings = ({ commit, dispatch }) =>
     StorageAPI
         .getSync('settings')
         .then(settings => {
-            if (!$.isEmptyObject(settings))
+            if (!$.isEmptyObject(settings)) {
                 commit(LOAD_SETTINGS, settings)
+            }
         })
         .catch(reason => {
             console.warn('Could not read user settings. ' + reason)
         })
+        .then(() => dispatch('initI18n'))
 
 export const resetSettings = ({ commit }) => {
     commit(RESET_SETTINGS)
@@ -68,3 +70,9 @@ export const scanByDemand = ({ state }) =>
     StorageAPI
         .removeSync('lastCheck')
         .then(() => resetChecker(state.settings))
+
+export const initI18n = ({ state }) =>
+    i18next.init({
+        initImmediate: false,
+        lng: state.settings.general.language
+    })

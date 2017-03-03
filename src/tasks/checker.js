@@ -1,8 +1,8 @@
 import co from 'co'
-import moment from 'moment'
 import { EmagTrackerAPI } from "../backend"
 import { StorageAPI } from "../storage"
 import { NotificationsAPI } from "../notifications"
+import { now } from "../utils"
 import { scanProductHomepage } from "../utils/scanner"
 import { checkPriceChange } from "../utils/product"
 import { bagdeBackgroundColor, priceChangedText } from "../utils/notifications"
@@ -20,7 +20,7 @@ const updateStartingPoint = (formattedDate, allowNotifications) =>
 const updateProductsPrice = settings => function* () {
     try {
         const date = yield StorageAPI.getSync('lastCheck')
-        const now = moment(new Date()).format('DD-MM-YYYY')
+        const now = now()
 
         if (now !== date.lastCheck) {
             updateStartingPoint(now, settings.notifications.allow)
