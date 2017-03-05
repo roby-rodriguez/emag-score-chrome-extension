@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex'
 import { updateInput, i18n } from "../../../mixin"
 import DropDown from "../../../components/DropDown"
 import messages from "./messages"
@@ -13,6 +14,9 @@ export default {
             }
         }
     },
+    computed: mapGetters({
+        settings: 'settings'
+    }),
     components: {
         dropdown: DropDown
     },

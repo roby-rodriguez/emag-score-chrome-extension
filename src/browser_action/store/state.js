@@ -10,5 +10,6 @@ export const state = {
         until: null,
         selectedUntil: null
     },
-    settings: defaultSettings
+    settings: defaultSettings,
+    currentLang: null
 }

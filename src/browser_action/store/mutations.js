@@ -1,5 +1,5 @@
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
-    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS } from "./mutation-types"
+    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS, TOGGLE_LANGUAGE } from "./mutation-types"
 import { bounds } from "../util"
 import defaultSettings from "../../utils/settings/defaultValues"
 
@@ -37,15 +37,20 @@ export default {
         })
     },
 
-    [LOAD_SETTINGS] (state, data) {
-        state.settings = data.settings
-    },
-
     [UPDATE_SETTINGS] (state, data) {
         state.settings[data.component][data.property] = data.value
     },
 
     [RESET_SETTINGS] (state) {
         state.settings = defaultSettings
+    },
+
+    [LOAD_SETTINGS] (state, data) {
+        state.currentLang = data.settings.general.language
+        state.settings = data.settings
+    },
+
+    [TOGGLE_LANGUAGE] (state, lang) {
+        state.currentLang = lang
     }
 }

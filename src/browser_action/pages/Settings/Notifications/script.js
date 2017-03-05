@@ -1,4 +1,4 @@
-//import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { updateInput, i18n } from "../../../mixin"
 import Toggle from "../../../components/Toggle"
 import { PRICE_DECREASE, PRICE_INCREASE } from "../../../../utils/product/priceChangeType"
@@ -10,7 +10,7 @@ export default {
         toggle: Toggle
     },
     computed: {
-        // ...mapGetters(['settings']),
+        ...mapGetters(['settings']),
         priceVariation: {
             get: function () {
                 return this.settings.notifications.priceVariation === PRICE_DECREASE

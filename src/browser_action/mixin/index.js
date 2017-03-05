@@ -1,21 +1,20 @@
 import { mapGetters } from 'vuex'
 
-const i18n = (messages, loadAll) => ({
-    computed: mapGetters(['settings']),
+const i18n = messages => ({
+    computed: mapGetters([ 'lang' ]),
     created() {
         this.ns = 'i18n.namespace' + Date.now()
 
-        if (loadAll) {
-            i18next.addResourceBundle('en', this.ns, messages['en'], true)
-            i18next.addResourceBundle('ro', this.ns, messages['ro'], true)
-        } else {
-            const lang = this.$store.state.settings.general.language
-            i18next.addResourceBundle(lang, this.ns, messages[lang], true)
-        }
+        i18next.addResourceBundle(this.lang, this.ns, messages[this.lang], true)
     },
     methods: {
         i18n(key) {
-            return i18next.t(key, { lng: this.settings.general.language, ns: this.ns })
+            return i18next.t(key, { lng: this.lang, ns: this.ns })
+        }
+    },
+    watch: {
+        lang() {
+            i18next.addResourceBundle(this.lang, this.ns, messages[this.lang], true)
         }
     }
 })

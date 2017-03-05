@@ -5,6 +5,7 @@ import messages from "./messages"
 export default {
     mixins: [ i18n(messages) ],
     computed: {
+        ...mapGetters(['settings']),
         icon: () => chrome.extension.getURL("res/icons/icon48.png")
     }
 }

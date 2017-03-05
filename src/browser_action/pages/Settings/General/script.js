@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex'
 import { updateInput, i18n } from "../../../mixin"
 import DropDown from "../../../components/DropDown"
 import Toggle from "../../../components/Toggle"
@@ -5,7 +6,7 @@ import messages from "./messages"
 import defaultLanguages from "../../../../utils/settings/defaultLanguageValues"
 
 export default {
-    mixins: [ updateInput, i18n(messages, true) ],
+    mixins: [ updateInput, i18n(messages) ],
     props: {
         languages: {
             type: Array,
@@ -14,6 +15,9 @@ export default {
             }
         }
     },
+    computed: mapGetters({
+        settings: 'settings'
+    }),
     components: {
         dropdown: DropDown,
         toggle: Toggle

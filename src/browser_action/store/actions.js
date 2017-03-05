@@ -3,7 +3,7 @@ import { StorageAPI } from "../../storage"
 import { EmagTrackerAPI } from "../../backend"
 import { resetChecker } from "../../tasks/checker"
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
-    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS } from "./mutation-types"
+    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS, TOGGLE_LANGUAGE } from "./mutation-types"
 
 export const loadProducts = ({ commit, state }) => {
     commit(LOAD_PRODUCTS_REQUEST)
@@ -37,17 +37,15 @@ export const updateSettings = ({ commit }, data) => {
     commit(UPDATE_SETTINGS, data)
 }
 
-export const saveSettings = ({ state }) =>
+export const saveSettings = ({ commit, state }) =>
     StorageAPI
         .getSync('settings')
         .then(data => {
             if (!$.isEmptyObject(data)) {
                 if (data.settings.scan.timeout !== state.settings.scan.timeout)
                     resetChecker(state.settings)
-                if (data.settings.general.language !== state.settings.general.language) {
-                    // i18next.changeLanguage(state.settings.general.language)
-                    commit(LOAD_SETTINGS, state.settings)
-                }
+                if (data.settings.general.language !== state.settings.general.language)
+                    commit(TOGGLE_LANGUAGE, state.settings.general.language)
             }
             StorageAPI.setSync({ settings: state.settings })
         })
