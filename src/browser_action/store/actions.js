@@ -41,8 +41,13 @@ export const saveSettings = ({ state }) =>
     StorageAPI
         .getSync('settings')
         .then(data => {
-            if (!$.isEmptyObject(data) && data.settings.scan.timeout !== state.settings.scan.timeout) {
-                resetChecker(state.settings)
+            if (!$.isEmptyObject(data)) {
+                if (data.settings.scan.timeout !== state.settings.scan.timeout)
+                    resetChecker(state.settings)
+                if (data.settings.general.language !== state.settings.general.language) {
+                    // i18next.changeLanguage(state.settings.general.language)
+                    commit(LOAD_SETTINGS, state.settings)
+                }
             }
             StorageAPI.setSync({ settings: state.settings })
         })

@@ -1,0 +1,14 @@
+{
+  "en": {
+    "allowNotifications": "Allow notifications",
+    "priceVariation": "Price variation",
+    "decreasing": "Decreasing",
+    "increasing": "Increasing"
+  },
+  "ro": {
+    "allowNotifications": "Permite notificări",
+    "priceVariation": "Variația de preț",
+    "decreasing": "Descrescătoare",
+    "increasing": "Crescătoare"
+  }
+}

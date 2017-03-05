@@ -1,10 +1,10 @@
-import { mapGetters } from 'vuex'
-import { updateInput } from "../../../mixin"
+import { updateInput, i18n } from "../../../mixin"
 import DropDown from "../../../components/DropDown"
+import messages from "./messages"
 import defaultTimeouts from "../../../../utils/settings/defaultTimeoutValues"
 
 export default {
-    mixins: [ updateInput ],
+    mixins: [ updateInput, i18n(messages) ],
     props: {
         timeouts: {
             type: Array,
@@ -13,9 +13,6 @@ export default {
             }
         }
     },
-    computed: mapGetters({
-        settings: 'settings'
-    }),
     components: {
         dropdown: DropDown
     },

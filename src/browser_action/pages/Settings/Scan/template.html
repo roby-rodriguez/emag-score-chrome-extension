@@ -1,14 +1,14 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2">
-            <label>Timeout</label>
+            <label>{{ i18n('timeout') }}</label>
         </div>
         <div class="col-lg-2">
             <dropdown title="Interval" :value="settings.scan.timeout" :options="timeouts"
                       @dropdown-selected="updateTimeout"></dropdown>
         </div>
         <div class="col-lg-2">
-            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" title="Bla bla bla TODO">
+            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" :title="i18n('about')">
                 <span class="glyphicon glyphicon-info-sign"></span>
             </a>
         </div>
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-offset-2 col-lg-2">
             <button type="button" class="btn btn-info" @click="scan">
-                <i class="glyphicon glyphicon-refresh"></i> Scan now
+                <i class="glyphicon glyphicon-refresh"></i> {{ i18n('scan') }}
             </button>
         </div>
     </div>

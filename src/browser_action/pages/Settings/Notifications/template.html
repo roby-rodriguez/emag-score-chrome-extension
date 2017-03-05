@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2">
-            <label>Allow notifications</label>
+            <label>{{ i18n('allowNotifications') }}</label>
         </div>
         <div class="col-lg-2">
             <toggle :value="settings.notifications.allow" @toggle-changed="updateAllow"></toggle>
@@ -9,11 +9,11 @@
     </div>
     <div class="row">
         <div class="col-lg-2">
-            <label>Price variation</label>
+            <label>{{ i18n('priceVariation') }}</label>
         </div>
         <div class="col-lg-2">
             <toggle :value="priceVariation" @toggle-changed="updatePriceVariation"
-                    on="Decreasing" off="Increasing" special="true"></toggle>
+                    :on="i18n('decreasing')" :off="i18n('increasing')" special="true"></toggle>
         </div>
     </div>
 </div>

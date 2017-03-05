@@ -12,13 +12,13 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
                 <a class="btn btn-default" :href="selected.url">
-                    <i class="glyphicon glyphicon-home"></i> View on emag
+                    <i class="glyphicon glyphicon-home"></i> {{ i18n('productHomepage') }}
                 </a>
                 <button type="button" class="btn btn-default" @click="remove">
-                    <i class="glyphicon glyphicon-remove-sign"></i> Remove from tracked list
+                    <i class="glyphicon glyphicon-remove-sign"></i> {{ i18n('remove') }}
                 </button>
                 <button type="button" class="btn btn-danger" @click="report">
-                    <i class="glyphicon glyphicon-exclamation-sign"></i> Report
+                    <i class="glyphicon glyphicon-exclamation-sign"></i> {{ i18n('report') }}
                 </button>
             </div>
         </div>
@@ -44,5 +44,5 @@
 </div>
 <div class="product-loading" v-else-if="loading">
     <span class="glyphicon glyphicon-refresh spinner" />
-    <div class="loading-content">Loading product</div>
+    <div class="loading-content">{{ i18n('loading') }}</div>
 </div>

@@ -1,4 +1,4 @@
-import { now } from "../../utils"
+import { today } from "../../utils"
 import { StorageAPI } from "../../storage"
 import { PRICE_INCREASE, PRICE_DECREASE } from "./priceChangeType"
 
@@ -10,7 +10,7 @@ const updatePrice = (localProductPid, newPrice) => {
             if (product) {
                 if (!product.history)
                     product.history = {}
-                product.history[now()] = newPrice
+                product.history[today()] = newPrice
                 StorageAPI
                     .setLocal({
                         [localProductPid]: product

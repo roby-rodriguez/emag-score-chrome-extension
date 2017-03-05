@@ -46,7 +46,7 @@
       "onlineData": "Date online - se poate alege dacă se doreşte folosirea de date în comun. De exemplu cineva doreşte să urmăreasca evolutia de preț a unui produs. În cazul în care acesta era pus deja sub urmărire de către altă persoană, se va vedea întreaga istorie de prețuri, încă de la prima urmărire. Ca alternativă, această opțiune poate fi oprită, astfel se vor folosi doar datele acumulate local de propria persoană. Încărcarea produselor va fi mai rapidă şi fară posibile inconsistențe. Ca observație, datele obținute în urma scanării locale vor fi trimise oricum pentru utilizarea în comun, indiferent de setări.",
       "language": "Limba - schimbarea limbii",
       "allowNotifications": "Permite notificări - se alege dacă aplicația poate afişa notificări sau nu, în cazul în care se alege să nu se afişeze - nu se va mai afişa nimic (nici erorile)",
-      "priceVariation": "Variatia de pret - se poate specifica variația de pret care interesează - crescătoare (scumpire) sau descrescătoare (ieftinire)",
+      "priceVariation": "Variația de preț - se poate specifica variația de preț care interesează - crescătoare (scumpire) sau descrescătoare (ieftinire)",
       "timeout": "Interval - se poate alege cat de des se va încerca efectuarea scanării. Dacă s-a scanat deja nu se va mai scana din nou",
       "scanNow": "Scanează acum - Lansează o nouă verificare de preturi online indiferent dacă a avut deja loc una sau nu"
     },

@@ -1,0 +1,12 @@
+{
+  "en": {
+    "timeout": "Timeout",
+    "about": "Choose timeout interval between scans. You can always launch a manual scan. Find out more on the home page.",
+    "scan": "Scan now"
+  },
+  "ro": {
+    "timeout": "Interval",
+    "about": "Alege intervalul de timp dintre scanări. Alternativ se poate lansa o scanare manuală. Află mai multe pe pagina principală.",
+    "scan": "Scanează acum"
+  }
+}

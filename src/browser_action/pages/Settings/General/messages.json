@@ -1,0 +1,12 @@
+{
+  "en": {
+    "onlineData": "Online data",
+    "about": "Choose if you wish to use shared data. Find out more on the home page.",
+    "language": "Language"
+  },
+  "ro": {
+    "onlineData": "Date online",
+    "about": "Alege dacă doreşti să primeşti date puse la comun cu alți utilizatori. Află mai multe pe pagina principală.",
+    "language": "Limba"
+  }
+}

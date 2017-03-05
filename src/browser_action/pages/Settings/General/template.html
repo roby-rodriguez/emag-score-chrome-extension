@@ -1,20 +1,20 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2">
-            <label>Online data</label>
+            <label>{{ i18n('onlineData') }}</label>
         </div>
         <div class="col-lg-2">
             <toggle :value="settings.general.onlineData" @toggle-changed="updateOnlineData"></toggle>
         </div>
         <div class="col-lg-2">
-            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" title="Bla bla bla TODO">
+            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" :title="i18n('about')">
                 <span class="glyphicon glyphicon-info-sign"></span>
             </a>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-2">
-            <label>Language</label>
+            <label>{{ i18n('language') }}</label>
         </div>
         <div class="col-lg-2">
             <dropdown title="Language" :value="settings.general.language" :options="languages"

@@ -1,15 +1,15 @@
 <div class="container-fluid">
-    <h2>User settings</h2>
+    <h2>{{ i18n('userSettings') }}</h2>
 
     <ul class="nav nav-tabs">
         <li class="active">
-            <router-link to="/settings" data-target="#settings" data-toggle="tab">General</router-link>
+            <router-link to="/settings" data-target="#settings" data-toggle="tab">{{ i18n('general') }}</router-link>
         </li>
         <li>
-            <router-link to="/settings/notifications" data-target="#settings" data-toggle="tab">Notifications</router-link>
+            <router-link to="/settings/notifications" data-target="#settings" data-toggle="tab">{{ i18n('notifications') }}</router-link>
         </li>
         <li>
-            <router-link to="/settings/scan" data-target="#settings" data-toggle="tab">Scan</router-link>
+            <router-link to="/settings/scan" data-target="#settings" data-toggle="tab">{{ i18n('scan') }}</router-link>
         </li>
     </ul>
 
@@ -17,12 +17,12 @@
         <div class="row">
             <div class="col-sm-offset-4 col-sm-2">
                 <button type="button" class="btn btn-success" @click="save">
-                    <i class="glyphicon glyphicon-floppy-save"></i> Save
+                    <i class="glyphicon glyphicon-floppy-save"></i> {{ i18n('save') }}
                 </button>
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-danger" @click="reset">
-                    <i class="glyphicon glyphicon-floppy-remove"></i> Reset
+                    <i class="glyphicon glyphicon-floppy-remove"></i> {{ i18n('reset') }}
                 </button>
             </div>
         </div>

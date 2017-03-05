@@ -1,0 +1,18 @@
+{
+  "en": {
+    "userSettings": "User settings",
+    "general": "General",
+    "notifications": "Notifications",
+    "scan": "Scan",
+    "save": "Save",
+    "reset": "Reset"
+  },
+  "ro": {
+    "userSettings": "Setări utilizator",
+    "general": "Generale",
+    "notifications": "Notificări",
+    "scan": "Scanare",
+    "save": "Salvează",
+    "reset": "Resetează"
+  }
+}

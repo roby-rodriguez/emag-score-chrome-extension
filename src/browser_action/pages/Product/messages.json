@@ -1,0 +1,14 @@
+{
+  "en": {
+    "productHomepage": "View on emag",
+    "remove": "General",
+    "report": "Remove from tracked list",
+    "loading": "Loading product"
+  },
+  "ro": {
+    "productHomepage": "Vezi pe emag",
+    "remove": "Şterge din lista de urmărire",
+    "report": "Raportează date greșite",
+    "loading": "Se încarcă produsul"
+  }
+}
