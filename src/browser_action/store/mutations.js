@@ -42,7 +42,7 @@ export default {
     },
 
     [RESET_SETTINGS] (state) {
-        state.settings = defaultSettings
+        state.settings = $.extend(true, {}, defaultSettings)
     },
 
     [LOAD_SETTINGS] (state, data) {
