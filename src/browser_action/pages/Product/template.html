@@ -34,10 +34,10 @@
         <div class="row">
             <div class="col-lg-1"></div>
             <div class="col-lg-5">
-                <datepicker title="From" @datepicker-selected="updateFrom" :bounds="bounds" property="selectedFrom"></datepicker>
+                <datepicker title="From" @datepicker-selected="updateFrom" :bounds="bounds" property="selectedFrom" :locale="lang"></datepicker>
             </div>
             <div class="col-lg-5">
-                <datepicker title="Until" @datepicker-selected="updateUntil" :bounds="bounds" property="selectedUntil"></datepicker>
+                <datepicker title="Until" @datepicker-selected="updateUntil" :bounds="bounds" property="selectedUntil" :locale="lang"></datepicker>
             </div>
         </div>
     </div>

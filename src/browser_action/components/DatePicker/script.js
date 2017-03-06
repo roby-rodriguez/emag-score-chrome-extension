@@ -1,10 +1,11 @@
 import datetimepicker from 'datepicker'
 
 export default {
-    props: [ 'title', 'bounds', 'property' ],
+    props: [ 'title', 'bounds', 'property', 'locale' ],
     mounted () {
         this.$datepicker = $(this.$el)
         this.$datepicker.datetimepicker({
+            locale: this.locale,
             useCurrent: false,
             format: "DD-MM-YYYY",
             minDate: this.bounds.from,

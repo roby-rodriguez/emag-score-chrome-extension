@@ -4,7 +4,7 @@
             <label>{{ i18n('onlineData') }}</label>
         </div>
         <div class="col-lg-2">
-            <toggle :value="settings.general.onlineData" @toggle-changed="updateOnlineData"></toggle>
+            <toggle :value="settings.general.onlineData" @toggle-changed="updateOnlineData" :locale="lang"></toggle>
         </div>
         <div class="col-lg-2">
             <a data-toggle="tooltip" class="tooltipLink" data-placement="right" :title="i18n('about')">

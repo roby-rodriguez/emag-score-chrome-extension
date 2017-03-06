@@ -4,7 +4,7 @@
             <label>{{ i18n('allowNotifications') }}</label>
         </div>
         <div class="col-lg-2">
-            <toggle :value="settings.notifications.allow" @toggle-changed="updateAllow"></toggle>
+            <toggle :value="settings.notifications.allow" @toggle-changed="updateAllow" :locale="lang"></toggle>
         </div>
     </div>
     <div class="row">
