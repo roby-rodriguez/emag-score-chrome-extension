@@ -42,11 +42,12 @@ export const saveSettings = ({ commit, state }) =>
         .getSync('settings')
         .then(data => {
             if (!$.isEmptyObject(data)) {
+                var lang = data.settings.general.language
                 if (data.settings.scan.timeout !== state.settings.scan.timeout)
                     resetChecker(state.settings)
-                if (data.settings.general.language !== state.settings.general.language)
-                    commit(TOGGLE_LANGUAGE, state.settings.general.language)
             }
+            if (lang !== state.settings.general.language)
+                commit(TOGGLE_LANGUAGE, state.settings.general.language)
             StorageAPI.setSync({ settings: state.settings })
         })
         .catch(reason => StorageAPI.setSync({ settings: state.settings }))
