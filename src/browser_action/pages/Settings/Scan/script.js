@@ -32,7 +32,7 @@ export default {
             // TODO also should block button until scan finished
             this.$scanBtn.addClass('spinner')
             this.$store.dispatch('scanByDemand')
-                .catch(reason => swal("Oops...", "Something went wrong!\n\n" + reason, "error"))
+                .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
         }
     }
 }

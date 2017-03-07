@@ -35,12 +35,9 @@ export default {
                     this.$router.push('/')
                     this.$store.dispatch('loadProducts')
                 })
-                .catch(reason => {
-                    swal("Oops...", "Something went wrong!\n\n" + reason, "error")
-                })
+                .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
         },
         report() {
-            console.log("report")
         },
         updateFrom(date) {
             this.$store.dispatch("updateBounds", {

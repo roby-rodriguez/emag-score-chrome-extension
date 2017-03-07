@@ -5,7 +5,15 @@
     "notifications": "Notifications",
     "scan": "Scan",
     "save": "Save",
-    "reset": "Reset"
+    "reset": "Reset",
+    "saved": {
+      "title": "Saved",
+      "message": "Your settings have been saved"
+    },
+    "reseted": {
+      "title": "Reset",
+      "message": "You are now using default settings"
+    }
   },
   "ro": {
     "userSettings": "Setări utilizator",
@@ -13,6 +21,14 @@
     "notifications": "Notificări",
     "scan": "Scanare",
     "save": "Salvează",
-    "reset": "Resetează"
+    "reset": "Resetează",
+    "saved": {
+      "title": "Salvat",
+      "message": "Noile setări au fost salvate"
+    },
+    "reseted": {
+      "title": "Resetat",
+      "message": "De acum înainte se folosesc setările din fabrică"
+    }
   }
 }

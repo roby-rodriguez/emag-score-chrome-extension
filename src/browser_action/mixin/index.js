@@ -1,20 +1,18 @@
 import { mapGetters } from 'vuex'
 
-const i18n = messages => ({
+const i18n = (messages, namespace='i18n.namespace' + Date.now()) => ({
     computed: mapGetters([ 'lang' ]),
     created() {
-        this.ns = 'i18n.namespace' + Date.now()
-
-        i18next.addResourceBundle(this.lang, this.ns, messages[this.lang], true)
+        i18next.addResourceBundle(this.lang, namespace, messages[this.lang], true)
     },
     methods: {
-        i18n(key) {
-            return i18next.t(key, { lng: this.lang, ns: this.ns })
+        i18n(key, ns=namespace, vars={}) {
+            return i18next.t(key, { lng: this.lang, ns: ns, replace: vars })
         }
     },
     watch: {
         lang() {
-            i18next.addResourceBundle(this.lang, this.ns, messages[this.lang], true)
+            i18next.addResourceBundle(this.lang, namespace, messages[this.lang], true)
         }
     }
 })
