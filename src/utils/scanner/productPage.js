@@ -46,8 +46,9 @@ export default class ProductPage extends Base {
             throw new Error("pid not found")
     }
     _extractPrice(container) {
-        const price = $(".product-new-price", container)
+        let price = $(".product-new-price", container)
         if (price.length) {
+            price = $(price[0])
             const int = price.clone().children().remove().end(),
                 dec = price.find("sup")
             if (int.length) {
