@@ -78,10 +78,10 @@ const initChecker = settings => {
     })
 }
 
-const resetChecker = settings =>
+const resetChecker = timeout =>
     chrome.alarms.create(alarmName, {
         when: Date.now(),
-        periodInMinutes: settings.scan.timeout
+        periodInMinutes: timeout
     })
 
 export { initChecker, resetChecker }

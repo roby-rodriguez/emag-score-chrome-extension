@@ -111,14 +111,14 @@ module.exports = {
         new HtmlWebpackIncludeAssetsPlugin({
             assets: [
                 "lib/jquery.min.js",
-                "lib/i18next.min.js",
+                //"lib/i18next.min.js",
                 "lib/sweetalert.min.js",
                 "lib/sweetalert.css"
             ],
             append: false
         }),
         new HtmlWebpackPlugin({
-            title: "Tracked products",
+            title: "eMag price tracker",
             favicon: "./res/icons/icon16.png",
             template: "./src/index.html",
             filename: "browser_action.html",

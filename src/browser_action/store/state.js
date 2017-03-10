@@ -1,4 +1,4 @@
-import defaultSettings from "../../utils/settings/defaultValues"
+import { getSettings } from "../../utils/settings"
 
 export const state = {
     loading: false,
@@ -10,6 +10,6 @@ export const state = {
         until: null,
         selectedUntil: null
     },
-    settings: $.extend(true, {}, defaultSettings),
-    currentLang: defaultSettings.general.language
+    settings: null,// oare pot face un extends direct aici getSettings(),
+    //currentLang: null,
 }

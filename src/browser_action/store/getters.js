@@ -1,3 +1,4 @@
+import { getSettings, getLanguage } from "../../utils/settings"
 import { adaptedChartData } from "../util"
 
 export const getters = {

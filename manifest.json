@@ -11,7 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [ "lib/jquery.min.js", "background.build.js" ],
+    "scripts": [ "lib/jquery.min.js", "lib/i18next.min.js", "background.build.js" ],
     "persistent": false
   },
   "options_page": "browser_action.html#/settings",
