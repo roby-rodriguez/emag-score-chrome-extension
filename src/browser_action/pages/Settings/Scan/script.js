@@ -28,11 +28,14 @@ export default {
             this.update('scan', 'timeout', value)
         },
         scan() {
-            // TODO no callback available for this spinner - possible only by messaging
             // TODO also should block button until scan finished
             this.$scanBtn.addClass('spinner')
             this.$store.dispatch('scanByDemand')
-                .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
+                .then(() => this.$scanBtn.removeClass('spinner'))
+                .catch(error => {
+                    this.$scanBtn.removeClass('spinner')
+                    swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error")
+                })
         }
     }
 }

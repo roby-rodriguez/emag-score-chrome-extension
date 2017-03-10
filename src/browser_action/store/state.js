@@ -10,6 +10,8 @@ export const state = {
         until: null,
         selectedUntil: null
     },
-    settings: $.extend(true, {}, defaultSettings),
-    currentLang: defaultSettings.general.language
+    settings: {
+        current: null,
+        actual: null
+    }
 }

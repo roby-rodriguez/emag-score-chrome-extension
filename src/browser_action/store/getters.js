@@ -6,6 +6,6 @@ export const getters = {
     selected: state => state.selected,
     chartBounds: state => state.chart,
     chartData: state => adaptedChartData(state.selected.history, state.chart.selectedFrom, state.chart.selectedUntil),
-    settings: state => state.settings,
-    lang: state => state.currentLang
+    settings: state => state.settings.current,
+    lang: state => state.settings.actual.general.language
 }

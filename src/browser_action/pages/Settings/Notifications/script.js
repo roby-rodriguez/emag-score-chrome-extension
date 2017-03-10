@@ -5,7 +5,7 @@ import { PRICE_DECREASE, PRICE_INCREASE } from "../../../../utils/product/priceC
 import messages from "./messages"
 
 export default {
-    mixins: [ updateInput, i18n(messages, true) ],
+    mixins: [ updateInput, i18n(messages) ],
     components: {
         toggle: Toggle
     },
