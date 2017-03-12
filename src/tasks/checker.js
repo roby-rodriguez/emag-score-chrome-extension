@@ -18,7 +18,7 @@ const updateStartingPoint = (formattedDate, notify) =>
             NotificationsAPI.error(reason, 'Could not set starting point')
     })
 
-const updateProductsPrice = ({ notify, variationType }) => function* () {
+const updateProductsPrice = ({ notify, variationType, responseCallback }) => function* () {
     try {
         const date = yield StorageAPI.getSync('lastCheck')
         const now = today()
@@ -50,7 +50,8 @@ const updateProductsPrice = ({ notify, variationType }) => function* () {
                 }
             }
             if (notify && !$.isEmptyObject(pids))
-                NotificationsAPI.info('Scan finished', 'Scheduled scan')
+                    NotificationsAPI.info('Scan finished', 'Scheduled scan')
+            responseCallback()
         }
         // set scan date if first run
         if ($.isEmptyObject(date)) {
@@ -61,16 +62,16 @@ const updateProductsPrice = ({ notify, variationType }) => function* () {
             NotificationsAPI.error(e, 'Could not perform scheduled scan')
         console.log('Could not perform scheduled scan ' + e)
         console.log(e.stack)
+        responseCallback()
     }
 }
 
-const initChecker = settings => {
+const initChecker = (settings, callback) => {
 
-    const config = adapt(settings)
+    const config = adapt(settings, callback)
 
     chrome.alarms.clear(alarmName, wasCleared => {
 
-        console.log("Cleared: " + wasCleared)
         chrome.alarms.create(alarmName, {
             delayInMinutes: 10,
             periodInMinutes: config.timeout
@@ -84,4 +85,7 @@ const initChecker = settings => {
     })
 }
 
-export { initChecker }
+const triggerScan = (settings, callback) =>
+    co(updateProductsPrice(adapt(settings, callback)))
+
+export { initChecker, triggerScan }

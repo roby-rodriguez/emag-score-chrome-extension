@@ -13,7 +13,7 @@ MessagingAPI.send = message =>
 
 MessagingAPI.init = callback =>
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-        callback(message, sendResponse)
+        return callback(message, sendResponse)
     })
 
 export { MessagingAPI }

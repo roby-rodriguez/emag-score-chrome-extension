@@ -2,6 +2,7 @@ import { adaptedChartData } from "../util"
 
 export const getters = {
     loading: state => state.loading,
+    scanning: state => state.scanning,
     products: state => state.products,
     selected: state => state.selected,
     chartBounds: state => state.chart,

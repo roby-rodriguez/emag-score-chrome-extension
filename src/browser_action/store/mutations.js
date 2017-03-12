@@ -1,5 +1,5 @@
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
-    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS } from "./mutationType"
+    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, SCAN_START, SCAN_END } from "./mutationType"
 import { bounds } from "../util"
 import defaultSettings from "../../utils/settings/defaultValues"
 
@@ -44,5 +44,13 @@ export default {
     [LOAD_SETTINGS] (state, settings) {
         state.settings.current = $.extend(true, {}, settings)
         state.settings.actual = $.extend(true, {}, settings)
+    },
+
+    [SCAN_START] (state) {
+        state.scanning = true
+    },
+
+    [SCAN_END] (state) {
+        state.scanning = false
     }
 }

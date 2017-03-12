@@ -3,9 +3,9 @@ import { StorageAPI } from "../../storage"
 import { MessagingAPI } from "../../messaging"
 import { EmagTrackerAPI } from "../../backend"
 import defaultSettings from "../../utils/settings/defaultValues"
-import { RESET_CHECKER, CHANGE_LANGUAGE } from "../../messaging/messageType"
+import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE } from "../../messaging/messageType"
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
-    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS } from "./mutationType"
+    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, SCAN_START, SCAN_END } from "./mutationType"
 
 export const loadProducts = ({ commit, state }) => {
     commit(LOAD_PRODUCTS_REQUEST)
@@ -47,31 +47,14 @@ export const saveSettings = ({ commit, state }) =>
                 MessagingAPI.send({
                     type: RESET_CHECKER,
                     value: state.settings.current
-                })
+                }).catch(reason => console.warn('Could not reset checker. ' + reason.message))
             if (state.settings.actual.general.language !== state.settings.current.general.language)
                 MessagingAPI.send({
                     type: CHANGE_LANGUAGE,
                     value: state.settings.current.general.language
-                })
+                }).catch(reason => console.warn('Could not change language. ' + reason.message))
             commit(LOAD_SETTINGS, state.settings.current)
         })
-        // TODO must show this to user
-        //.catch(reason => console.warn('Could not save user settings. ' + reason))
-/*
-    StorageAPI
-        .getSync('settings')
-        .then(data => {
-            if (!$.isEmptyObject(data)) {
-                var lang = data.settings.general.language
-                if (data.settings.scan.timeout !== state.settings.scan.timeout)
-                    resetChecker(state.settings)
-            }
-            if (lang !== state.settings.general.language)
-                commit(TOGGLE_LANGUAGE, state.settings.general.language)
-            StorageAPI.setSync({ settings: state.settings })
-        })
-        .catch(reason => StorageAPI.setSync({ settings: state.settings }))
-*/
 
 export const loadSettings = ({ commit, dispatch }) =>
     StorageAPI
@@ -91,15 +74,30 @@ export const resetSettings = ({ commit }) => {
     StorageAPI.removeSync('settings')
 }
 
-export const scanByDemand = ({ state }) =>
-    StorageAPI
-        .removeSync('lastCheck')
-        .then(() =>
-            MessagingAPI.send({
-                type: RESET_CHECKER,
-                value: state.settings.actual
+export const scanByDemand = ({ commit, state }) =>
+    new Promise((resolve, reject) => {
+        commit(SCAN_START)
+        StorageAPI
+            .removeSync('lastCheck')
+            .then(() =>
+                MessagingAPI.send({
+                    type: TRIGGER_SCAN,
+                    value: state.settings.actual
+                })
+                .then(() => {
+                    commit(SCAN_END)
+                    resolve()
+                })
+                .catch(reason => {
+                    commit(SCAN_END)
+                    reject(reason.message)
+                })
+            )
+            .catch(reason => {
+                commit(SCAN_END)
+                reject('Could not remove last checked ' + reason)
             })
-        )
+    })
 
 export const initI18n = ({ state }) =>
     i18next.init({

@@ -2,9 +2,9 @@ import { StorageAPI } from "../storage"
 import { NotificationsAPI } from "../notifications"
 import { MessagingAPI } from "../messaging"
 import { I18N } from "../utils/i18n"
-import { initChecker } from "../tasks/checker"
+import { initChecker, triggerScan } from "../tasks/checker"
 import { adapt } from "../utils/settings"
-import { RESET_CHECKER, CHANGE_LANGUAGE } from "../messaging/messageType"
+import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE } from "../messaging/messageType"
 import defaultSettings from "../utils/settings/defaultValues"
 import messages from "./messages"
 
@@ -27,14 +27,19 @@ StorageAPI
 MessagingAPI.init((message, sendResponse) => {
     switch (message.type) {
         case RESET_CHECKER:
-            initChecker(message.value)
+            initChecker(message.value, sendResponse)
+            break
+        case TRIGGER_SCAN:
+            triggerScan(message.value, sendResponse)
             break
         case CHANGE_LANGUAGE:
+            sendResponse()
             I18N.language(message.value)
             break
         default:
             break
     }
+    return true
 })
 
 chrome.browserAction.onClicked.addListener(() => {
