@@ -3,7 +3,7 @@ import { EmagTrackerAPI } from "../backend"
 import { StorageAPI } from "../storage"
 import { NotificationsAPI } from "../notifications"
 import { today } from "../utils"
-import { scanProductHomepage } from "../utils/scanner"
+import { Scanner } from "../utils/scanner"
 import { checkPriceChange } from "../utils/product"
 import { adapt } from "../utils/settings"
 import { bagdeBackgroundColor, priceChangedText } from "../utils/notifications"
@@ -39,7 +39,7 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
                     product = product[pid]
                 }
 
-                const newPrice = yield scanProductHomepage(product)
+                const newPrice = yield Scanner.scanProductHomepage(product)
                 const percentage = checkPriceChange(product, newPrice, variationType)
                 if (percentage) {
                     // TODO maybe add some flag to product in local store and display change in sidebar

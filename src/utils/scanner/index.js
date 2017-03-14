@@ -1,46 +1,32 @@
-import $ from 'jquery'
 import { EmagTrackerAPI } from "../../backend"
 import { updatePrice } from "../product"
+import priceExtractor from "./extractors/price"
 
-const productNewPriceRegex = /.*>\D*(\d+)<sup>(\d+)<\/sup>.*/
+const PRICE_NOT_FOUND = 'x'
 
-/**
- * Extracts price from the product's home page raw html string
- *
- * @param htmlText
- * @returns {string}
- */
-const _extractPriceRaw = htmlText => {
-    let index = htmlText.indexOf('"price":')
-    if (index > -1) {
-        htmlText = htmlText.substring(index + 8)
-        htmlText = htmlText.substr(0, htmlText.indexOf(","))
-        return htmlText.trim()
+@priceExtractor({
+    selector: ".product-new-price",
+    failFast: false
+})
+export class Scanner {
+    static _findContainer(htmlText) {
+        const $html = $(htmlText)
+        // TODO maybe make DB rule out of this
+        const form = $html.find("form.main-product-form")
+        if (form.length)
+            return $(form)
     }
-    index = htmlText.indexOf('product-new-price')
-    if (index > -1) {
-        htmlText = htmlText.substring(index, index + 100)
-        // find current tag of this class selector
-        const found = htmlText.match(productNewPriceRegex)
-        if (found)
-            return found[1] + found[2]
-    }
-}
-
-/**
- * Makes GET request on product home page and updates price
- *
- * @param product
- */
-const scanProductHomepage = product =>
-    new Promise((resolve, reject) => {
-        // first load product page
-        $.get(product.url)
-            .done(data => {
-                if (data && data.length) {
-                    // TODO check for captchas and if none found then just update price
-                    const newPrice = _extractPriceRaw(data)
-                    if (newPrice)
+    static scanProductHomepage(product) {
+        return new Promise((resolve, reject) => {
+            // first load product page
+            $.get(product.url)
+                .done(data => {
+                    if (data && data.length) {
+                        // TODO check for captchas and if none found then just update price
+                        const container = Scanner._findContainer(data)
+                        let newPrice
+                        if (container && container.length)
+                            newPrice = Scanner.prototype._extractPrice(container) || PRICE_NOT_FOUND
                         EmagTrackerAPI
                             .updatePrice(product.pid, newPrice)
                             .done(() => resolve(newPrice))
@@ -53,13 +39,13 @@ const scanProductHomepage = product =>
                                 // also update price for local product
                                 updatePrice(product.pid, newPrice)
                             })
-                }
-            })
-            .fail((xhr, status, error) => {
-                console.warn('Could not scan pid=' + product.pid + '. Caused by: '
-                    + JSON.stringify({xhr: xhr, status: status, error: error}))
-                reject('Could not load product page for pid=' + product.pid)
-            })
-    })
-
-export { scanProductHomepage }
+                    }
+                })
+                .fail((xhr, status, error) => {
+                    console.warn('Could not scan pid=' + product.pid + '. Caused by: '
+                        + JSON.stringify({xhr: xhr, status: status, error: error}))
+                    reject('Could not load product page for pid=' + product.pid)
+                })
+        })
+    }
+}

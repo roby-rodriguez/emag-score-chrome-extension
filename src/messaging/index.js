@@ -1,5 +1,6 @@
 const MessagingAPI = {}
 
+// TODO maybe use a decorator for all these promisified methods
 MessagingAPI.send = message =>
     new Promise((resolve, reject) => {
         chrome.runtime.sendMessage(message, response => {
