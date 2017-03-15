@@ -1,6 +1,9 @@
-import $ from 'jquery'
 import Base from "./base"
+import priceExtractor from "./extractors/price"
 
+@priceExtractor({
+    selector: ".price-over"
+})
 export default class Grid extends Base {
     _icon() {
         return $('<div/>', {
@@ -56,18 +59,6 @@ export default class Grid extends Base {
         this.pid = $(target).attr("p") || container.find("input[type='hidden']").first().val()
         if (!this.pid)
             throw new Error("pid not found")
-    }
-    _extractPrice(container) {
-        const price = $(".price-over", container)
-        if (price.length) {
-            const int = price.find(".money-int"),
-                dec = price.find(".money-decimal")
-            if (int.length) {
-                return this.data.price = int.text().replace(/\D+/g, "") +
-                    (dec.length ?  "." + dec.text().replace(/\D+/g, "") : "")
-            }
-        }
-        throw new Error("price not found")
     }
     _extractLink(container) {
         const link = container.find("a"),

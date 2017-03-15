@@ -15,24 +15,35 @@ export default {
         }
     },
     computed: mapGetters({
-        settings: 'settings'
+        settings: 'settings',
+        scanning: 'scanning'
     }),
     components: {
         dropdown: DropDown
     },
     mounted() {
         this.$scanBtn = $('.glyphicon-refresh', $(this.$el))
+        this.toggleScanBtn(this.scanning)
     },
     methods: {
+        toggleScanBtn(on) {
+            if (on)
+                this.$scanBtn.addClass('spinner')
+            else
+                this.$scanBtn.removeClass('spinner')
+            this.$scanBtn.parent().attr('disabled', on)
+        },
         updateTimeout(value) {
             this.update('scan', 'timeout', value)
         },
         scan() {
-            // TODO no callback available for this spinner - possible only by messaging
-            // TODO also should block button until scan finished
-            this.$scanBtn.addClass('spinner')
             this.$store.dispatch('scanByDemand')
                 .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
+        }
+    },
+    watch: {
+        scanning() {
+            this.toggleScanBtn(this.scanning)
         }
     }
 }

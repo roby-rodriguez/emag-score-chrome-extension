@@ -2,6 +2,7 @@ import defaultSettings from "../../utils/settings/defaultValues"
 
 export const state = {
     loading: false,
+    scanning: false,
     products: [],
     selected: null,
     chart: {
@@ -10,6 +11,8 @@ export const state = {
         until: null,
         selectedUntil: null
     },
-    settings: $.extend(true, {}, defaultSettings),
-    currentLang: defaultSettings.general.language
+    settings: {
+        current: null,
+        actual: null
+    }
 }

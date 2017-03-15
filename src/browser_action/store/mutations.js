@@ -1,5 +1,5 @@
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
-    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, RESET_SETTINGS, TOGGLE_LANGUAGE } from "./mutation-types"
+    UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, SCAN_START, SCAN_END } from "./mutationType"
 import { bounds } from "../util"
 import defaultSettings from "../../utils/settings/defaultValues"
 
@@ -38,19 +38,19 @@ export default {
     },
 
     [UPDATE_SETTINGS] (state, data) {
-        state.settings[data.component][data.property] = data.value
+        state.settings.current[data.component][data.property] = data.value
     },
 
-    [RESET_SETTINGS] (state) {
-        state.settings = $.extend(true, {}, defaultSettings)
+    [LOAD_SETTINGS] (state, settings) {
+        state.settings.current = $.extend(true, {}, settings)
+        state.settings.actual = $.extend(true, {}, settings)
     },
 
-    [LOAD_SETTINGS] (state, data) {
-        state.currentLang = data.settings.general.language
-        state.settings = data.settings
+    [SCAN_START] (state) {
+        state.scanning = true
     },
 
-    [TOGGLE_LANGUAGE] (state, lang) {
-        state.currentLang = lang
+    [SCAN_END] (state) {
+        state.scanning = false
     }
 }

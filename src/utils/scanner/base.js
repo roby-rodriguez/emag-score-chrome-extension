@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { EmagTrackerAPI } from "../../backend"
 import { StorageAPI } from "../../storage"
 import { updatePrice } from "../product"
@@ -7,10 +6,11 @@ import { updatePrice } from "../product"
 export default class Base {
     constructor(target) {
         try {
-            this.data = {}
             const container = this._findContainer(target)
+            this.data = {
+                price: this._extractPrice(container)
+            }
             this._extractPid(target, container)
-            this._extractPrice(container)
             this._extractLink(container)
             this._addTrackButton(target)
         } catch (e) {

@@ -1,6 +1,9 @@
-import $ from 'jquery'
 import Base from "./base"
+import priceExtractor from "./extractors/price"
 
+@priceExtractor({
+    selector: ".product-new-price"
+})
 export default class ProductPage extends Base {
     _icon() {
         return $('<i/>', {
@@ -44,19 +47,6 @@ export default class ProductPage extends Base {
         this.pid = container.find("input[type='hidden']").first().val()
         if (!this.pid)
             throw new Error("pid not found")
-    }
-    _extractPrice(container) {
-        let price = $(".product-new-price", container)
-        if (price.length) {
-            price = $(price[0])
-            const int = price.clone().children().remove().end(),
-                dec = price.find("sup")
-            if (int.length) {
-                return this.data.price = int.text().replace(/\D+/g, "") +
-                    (dec.length ?  "." + dec.text().replace(/\D+/g, '') : "")
-            }
-        }
-        throw new Error("price not found")
     }
     _extractLink() {
         const link = $(".page-title"),

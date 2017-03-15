@@ -1,0 +1,3 @@
+export const RESET_CHECKER = 'RESET_CHECKER'
+export const TRIGGER_SCAN = 'TRIGGER_SCAN'
+export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE'
