@@ -44,7 +44,7 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
                 if (percentage) {
                     // TODO maybe add some flag to product in local store and display change in sidebar
                     if (notify)
-                        NotificationsAPI.info(priceChangedText(pid, percentage, variationType), 'Price change', pid)
+                        NotificationsAPI.info(priceChangedText(pid, product.title, percentage, variationType), 'Price change', pid)
                     NotificationsAPI.badgeColor(bagdeBackgroundColor(variationType))
                     NotificationsAPI.incrementBadgeCounter()
                 }

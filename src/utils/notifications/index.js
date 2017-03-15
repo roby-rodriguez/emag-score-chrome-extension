@@ -21,7 +21,7 @@ const _variationKeyword = priceVariation => {
     }
 }
 // TODO see i18n
-const priceChangedText = (pid, variation, variationType) =>
-    'Tracked product ' + pid + ' is now '+ variation + '% ' + _variationKeyword(variationType) + '!'
+const priceChangedText = (pid, pTitle, variation, variationType) =>
+    'Tracked product (product id: ' + pid + ') ' + pTitle + ' is now '+ variation + '% ' + _variationKeyword(variationType) + '!'
 
 export { bagdeBackgroundColor, priceChangedText }
