@@ -6,6 +6,11 @@
     margin-top: 1px;
 }
 
+.add-all-favorites {
+    margin: 0 auto;
+    display: block;
+}
+
 .loading-grid {
     margin-top: 10px;
     width: 140px;

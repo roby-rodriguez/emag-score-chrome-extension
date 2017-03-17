@@ -5,13 +5,16 @@ import priceExtractor from "./extractors/price"
     selector: ".product-new-price"
 })
 export default class ProductPage extends Base {
+    constructor(container) {
+        super(container, {
+            selector: "button.yeahIWantThisProduct",
+            targetClass: "btn btn-primary btn-emag btn-xl btn-block"
+        })
+    }
     _icon() {
         return $('<i/>', {
             class: "em em-list-add_fill"
         })
-    }
-    _targetBtnClass() {
-        return "btn btn-primary btn-emag btn-xl btn-block"
     }
     _showLoader() {
         $(this).empty()
@@ -30,21 +33,8 @@ export default class ProductPage extends Base {
             })
         )
     }
-
-    /**
-     * TODO extract some decorator that throws error if current property not extracted
-     *
-     * e.g. @Extractor("container")
-     */
-    _findContainer(target) {
-        const container = $(target).closest("form.main-product-form")
-        if (container.length)
-            return container
-        else
-            throw new Error("container not found")
-    }
-    _extractPid(target, container) {
-        this.pid = container.find("input[type='hidden']").first().val()
+    _extractPid() {
+        this.pid = this.$container.find("input[type='hidden']").first().val()
         if (!this.pid)
             throw new Error("pid not found")
     }

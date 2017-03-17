@@ -1,13 +1,21 @@
-import $ from 'jquery'
 import GridScanner from "../utils/scanner/grid"
+import FavoriteScanner from "../utils/scanner/favorite"
 import ProductPageScanner from "../utils/scanner/productPage"
 
 const initTracker = () => {
-    $("button.add-to-cart-new").each(function (index, value) {
+    $("#products-holder .product-holder-grid").each(function (index, value) {
         new GridScanner(this)
     })
 
-    $(".main-container-inner button.yeahIWantThisProduct").each(function (index, value) {
+    const products = []
+    $("#wishlist-items .row").each(function (index, value) {
+        const favorite = new FavoriteScanner(this)
+        if (favorite.data)
+            products.push(favorite.data)
+    })
+    FavoriteScanner.addTrackAllButton(products)
+
+    $("form.main-product-form").each(function (index, value) {
         new ProductPageScanner(this)
     })
 }

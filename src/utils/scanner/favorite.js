@@ -4,10 +4,10 @@ import priceExtractor from "./extractors/price"
 @priceExtractor({
     selector: ".price-over"
 })
-export default class Grid extends Base {
+export default class Favorite extends Base {
     constructor(container) {
         super(container, {
-            selector: "button.add-to-cart-new",
+            selector: "button.emg-button:enabled",
             targetClass: "emg-button add-to-price-checker"
         })
     }
@@ -42,7 +42,8 @@ export default class Grid extends Base {
         )
     }
     _extractPid() {
-        this.pid = this.$target.attr("p") || this.$container.find("input[type='hidden']").first().val()
+        this.pid = this.$container.find("input[name='service_parrent_id']").first().val()
+            || $("form.spi-buy", this.$container).find("input[type='hidden']").first().val()
         if (!this.pid)
             throw new Error("pid not found")
     }
@@ -53,7 +54,7 @@ export default class Grid extends Base {
             this.data.title = link.attr("title") || link.attr("text")
             this.data.url = location.origin + link.attr("href")
             if (imageLink.length) {
-                let imageLinkUrl = imageLink.attr("data-src")
+                let imageLinkUrl = imageLink.attr("src")
                 if (imageLinkUrl)
                     this.data.imgUrl = imageLinkUrl
                 else
@@ -61,6 +62,20 @@ export default class Grid extends Base {
             }
         } else {
             throw new Error("product data not found")
+        }
+    }
+    static addTrackAllButton(data) {
+        const toolbox = $("#wishlistActions", this.$container).first()
+        if (toolbox.length) {
+            $('<div>', {
+                class: "gui-stacked-row"
+            }).append(
+                Favorite
+                    ._createButton("emg-button add-all-favorites", jq => {
+                        console.log(data)
+                    })
+                    .prepend(this.prototype._icon())
+            ).insertAfter(toolbox)
         }
     }
 }
