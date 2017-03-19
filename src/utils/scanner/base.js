@@ -1,5 +1,6 @@
 import { EmagTrackerAPI } from "../../backend"
 import { StorageAPI } from "../../storage"
+import { I18N } from "../i18n"
 import { updatePrice } from "../product"
 
 // TODO move this to index and refactor existing
@@ -17,8 +18,8 @@ export default class Base {
                 this._extractLink()
                 this._addTrackButton(targetClass)
             }
-        } catch (e) {
-            swal("Oops...", "Something went wrong! (DOM structure change)\n\n" + e, "error")
+        } catch (error) {
+            swal(I18N.translate('error.title', 'swal'), I18N.translate('error.message', 'swal', { error }), "error")
         }
     }
     _icon() {
@@ -92,15 +93,18 @@ export default class Base {
                     .addProduct(product)
                     .done(() => {
                         console.log("Product " + this.pid + " is now tracked:" + JSON.stringify(this.data))
-                        swal("Added", "Product " + this.pid + " is now tracked!"
-                            + "\n\nSpace usage: " + Math.round(bytesInUse * 10000 / 102400) / 100 + "%", "success")
+
+                        swal(
+                            I18N.translate('productAdded.title', 'swal'),
+                            I18N.translate('productAdded.message', 'swal', {
+                                pid: this.pid,
+                                usage: Math.round(bytesInUse * 10000 / 102400) / 100
+                            })
+                        )
                         $(jqObj).hide()
                     })
                     .fail((xhr, status, error) => {
-                        swal("Oops...", "Something went wrong!\n\n" + JSON.stringify({
-                                xhr: xhr, status: status,
-                                error: error
-                            }), "error")
+                        swal(I18N.translate('error.title', 'swal'), I18N.translate('error.message', 'swal', { error }), "error")
                         this._hideLoader.apply(jqObj)
                     })
                     .always(() => {
@@ -112,10 +116,10 @@ export default class Base {
                 console.log(reason)
             })
     }
-    static _createButton(targetClass, handler) {
+    static _createButton(targetClass, titleKey, handler) {
         return $('<button/>', {
             type: "button",
-            text: "track price", // urmareste pret
+            text: I18N.translate(titleKey, 'swal'),
             class: targetClass,
             click: e => handler(e.currentTarget)
         })
@@ -133,7 +137,7 @@ export default class Base {
             .then(item => {
                 if ($.isEmptyObject(item)) {
                     const cloned = Base
-                        ._createButton(targetClass, this._trackProduct)
+                        ._createButton(targetClass, 'track', this._trackProduct)
                         .append(this._icon())
                     cloned.insertAfter(this.$target)
                 }

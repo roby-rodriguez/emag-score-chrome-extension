@@ -8,7 +8,7 @@
 
 .add-all-favorites {
     margin: 0 auto;
-    display: block;
+    display: block !important;
 }
 
 .loading-grid {

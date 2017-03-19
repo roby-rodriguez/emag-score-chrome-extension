@@ -12,16 +12,4 @@ const bagdeBackgroundColor = priceVariation => {
     }
 }
 
-const _variationKeyword = priceVariation => {
-    switch (priceVariation) {
-        case PRICE_DECREASE:
-            return 'cheaper'
-        case PRICE_INCREASE:
-            return 'more expensive'
-    }
-}
-// TODO see i18n
-const priceChangedText = (pid, pTitle, variation, variationType) =>
-    'Tracked product (product id: ' + pid + ') ' + pTitle + ' is now '+ variation + '% ' + _variationKeyword(variationType) + '!'
-
-export { bagdeBackgroundColor, priceChangedText }
+export { bagdeBackgroundColor }

@@ -3,10 +3,8 @@ import { NotificationsAPI } from "../notifications"
 import { MessagingAPI } from "../messaging"
 import { I18N } from "../utils/i18n"
 import { initChecker, triggerScan } from "../tasks/checker"
-import { adapt } from "../utils/settings"
 import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE } from "../messaging/messageType"
 import defaultSettings from "../utils/settings/defaultValues"
-import messages from "./messages"
 
 StorageAPI
     .getSync('settings')

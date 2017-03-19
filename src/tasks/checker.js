@@ -6,7 +6,7 @@ import { today } from "../utils"
 import { Scanner } from "../utils/scanner"
 import { checkPriceChange } from "../utils/product"
 import { adapt } from "../utils/settings"
-import { bagdeBackgroundColor, priceChangedText } from "../utils/notifications"
+import { bagdeBackgroundColor } from "../utils/notifications"
 
 const alarmName = 'priceChecker'
 
@@ -15,7 +15,7 @@ const updateStartingPoint = (formattedDate, notify) =>
         lastCheck: formattedDate
     }).catch(reason => {
         if (notify)
-            NotificationsAPI.error(reason, 'Could not set starting point')
+            NotificationsAPI.error(reason, 'scan.error.startingPoint')
     })
 
 const updateProductsPrice = ({ notify, variationType, responseCallback }) => function* () {
@@ -44,13 +44,16 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
                 if (percentage) {
                     // TODO maybe add some flag to product in local store and display change in sidebar
                     if (notify)
-                        NotificationsAPI.info(priceChangedText(pid, product.title, percentage, variationType), 'Price change', pid)
+                        NotificationsAPI.info({
+                            messageKey: "priceChanged." + variationType,
+                            params: { pid, title: product.title, variation: percentage }
+                        })
                     NotificationsAPI.badgeColor(bagdeBackgroundColor(variationType))
                     NotificationsAPI.incrementBadgeCounter()
                 }
             }
             if (notify && !$.isEmptyObject(pids))
-                    NotificationsAPI.info('Scan finished', 'Scheduled scan')
+                    NotificationsAPI.info('scan.finished', 'scan.title')
             responseCallback()
         }
         // set scan date if first run
@@ -59,7 +62,7 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
         }
     } catch (e) {
         if (notify)
-            NotificationsAPI.error(e, 'Could not perform scheduled scan')
+            NotificationsAPI.error(e, 'scan.error.default')
         console.log('Could not perform scheduled scan ' + e)
         console.log(e.stack)
         responseCallback()

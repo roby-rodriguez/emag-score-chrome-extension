@@ -71,7 +71,7 @@ export default class Favorite extends Base {
                 class: "gui-stacked-row"
             }).append(
                 Favorite
-                    ._createButton("emg-button add-all-favorites", jq => {
+                    ._createButton("emg-button add-all-favorites", 'trackAll', jq => {
                         console.log(data)
                     })
                     .prepend(this.prototype._icon())

@@ -3,12 +3,14 @@
     "error": {
       "title": "Oops...",
       "message": "Something went wrong!\n\n{{error}}"
-    }
+    },
+    "productNotFound": "Could not find product {{ pid }}"
   },
   "ro": {
     "error": {
       "title": "Hopa!",
       "message": "Ceva nu a funcţionat\n\n{{error}}"
-    }
+    },
+    "productNotFound": "Produsul {{ pid }} nu a fost găsit"
   }
 }
