@@ -19,7 +19,7 @@ export default class Base {
                 this._addTrackButton(targetClass)
             }
         } catch (error) {
-            swal(I18N.translate('error.title', 'swal'), I18N.translate('error.message', 'swal', { error }), "error")
+            swal(I18N.translate('error.title'), I18N.translate('error.message', { error }), "error")
         }
     }
     _icon() {
@@ -95,8 +95,8 @@ export default class Base {
                         console.log("Product " + this.pid + " is now tracked:" + JSON.stringify(this.data))
 
                         swal(
-                            I18N.translate('productAdded.title', 'swal'),
-                            I18N.translate('productAdded.message', 'swal', {
+                            I18N.translate('track.action.add.title'),
+                            I18N.translate('track.action.add.message', {
                                 pid: this.pid,
                                 usage: Math.round(bytesInUse * 10000 / 102400) / 100
                             })
@@ -104,7 +104,7 @@ export default class Base {
                         $(jqObj).hide()
                     })
                     .fail((xhr, status, error) => {
-                        swal(I18N.translate('error.title', 'swal'), I18N.translate('error.message', 'swal', { error }), "error")
+                        swal(I18N.translate('error.title'), I18N.translate('error.message', { error }), "error")
                         this._hideLoader.apply(jqObj)
                     })
                     .always(() => {
@@ -119,7 +119,7 @@ export default class Base {
     static _createButton(targetClass, titleKey, handler) {
         return $('<button/>', {
             type: "button",
-            text: I18N.translate(titleKey, 'swal'),
+            text: I18N.translate(titleKey),
             class: targetClass,
             click: e => handler(e.currentTarget)
         })
@@ -137,7 +137,7 @@ export default class Base {
             .then(item => {
                 if ($.isEmptyObject(item)) {
                     const cloned = Base
-                        ._createButton(targetClass, 'track', this._trackProduct)
+                        ._createButton(targetClass, 'track.button.simple', this._trackProduct)
                         .append(this._icon())
                     cloned.insertAfter(this.$target)
                 }

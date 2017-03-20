@@ -1,27 +1,37 @@
+import co from 'co'
 import { StorageAPI } from "../storage"
 import { NotificationsAPI } from "../notifications"
 import { MessagingAPI } from "../messaging"
 import { I18N } from "../utils/i18n"
 import { initChecker, triggerScan } from "../tasks/checker"
-import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE } from "../messaging/messageType"
+import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE, GET_LANGUAGE } from "../messaging/messageType"
 import defaultSettings from "../utils/settings/defaultValues"
+import messages from "./messages"
 
-StorageAPI
-    .getSync('settings')
-    .then(data => {
-        if ($.isEmptyObject(data)) {
+const _init = settings => {
+    initChecker(settings)
+    I18N.init(messages, settings.general.language)
+}
+
+co(function *() {
+    try {
+        let settings = defaultSettings
+        const data = yield StorageAPI.getSync('settings')
+        if ($.isEmptyObject(data))
             console.info('No user settings found. Using defaults.')
-            initChecker(defaultSettings)
-        } else {
-            initChecker(data.settings)
-        }
-    })
-    .catch(reason => {
-        console.warn('Could not read user settings. ' + reason)
+        else
+            settings = data.settings
+        _init(settings)
+    } catch (e) {
+        console.warn('Could not read user settings: ' + e)
         console.info('Using defaults.')
-        initChecker(defaultSettings)
-    })
+        _init(defaultSettings)
+    }
+})
 
+/**
+ * Main and only entry point for message handling
+ */
 MessagingAPI.init((message, sendResponse) => {
     switch (message.type) {
         case RESET_CHECKER:
@@ -33,6 +43,9 @@ MessagingAPI.init((message, sendResponse) => {
         case CHANGE_LANGUAGE:
             sendResponse()
             I18N.language(message.value)
+            break
+        case GET_LANGUAGE:
+            sendResponse(I18N.language())
             break
         default:
             break

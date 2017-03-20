@@ -1,0 +1,38 @@
+{
+  "en": {
+    "error": {
+      "title": "Oops...",
+      "message": "Something went wrong!\n\n{{error}}"
+    },
+    "scan": {
+      "title": "Scheduled scan",
+      "finished": "Scan finished",
+      "error": {
+        "default": "Could not perform scheduled scan",
+        "startingPoint": "Could not set starting point"
+      },
+      "priceChanged": {
+        "PRICE_INCREASE": "Tracked product (product id: {{ pid }}) {{ title }} is now {{variation}}% more expensive!",
+        "PRICE_DECREASE": "Tracked product (product id: {{ pid }}) {{ title }} is now {{variation}}% cheaper!"
+      }
+    }
+  },
+  "ro": {
+    "error": {
+      "title": "Hopa!",
+      "message": "Ceva nu a funcţionat\n\n{{error}}"
+    },
+    "scan": {
+      "title": "Scanare periodică",
+      "finished": "Scanarea a fost finalizată",
+      "error": {
+        "default": "Nu s-a putut efectua scanarea periodică",
+        "startingPoint": "Nu s-a putut seta data de început"
+      },
+      "priceChanged": {
+        "PRICE_INCREASE": "Produsul urmărit (id: {{ pid }}) {{ title }} este acum cu {{variation}}% mai scump!",
+        "PRICE_DECREASE": "Produsul urmărit (id: {{ pid }}) {{ title }} este acum cu {{variation}}% mai ieftin!"
+      }
+    }
+  }
+}

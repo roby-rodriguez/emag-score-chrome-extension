@@ -1,5 +1,20 @@
-import $ from 'jquery'
+import { MessagingAPI } from "../messaging"
+import { I18N } from "../utils/i18n"
 import { initTracker } from "./index"
+import { GET_LANGUAGE } from "../messaging/messageType"
+import messages from "./messages"
 
-window.i18next = chrome.extension.getBackgroundPage().i18next
+MessagingAPI
+    .send({
+        type: GET_LANGUAGE
+    })
+    .then(lang => {
+        I18N.init(messages, lang)
+    })
+    .catch(reason => {
+        console.warn('Could not set language in content script. ' + reason.message)
+        I18N.init(messages)
+    })
+    .then(() => console.log(I18N.translate("error.title")))
+
 $(initTracker)

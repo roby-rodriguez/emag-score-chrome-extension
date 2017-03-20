@@ -32,10 +32,10 @@ const checkPriceChange = (product, price, changeType) => {
         const latestPrice = history.pop()
         const oldPrice = Number(latestPrice),
               newPrice = Number(price)
-        if (changeType === PRICE_INCREASE)
-            return newPrice > oldPrice ? _percentage(newPrice, oldPrice) : undefined
-        else if (changeType === PRICE_DECREASE)
-            return newPrice < oldPrice ? _percentage(oldPrice, newPrice) : undefined
+        if (changeType === PRICE_INCREASE && newPrice > oldPrice)
+            return _percentage(newPrice, oldPrice)
+        else if (changeType === PRICE_DECREASE && newPrice < oldPrice)
+            return _percentage(oldPrice, newPrice)
     }
 }
 
