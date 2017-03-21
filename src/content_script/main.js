@@ -15,6 +15,5 @@ MessagingAPI
         console.warn('Could not set language in content script. ' + reason.message)
         I18N.init(messages)
     })
-    .then(() => console.log(I18N.translate("error.title")))
 
 $(initTracker)

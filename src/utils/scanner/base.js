@@ -137,7 +137,7 @@ export default class Base {
             .then(item => {
                 if ($.isEmptyObject(item)) {
                     const cloned = Base
-                        ._createButton(targetClass, 'track.button.simple', this._trackProduct)
+                        ._createButton(targetClass, 'track.button.simple', this._trackProduct.bind(this))
                         .append(this._icon())
                     cloned.insertAfter(this.$target)
                 }
