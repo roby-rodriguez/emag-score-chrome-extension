@@ -99,7 +99,8 @@ export default class Base {
                             I18N.translate('track.action.add.message', {
                                 pid: this.pid,
                                 usage: Math.round(bytesInUse * 10000 / 102400) / 100
-                            })
+                            }),
+                            "success"
                         )
                         $(jqObj).hide()
                     })

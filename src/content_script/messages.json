@@ -27,8 +27,8 @@
       },
       "track": {
         "button": {
-          "simple": "urmăreşte prețul",
-          "all": "urmăreşte prețul la toate"
+          "simple": "urmareste pretul",
+          "all": "urmareste pretul la toate"
         },
         "action": {
           "add": {

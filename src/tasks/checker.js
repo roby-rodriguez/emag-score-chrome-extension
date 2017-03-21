@@ -2,7 +2,7 @@ import co from 'co'
 import { EmagTrackerAPI } from "../backend"
 import { StorageAPI } from "../storage"
 import { NotificationsAPI } from "../notifications"
-import { today } from "../utils"
+import { today, shortenString } from "../utils"
 import { Scanner } from "../utils/scanner"
 import { checkPriceChange } from "../utils/product"
 import { adapt } from "../utils/settings"
@@ -44,16 +44,17 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
                 if (percentage) {
                     // TODO maybe add some flag to product in local store and display change in sidebar
                     if (notify)
-                        NotificationsAPI.info({
-                            messageKey: "scan.priceChanged." + variationType,
-                            params: { pid, title: product.title, variation: percentage }
-                        })
+                        NotificationsAPI.info('scan.title', 'scan.priceChanged.' + variationType, {
+                            pid,
+                            title: shortenString(product.title),
+                            variation: percentage
+                        }, pid)
                     NotificationsAPI.badgeColor(bagdeBackgroundColor(variationType))
                     NotificationsAPI.incrementBadgeCounter()
                 }
             }
             if (notify && !$.isEmptyObject(pids))
-                    NotificationsAPI.info('scan.finished', 'scan.title')
+                    NotificationsAPI.info('scan.title', 'scan.finished')
             responseCallback()
         }
         // set scan date if first run

@@ -8,7 +8,7 @@ const i18n = (messages, namespace='i18n.namespace' + Date.now()) => ({
     },
     methods: {
         i18n(key, ns=namespace, vars={}) {
-            return I18N.translate(key, ns, vars)
+            return I18N.translate(key, vars, ns)
             //return i18next.t(key, { lng: this.lang, ns: ns, replace: vars })
         }
     },

@@ -8,7 +8,7 @@ I18N.init = (messages, lang = defaultSettings.general.language) =>
         ns: 'app',
         lng: lang
     })
-I18N.translate = (key, namespace='app', params={}) =>
+I18N.translate = (key, params={}, namespace='app') =>
     i18next.t(key, { ns: namespace, replace: params })
 I18N.load = (messages, lang, namespace) =>
     i18next.addResourceBundle(lang, namespace, messages[lang], true)

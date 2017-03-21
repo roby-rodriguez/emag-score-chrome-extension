@@ -6,16 +6,16 @@ NotificationsAPI.error = (error, messageKey='error.message') =>
     chrome.notifications.create('error', {
         type: 'basic',
         iconUrl: 'res/icons/icon128.png',
-        title: I18N.translate('error.title', 'swal'),
-        message: I18N.translate(messageKey, 'swal', { error })
+        title: I18N.translate('error.title'),
+        message: I18N.translate(messageKey, { error })
     })
 
-NotificationsAPI.info = ({ messageKey, params }, titleKey, pid='') =>
+NotificationsAPI.info = (titleKey, messageKey, params, pid='') =>
     chrome.notifications.create('info'+pid, {
         type: 'basic',
         iconUrl: 'res/icons/icon128.png',
-        title: I18N.translate(titleKey, 'swal'),
-        message: I18N.translate(messageKey, 'swal', params)
+        title: I18N.translate(titleKey),
+        message: I18N.translate(messageKey, params)
     })
 
 NotificationsAPI.badgeColor = color =>
