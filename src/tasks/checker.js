@@ -55,7 +55,8 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
             }
             if (notify && !$.isEmptyObject(pids))
                     NotificationsAPI.info('scan.title', 'scan.finished')
-            responseCallback()
+            if (typeof responseCallback === "function")
+                responseCallback()
         }
         // set scan date if first run
         if ($.isEmptyObject(date)) {
@@ -64,9 +65,10 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
     } catch (e) {
         if (notify)
             NotificationsAPI.error(e, 'scan.error.default')
+        if (typeof responseCallback === "function")
+            responseCallback()
         console.log('Could not perform scheduled scan ' + e)
         console.log(e.stack)
-        responseCallback()
     }
 }
 
