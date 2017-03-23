@@ -9,7 +9,7 @@ const shortenString = (str, maxLength=20) => {
 }
 const getProductObject = (product, empty=false) => {
     const obj = {}
-    if (!empty) obj[product.pid] = product
+    obj[product.pid] = empty ? {} : product
     return obj
 }
 
