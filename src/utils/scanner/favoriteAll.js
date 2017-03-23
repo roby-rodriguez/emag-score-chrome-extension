@@ -22,7 +22,7 @@ export default class FavoriteAll extends Base {
                 class: this.sourceClass,
                 click: e => this._trackProduct(e.currentTarget)
             })
-            this.$source.append(this._icon())
+            .append(this._icon())
 
             $('<div>', {
                 id: "track-all-row",

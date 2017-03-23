@@ -13,6 +13,7 @@ import { toArray } from "../../utils"
  * > $container: the main container where the additional track button is added
  * > $target: the button that will be "cloned"
  * > $source: the cloned "track-product" button
+ * > $found: a promise object that can be used externally to check if pid already added to sync
  * > loaderClass: css when $source clicked
  * > *sourceClass: css of $source
  *
@@ -35,7 +36,7 @@ export default class Base {
         this.loaderClass = loaderClass
         this.loaderPadding = loaderPadding
         this.$container = $(container)
-        if (products) {
+        if (products && products.length) {
             this.data = products
             this._addTrackButton()
         } else {
@@ -98,20 +99,20 @@ export default class Base {
         this.$source.hide()
     }
 
-    _trackProduct(jqObj, callback) {
+    _trackProduct() {
         this._showLoader()
 
         track(toArray(this.data))
             .then(({ problems, pids, bytesInUse }) => {
                 if (problems.length) {
-                    swal(I18N.translate('error.title'), I18N.translate('error.message', { error }), "error")
+                    swal(I18N.translate('error.title'), I18N.translate('error.message', { error: problems }), "error")
                     this._hideLoader()
                 } else {
                     console.log("Product(s) " + pids + " are now tracked:" + JSON.stringify(this.data))
 
                     swal(
                         I18N.translate('track.action.add.title'),
-                        I18N.translate('track.action.add.message', {
+                        I18N.translate('track.action.add.message.' + (pids.length > 1 ? 'more' : 'one'), {
                             pid: pids,
                             usage: Math.round(bytesInUse * 10000 / 102400) / 100
                         }),
@@ -127,21 +128,25 @@ export default class Base {
      * in current container
      */
     _addTrackButton() {
-        StorageAPI
-            .getSync(this.data.pid)
-            .then(item => {
-                if ($.isEmptyObject(item)) {
-                    //const cloned = this
-                    //    ._createButton(targetClass, 'track.button.simple')
-                    this.$source = $('<button/>', {
+        this.$found = new Promise((resolve, reject) => {
+            StorageAPI
+                .getSync(this.data.pid)
+                .then(item => {
+                    if ($.isEmptyObject(item)) {
+                        this.$source = $('<button/>', {
                             type: "button",
                             text: I18N.translate('track.button.simple'),
                             class: this.sourceClass,
-                            click: e => this._trackProduct(e.currentTarget)
+                            click: e => this._trackProduct()
                         })
-                    this.$source.append(this._icon())
-                    this.$source.insertAfter(this.$target)
-                }
-            })
+                        .append(this._icon())
+                        .insertAfter(this.$target)
+                        resolve(this.data)
+                    } else {
+                        resolve()
+                    }
+                })
+                .catch(reason => reject("Could not get target pid from sync store: " + this.data.pid))
+        })
     }
 }

@@ -52,17 +52,20 @@ const track = products => {
                     StorageAPI.setLocal(getProductObject(product))
                 }
             } catch (e) {
-                problems.push(new Error("Could not save product to local store: " + product.pid))
+                problems.push("Could not save product to local store: " + product.pid)
+                console.warn(e)
             }
             try {
                 yield EmagTrackerAPI.addProduct(product)
             } catch (e) {
-                problems.push(new Error("Could not push product to remote: " + product.pid))
+                problems.push("Could not push product to remote: " + product.pid)
+                console.warn(e)
             }
             try {
                 yield StorageAPI.setSync(getProductObject(product, true))
             } catch (e) {
-                problems.push(new Error("Could not save product to sync store: " + product.pid))
+                problems.push("Could not save product to sync store: " + product.pid)
+                console.warn(e)
             }
 
             if (productProblems.length)

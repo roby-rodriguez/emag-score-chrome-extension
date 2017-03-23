@@ -13,7 +13,10 @@
         "action": {
           "add": {
             "title": "Added",
-            "message": "Product {{ pid }} is now tracked!\n\nSpace usage: {{ usage }}%"
+            "message": {
+              "one": "Product {{ pid }} is now tracked!\n\nSpace usage: {{ usage }}%",
+              "more": "Products {{ pid }} are now tracked!\n\nSpace usage: {{ usage }}%"
+            }
           }
         }
       }
@@ -33,7 +36,10 @@
         "action": {
           "add": {
             "title": "Adăugat",
-            "message": "Produsul {{ pid }} a fost adăugat la lista de urmărire!\n\nSpațiu utilizat: {{ usage }}%"
+            "message": {
+              "one": "Produsul {{ pid }} a fost adăugat la lista de urmărire!\n\nSpațiu utilizat: {{ usage }}%",
+              "more": "Produsele {{ pid }} au fost adăugate la lista de urmărire!\n\nSpațiu utilizat: {{ usage }}%"
+            }
           }
         }
       }

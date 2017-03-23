@@ -11,14 +11,19 @@ const initTracker = () => {
             new GridScanner(this)
         })
 
-        const products = []
+        const favorites = []
         $("#wishlist-items .row").each(function (index, value) {
             const favorite = new FavoriteScanner(this)
-            if (favorite.data)
-                products.push(favorite.data)
+            favorites.push(favorite.$found)
         })
-        if (products.length)
-            new FavoriteAllScanner("#wishlists-container", products)
+        Promise
+            .all(favorites)
+            .then(products => {
+                const filtered = products.filter(p => p)
+                if (filtered.length)
+                    new FavoriteAllScanner("#wishlists-container", filtered)
+            })
+            .catch(reason => console.warn(reason))
 
         $("form.main-product-form").each(function (index, value) {
             new ProductPageScanner(this)
