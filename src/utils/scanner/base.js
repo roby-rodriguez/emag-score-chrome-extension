@@ -30,9 +30,14 @@ export default class Base {
     constructor(container, { selector, products, sourceClass, sourceTitle=I18N.translate('track.button.simple'),
             loaderClass="loading-grid", loaderPadding=35 }) {
 
+        this.sourceClass = sourceClass
+        this.sourceTitle = sourceTitle
+        this.loaderClass = loaderClass
+        this.loaderPadding = loaderPadding
         this.$container = $(container)
         if (products) {
             this.data = products
+            this._addTrackButton()
         } else {
             this._findTarget(selector)
             if (this.$target) {
@@ -41,13 +46,9 @@ export default class Base {
                 }
                 this._extractPid()
                 this._extractLink()
+                this._addTrackButton()
             }
         }
-        this.sourceClass = sourceClass
-        this.sourceTitle = sourceTitle
-        this.loaderClass = loaderClass
-        this.loaderPadding = loaderPadding
-        this._addTrackButton()
     }
 
     _icon() {
