@@ -67,7 +67,7 @@ const updateProductsPrice = ({ notify, variationType, responseCallback }) => fun
             NotificationsAPI.error(e, 'scan.error.default')
         if (typeof responseCallback === "function")
             responseCallback()
-        console.log('Could not perform scheduled scan ' + e)
+        console.warn('Could not perform scheduled scan ' + e)
         console.log(e.stack)
     }
 }

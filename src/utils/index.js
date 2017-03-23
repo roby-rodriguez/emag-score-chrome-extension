@@ -7,5 +7,14 @@ const shortenString = (str, maxLength=20) => {
         return str.substring(0, maxLength) + "..."
     return str
 }
+const getProductObject = (product, empty=false) => {
+    const obj = {}
+    if (!empty) obj[product.pid] = product
+    return obj
+}
 
-export { today, fromTimestamp, shortenString }
+const toArray = data => {
+    return $.isArray(data) ? data : [ data ]
+}
+
+export { today, fromTimestamp, shortenString, getProductObject, toArray }

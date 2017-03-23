@@ -8,7 +8,7 @@ var HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin
 module.exports = {
     entry: {
         // Content Script
-        content_script: [ './src/content_script', './src/content_script/main'],
+        content_script: [ 'babel-polyfill', './src/content_script', './src/content_script/main'],
         // Background Page
         background: [
             'babel-polyfill',

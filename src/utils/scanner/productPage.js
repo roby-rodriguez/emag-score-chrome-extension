@@ -8,7 +8,9 @@ export default class ProductPage extends Base {
     constructor(container) {
         super(container, {
             selector: "button.yeahIWantThisProduct",
-            targetClass: "btn btn-primary btn-emag btn-xl btn-block"
+            sourceClass: "btn btn-primary btn-emag btn-xl btn-block",
+            loaderClass: "loading-homepage",
+            loaderPadding: 58
         })
     }
     _icon() {
@@ -16,26 +18,9 @@ export default class ProductPage extends Base {
             class: "em em-list-add_fill"
         })
     }
-    _showLoader() {
-        $(this).empty()
-        $(this).css("padding-left", "10px")
-        $(this).append($('<img/>', {
-            src: chrome.extension.getURL("res/images/ajax-loader.gif"),
-            class: "loading-homepage"
-        }))
-    }
-    _hideLoader() {
-        $(this).text("track price")
-        $(this).css("padding-left", "58px")
-        $(this).append(
-            $('<i/>', {
-                class: "em em-list-add_fill"
-            })
-        )
-    }
     _extractPid() {
-        this.pid = this.$container.find("input[type='hidden']").first().val()
-        if (!this.pid)
+        this.data.pid = this.$container.find("input[type='hidden']").first().val()
+        if (!this.data.pid)
             throw new Error("pid not found")
     }
     _extractLink() {

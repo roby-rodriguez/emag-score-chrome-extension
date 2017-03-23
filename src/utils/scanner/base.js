@@ -1,146 +1,145 @@
 import { EmagTrackerAPI } from "../../backend"
 import { StorageAPI } from "../../storage"
 import { I18N } from "../i18n"
-import { updatePrice } from "../product"
+import { track } from "../product"
+import { toArray } from "../../utils"
 
-// TODO move this to index and refactor existing
+/**
+ * Base class for scanners
+ *
+ * Properties:
+ *
+ * > data: array of identified products
+ * > $container: the main container where the additional track button is added
+ * > $target: the button that will be "cloned"
+ * > $source: the cloned "track-product" button
+ * > loaderClass: css when $source clicked
+ * > *sourceClass: css of $source
+ *
+ * Methods:
+ *
+ * > constructor: if a selector is given the will be a target lookup, otherwise products must be specified
+ * > extract*: extract various product-related data
+ * > trackProductDone: housekeeping callback when adding product is successful
+ * > trackProduct: called when clicking the track button (source)
+ * > icon: custom html/css for track button
+ * > show/hide-Loader: html/css for enabling the track button
+ */
 export default class Base {
-    constructor(container, { selector, targetClass }) {
-        try {
-            this.$container = $(container)
+
+    constructor(container, { selector, products, sourceClass, sourceTitle=I18N.translate('track.button.simple'),
+            loaderClass="loading-grid", loaderPadding=35 }) {
+
+        this.$container = $(container)
+        if (products) {
+            this.data = products
+        } else {
             this._findTarget(selector)
             if (this.$target) {
                 this.data = {
                     price: this._extractPrice(this.$container)
                 }
-                this._findTarget(selector)
                 this._extractPid()
                 this._extractLink()
-                this._addTrackButton(targetClass)
             }
-        } catch (error) {
-            swal(I18N.translate('error.title'), I18N.translate('error.message', { error }), "error")
         }
+        this.sourceClass = sourceClass
+        this.sourceTitle = sourceTitle
+        this.loaderClass = loaderClass
+        this.loaderPadding = loaderPadding
+        this._addTrackButton()
     }
+
     _icon() {
+        return $('<div/>', {
+            class: "emg-btn-icon"
+        }).append(
+            $('<i/>', {
+                class: "icon-i52-list-add"
+            })
+        )
     }
+
     _showLoader() {
+        this.$source.empty()
+        this.$source.css("padding-left", "10px")
+        this.$source.append($('<img/>', {
+            src: chrome.extension.getURL("res/images/ajax-loader.gif"),
+            class: this.loaderClass
+        }))
     }
+
     _hideLoader() {
+        this.$source.text(this.sourceTitle)
+        this.$source.css("padding-left", this.loaderPadding + "px")
+        this.$source.append(this._icon())
     }
+
     _extractPid() {
         throw new Error("not implemented - called base directly")
     }
+
     _extractPrice() {
         throw new Error("not implemented - called base directly")
     }
+
     _extractLink() {
         throw new Error("not implemented - called base directly")
     }
+
     _findTarget(selector) {
         const target = $(selector, this.$container).first()
         if (target.length)
             this.$target = target
     }
-    /**
-     * Adds product to local store if not already exists
-     *
-     * @param product tracked item data
-     * @private
-     */
-    _addProductToLocalStore(product) {
-        StorageAPI
-            .getLocal(this.pid)
-            .then(item => {
-                if ($.isEmptyObject(item)) {
-                    StorageAPI
-                        .setLocal({
-                            [this.pid]: product
-                        })
-                        .then(() => updatePrice(this.pid, product.price))
-                        .catch(reason => {
-                            console.warn("Could not save product to local store: " + this.pid)
-                            console.warn(reason)
-                        })
+
+    _trackProductDone() {
+        this.$source.hide()
+    }
+
+    _trackProduct(jqObj, callback) {
+        this._showLoader()
+
+        track(toArray(this.data))
+            .then(({ problems, pids, bytesInUse }) => {
+                if (problems.length) {
+                    swal(I18N.translate('error.title'), I18N.translate('error.message', { error }), "error")
+                    this._hideLoader()
+                } else {
+                    console.log("Product(s) " + pids + " are now tracked:" + JSON.stringify(this.data))
+
+                    swal(
+                        I18N.translate('track.action.add.title'),
+                        I18N.translate('track.action.add.message', {
+                            pid: pids,
+                            usage: Math.round(bytesInUse * 10000 / 102400) / 100
+                        }),
+                        "success"
+                    )
+                    this._trackProductDone()
                 }
             })
     }
 
     /**
-     * The following actions are performed:
-     *
-     * > add PID to sync store
-     * > track product
-     * > add product to local store
-     * > show sync store usage
-     *
-     * @param jqObj tracking button
-     * @private
-     */
-    _trackProduct(jqObj) {
-        this._showLoader.apply(jqObj)
-
-        const pid = {
-            [this.pid]: {}
-        }, product = Object.assign({}, this.data, {
-            pid: this.pid
-        })
-        StorageAPI
-            .setSync(pid)
-            .then(StorageAPI.getUsage)
-            .then(bytesInUse =>
-                EmagTrackerAPI
-                    .addProduct(product)
-                    .done(() => {
-                        console.log("Product " + this.pid + " is now tracked:" + JSON.stringify(this.data))
-
-                        swal(
-                            I18N.translate('track.action.add.title'),
-                            I18N.translate('track.action.add.message', {
-                                pid: this.pid,
-                                usage: Math.round(bytesInUse * 10000 / 102400) / 100
-                            }),
-                            "success"
-                        )
-                        $(jqObj).hide()
-                    })
-                    .fail((xhr, status, error) => {
-                        swal(I18N.translate('error.title'), I18N.translate('error.message', { error }), "error")
-                        this._hideLoader.apply(jqObj)
-                    })
-                    .always(() => {
-                        // add product to local store anyways
-                        this._addProductToLocalStore(product)
-                    })
-            )
-            .catch(reason => {
-                console.log(reason)
-            })
-    }
-    static _createButton(targetClass, titleKey, handler) {
-        return $('<button/>', {
-            type: "button",
-            text: I18N.translate(titleKey),
-            class: targetClass,
-            click: e => handler(e.currentTarget)
-        })
-    }
-    /**
      * Injects a cloned target button - clicking it finishes product scan
      * in current container
-     *
-     * @param targetClass css class of button to clone
-     * @private
      */
-    _addTrackButton(targetClass) {
+    _addTrackButton() {
         StorageAPI
-            .getSync(this.pid)
+            .getSync(this.data.pid)
             .then(item => {
                 if ($.isEmptyObject(item)) {
-                    const cloned = Base
-                        ._createButton(targetClass, 'track.button.simple', this._trackProduct.bind(this))
-                        .append(this._icon())
-                    cloned.insertAfter(this.$target)
+                    //const cloned = this
+                    //    ._createButton(targetClass, 'track.button.simple')
+                    this.$source = $('<button/>', {
+                            type: "button",
+                            text: I18N.translate('track.button.simple'),
+                            class: this.sourceClass,
+                            click: e => this._trackProduct(e.currentTarget)
+                        })
+                    this.$source.append(this._icon())
+                    this.$source.insertAfter(this.$target)
                 }
             })
     }
