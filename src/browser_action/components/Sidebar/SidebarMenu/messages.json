@@ -1,0 +1,22 @@
+{
+  "en": {
+    "button": {
+      "refresh": "Refresh",
+      "settings": "Settings"
+    },
+    "tooltip": {
+      "refresh": "Synchronizes local & online data",
+      "trending": "Shows:\n- total products (cyan)\n- cuts (green)\n- raises (red)"
+    }
+  },
+  "ro": {
+    "button": {
+      "refresh": "Actualizare",
+      "settings": "Setări"
+    },
+    "tooltip": {
+      "refresh": "Sincronizare date locale cu online",
+      "trending": "Afişează:\n- total produse (turcoaz)\n- ieftiniri (verde)\n- scumpiri (roşu)"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<div class="sidebar-menu">
+    <div class="sidebar-menu-item sidebar-menu-left">
+        <a :title="i18n('tooltip.refresh')" @click="refresh">
+            <span class="glyphicon glyphicon-refresh"></span>{{ i18n('button.refresh') }}
+        </a>
+    </div>
+    <div class="sidebar-menu-item sidebar-menu-center">
+        <a :title="i18n('tooltip.trending')" @click="filter">
+            <span class="glyphicon glyphicon-stats"></span>
+            <span class="label label-info">32</span>
+        </a>
+    </div>
+    <div class="sidebar-menu-item sidebar-menu-right">
+        <a @click="settings">
+            <span class="glyphicon glyphicon-cog"></span>{{ i18n('button.settings') }}
+        </a>
+    </div>
+</div>
