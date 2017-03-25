@@ -6,7 +6,7 @@ import messages from "./messages"
 // Component.options.__file = "/home/<<username>>/WebstormProjects/emag-score-chrome-extension/src
 
 export default {
-    mixins: [ i18n(messages, "swal") ],
+    mixins: [ i18n(messages, "app") ],
     components: {
         Sidebar
     }

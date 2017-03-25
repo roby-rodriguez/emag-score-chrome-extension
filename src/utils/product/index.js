@@ -58,19 +58,17 @@ const track = (products, onlineData) =>
                 }
             } else if (onlineData) {
                 product = remote
+                // update price history for remote if it hasn't been done already
+                if (product.history && !product.history[now])
+                    yield EmagTrackerAPI.updatePrice(product.pid, product.price)
             }
 
+            if (!product.history)
+                product.history = {}
+            product.history[now] = product.price
+
             try {
-                // I don't think this is needed any longer - redundant
-                if (onlineData) {
-                    product.history = { [now]: product.price }
-                    yield StorageAPI.setLocal(getProductObject(product))
-                }
-                const local = yield StorageAPI.getLocal(product.pid)
-                if ($.isEmptyObject(local)) {
-                    product.history = { [now]: product.price }
-                    StorageAPI.setLocal(getProductObject(product))
-                }
+                StorageAPI.setLocal(getProductObject(product))
             } catch (e) {
                 problems.push("Could not save product to local store: " + product.pid)
                 console.warn(e)

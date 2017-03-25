@@ -20,11 +20,11 @@ export const load = ({ onlineData, caching, notify }) =>
                     product = yield EmagTrackerAPI.getProduct(pid)
                 }
                 if ($.isEmptyObject(product)) {
-                    if (onlineData)
+                    if (onlineData && !caching)
                         console.warn("Remote fetch failed for pid=" + pid + ". Attempting to load from local.")
                     product = yield StorageAPI.getLocal(pid)
                     if (notify && $.isEmptyObject(product))
-                        NotificationsAPI.error("Could not find product " + pid)
+                        NotificationsAPI.info('error.title', 'productNotFound', { pid })
                     else
                         products.push(product[pid])
                 } else

@@ -7,12 +7,12 @@ export default {
         save() {
             this.$store.dispatch('saveSettings')
                 .then(() => swal(this.i18n('saved.title'), this.i18n('saved.message'), "success"))
-                .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
+                .catch(error => swal(this.i18n('error.title','app'), this.i18n('error.message','app', { error }), "error"))
         },
         reset() {
             this.$store.dispatch('resetSettings')
                 .then(() => swal(this.i18n('reseted.title'), this.i18n('reseted.message'), "info"))
-                .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
+                .catch(error => swal(this.i18n('error.title','app'), this.i18n('error.message','app', { error }), "error"))
         }
     }
 }

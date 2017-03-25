@@ -12,7 +12,7 @@ export default {
 
         },
         refresh() {
-
+            this.$store.dispatch('loadProducts', true)
         }
     }
 }

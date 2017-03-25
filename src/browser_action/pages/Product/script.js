@@ -35,7 +35,7 @@ export default {
                     this.$router.push('/')
                     this.$store.dispatch('loadProducts')
                 })
-                .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
+                .catch(error => swal(this.i18n('error.title','app'), this.i18n('error.message','app', { error }), "error"))
         },
         report() {
         },

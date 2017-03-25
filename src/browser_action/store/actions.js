@@ -8,9 +8,12 @@ import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE } from "../../messaging/me
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
     UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, SCAN_START, SCAN_END } from "./mutationType"
 
-export const loadProducts = ({ commit, state }) => {
+export const loadProducts = ({ commit, state }, forcedUpdate) => {
     commit(LOAD_PRODUCTS_REQUEST)
-    load(adapt(state.settings.actual))
+    let settings = $.extend(true, {}, state.settings.actual)
+    if (forcedUpdate)
+        settings.general.caching = false
+    load(adapt(settings))
         .then(products => {
             commit(LOAD_PRODUCTS_RESPONSE, products)
         })

@@ -38,7 +38,7 @@ export default {
         },
         scan() {
             this.$store.dispatch('scanByDemand')
-                .catch(error => swal(this.i18n('error.title','swal'), this.i18n('error.message','swal', { error }), "error"))
+                .catch(error => swal(this.i18n('error.title','app'), this.i18n('error.message','app', { error }), "error"))
         }
     },
     watch: {
