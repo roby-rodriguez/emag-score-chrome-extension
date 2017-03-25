@@ -2,6 +2,7 @@ import { load } from "../api"
 import { StorageAPI } from "../../storage"
 import { MessagingAPI } from "../../messaging"
 import { EmagTrackerAPI } from "../../backend"
+import { adapt } from "../../utils/settings"
 import defaultSettings from "../../utils/settings/defaultValues"
 import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE } from "../../messaging/messageType"
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
@@ -9,7 +10,7 @@ import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
 
 export const loadProducts = ({ commit, state }) => {
     commit(LOAD_PRODUCTS_REQUEST)
-    load(state.settings.actual.general.onlineData, state.settings.actual.notifications.allow)
+    load(adapt(state.settings.actual))
         .then(products => {
             commit(LOAD_PRODUCTS_RESPONSE, products)
         })

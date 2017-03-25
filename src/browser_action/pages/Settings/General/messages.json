@@ -1,12 +1,16 @@
 {
   "en": {
     "onlineData": "Online data",
-    "about": "Choose if you wish to use shared data. Find out more on the home page.",
+    "aboutOnlineData": "Choose if you wish to use shared data. Find out more on the home page.",
+    "caching": "Caching",
+    "aboutCaching": "Choose if you wish to lazy load online data. Find out more on the home page.",
     "language": "Language"
   },
   "ro": {
     "onlineData": "Date online",
-    "about": "Alege dacă doreşti să primeşti date puse la comun cu alți utilizatori. Află mai multe pe pagina principală.",
+    "aboutOnlineData": "Alege dacă doreşti să primeşti date puse la comun cu alți utilizatori. Află mai multe pe pagina principală.",
+    "caching": "Date rapide",
+    "aboutCaching": "Alege dacă doreşti ca datele online să se stocheze local pentru o încarcare mai rapidă. Află mai multe pe pagina principală.",
     "language": "Limba"
   }
 }

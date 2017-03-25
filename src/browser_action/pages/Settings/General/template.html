@@ -7,7 +7,20 @@
             <toggle :value="settings.general.onlineData" @toggle-changed="updateOnlineData" :locale="lang"></toggle>
         </div>
         <div class="col-lg-2">
-            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" :title="i18n('about')">
+            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" :title="i18n('aboutOnlineData')">
+                <span class="glyphicon glyphicon-info-sign"></span>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <label>{{ i18n('caching') }}</label>
+        </div>
+        <div class="col-lg-2">
+            <toggle :value="settings.general.caching" @toggle-changed="updateCaching" :locale="lang"></toggle>
+        </div>
+        <div class="col-lg-2">
+            <a data-toggle="tooltip" class="tooltipLink" data-placement="right" :title="i18n('aboutCaching')">
                 <span class="glyphicon glyphicon-info-sign"></span>
             </a>
         </div>

@@ -16,7 +16,7 @@ export class Scanner {
         if (form.length)
             return $(form)
     }
-    static scanProductHomepage(product) {
+    static scanProductHomepage(product, onlineData) {
         return new Promise((resolve, reject) => {
             // first load product page
             $.get(product.url)
@@ -37,7 +37,7 @@ export class Scanner {
                             })
                             .always(() => {
                                 // also update price for local product
-                                updatePrice(product.pid, newPrice)
+                                updatePrice(product, newPrice, onlineData)
                             })
                     }
                 })

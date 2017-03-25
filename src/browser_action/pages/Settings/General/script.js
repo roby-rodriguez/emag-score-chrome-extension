@@ -28,6 +28,9 @@ export default {
         },
         updateOnlineData(value) {
             this.update('general', 'onlineData', value)
+        },
+        updateCaching(value) {
+            this.update('general', 'caching', value)
         }
     }
 }

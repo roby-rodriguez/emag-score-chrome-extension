@@ -5,27 +5,22 @@ import { today, getProductObject } from "../../utils"
 import { PRICE_INCREASE, PRICE_DECREASE } from "./priceChangeType"
 
 /**
- * Updates price history of product in local store
+ * Updates price history of product in local store. If online data is enabled, it replaces local product
+ * with remote
  *
- * @param pid local product id
+ * @param product current product
  * @param price the new price
+ * @param onlineData online data flag
  */
-const updatePrice = (pid, price) => {
+const updatePrice = (product, price, onlineData) => {
+    if (!product.history)
+        product.history = {}
+    product.history[today()] = price
     StorageAPI
-        .getLocal(pid)
-        .then(item => {
-            const product = item[pid]
-            if (product) {
-                if (!product.history)
-                    product.history = {}
-                product.history[today()] = price
-                StorageAPI
-                    .setLocal(getProductObject(product))
-                    .catch(reason => {
-                        console.warn("Could not update price in local store: " + this.pid)
-                        console.warn(reason)
-                    })
-            }
+        .setLocal(getProductObject(product))
+        .catch(reason => {
+            console.warn("Could not update price in local store: " + this.pid)
+            console.warn(reason)
         })
 }
 
@@ -38,14 +33,39 @@ const updatePrice = (pid, price) => {
  * > show sync store usage
  *
  * @param products
+ * @param onlineData
  */
-const track = products => {
-    return co(function *() {
-        let bytesInUse, productProblems
+const track = (products, onlineData) =>
+    co(function *() {
+        let bytesInUse, productProblems, remote = {}
         const problems = [], pids = [], now = today()
-        for (const product of products) {
+        for (let product of products) {
             productProblems = []
+
             try {
+                remote = yield EmagTrackerAPI.getProduct(product.pid)
+            } catch (e) {
+                problems.push("Could not get product from remote: " + product.pid)
+                console.warn(e)
+            }
+            if ($.isEmptyObject(remote)) {
+                console.info("Product with pid: " + product.pid + " does not exist on remote, it will be added now.")
+                try {
+                    yield EmagTrackerAPI.addProduct(product)
+                } catch (e) {
+                    problems.push("Could not push product to remote: " + product.pid)
+                    console.warn(e)
+                }
+            } else if (onlineData) {
+                product = remote
+            }
+
+            try {
+                // I don't think this is needed any longer - redundant
+                if (onlineData) {
+                    product.history = { [now]: product.price }
+                    yield StorageAPI.setLocal(getProductObject(product))
+                }
                 const local = yield StorageAPI.getLocal(product.pid)
                 if ($.isEmptyObject(local)) {
                     product.history = { [now]: product.price }
@@ -55,12 +75,7 @@ const track = products => {
                 problems.push("Could not save product to local store: " + product.pid)
                 console.warn(e)
             }
-            try {
-                yield EmagTrackerAPI.addProduct(product)
-            } catch (e) {
-                problems.push("Could not push product to remote: " + product.pid)
-                console.warn(e)
-            }
+
             try {
                 yield StorageAPI.setSync(getProductObject(product, true))
             } catch (e) {
@@ -84,7 +99,6 @@ const track = products => {
             pids
         }
     })
-}
 
 const _percentage = (a, b) =>
     parseInt(a/b*100%100)
