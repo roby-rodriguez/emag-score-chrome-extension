@@ -25,7 +25,8 @@ export const loadProducts = ({ commit, state }, forcedUpdate) => {
 
 export const selectProduct = ({ commit, state }, product) => {
     if($.type(product) === "string") {
-        const online = state.settings.actual.general.onlineData
+        const { onlineData, caching } = state.settings.actual.general
+        const online = onlineData && !caching
         const method = online ? EmagTrackerAPI.getProduct : StorageAPI.getLocal
         return method(product)
                     .then(found =>
