@@ -1,18 +1,38 @@
+@sidebar-def-color: #000176;
+@sidebar-def-shadow: #76E;
+@sidebar-active-color: #CCCCED;
+@sidebar-active-hover-color: #E5E5F6;
+
 .sidebar-menu {
     display: table;
     font-weight: bold;
     width: 100%;
-    background-color: #000176;
+    background-color: @sidebar-def-color;
 
     .sidebar-menu-item {
         display: table-cell;
         text-indent: 0;
 
+        &.active {
+            background: @sidebar-active-color;
+
+            a {
+                color: @sidebar-def-color;
+                &:hover {
+                    color: @sidebar-def-color;
+                }
+            }
+
+            &:hover {
+                box-shadow: 0 1px 20px 2px @sidebar-def-shadow;
+            }
+        }
+
         a {
             cursor: default;
-            color: #CCCCED;
+            color: @sidebar-active-color;
             &:hover {
-                color: #E5E5F6;
+                color: @sidebar-active-hover-color;
                 text-decoration: none;
             }
         }

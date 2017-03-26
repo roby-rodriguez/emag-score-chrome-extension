@@ -8,12 +8,12 @@ import { RESET_CHECKER, TRIGGER_SCAN, CHANGE_LANGUAGE } from "../../messaging/me
 import { LOAD_PRODUCTS_REQUEST, LOAD_PRODUCTS_RESPONSE, SELECT_PRODUCT,
     UPDATE_CHART_BOUND, UPDATE_SETTINGS, LOAD_SETTINGS, SCAN_START, SCAN_END } from "./mutationType"
 
-export const loadProducts = ({ commit, state }, forcedUpdate) => {
+export const loadProducts = ({ commit, state }, { pids, forcedUpdate } = {}) => {
     commit(LOAD_PRODUCTS_REQUEST)
     let settings = $.extend(true, {}, state.settings.actual)
     if (forcedUpdate)
         settings.general.caching = false
-    load(adapt(settings))
+    load(adapt(settings), pids)
         .then(products => {
             commit(LOAD_PRODUCTS_RESPONSE, products)
         })
@@ -109,3 +109,11 @@ export const initI18n = ({ state }) =>
         initImmediate: false,
         lng: state.settings.actual.general.language
     })
+
+export const getTrending = () =>
+    StorageAPI
+        .getLocal('trending')
+
+export const resetTrending = () =>
+    StorageAPI
+        .removeLocal('trending')

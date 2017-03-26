@@ -4,10 +4,10 @@
             <span class="glyphicon glyphicon-refresh"></span>{{ i18n('button.refresh') }}
         </a>
     </div>
-    <div class="sidebar-menu-item sidebar-menu-center">
-        <a :title="i18n('tooltip.trending')" @click="filter">
+    <div class="sidebar-menu-item sidebar-menu-center" :class="trendingActive()" @click="filter">
+        <a :title="i18n('tooltip.trending')">
             <span class="glyphicon glyphicon-stats"></span>
-            <span class="label label-info">32</span>
+            <span class="label" :class="trendingStyle">{{ trendingCount() }}</span>
         </a>
     </div>
     <div class="sidebar-menu-item sidebar-menu-right">

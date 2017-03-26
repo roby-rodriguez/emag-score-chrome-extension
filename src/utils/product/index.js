@@ -10,9 +10,8 @@ import { PRICE_INCREASE, PRICE_DECREASE } from "./priceChangeType"
  *
  * @param product current product
  * @param price the new price
- * @param onlineData online data flag
  */
-const updatePrice = (product, price, onlineData) => {
+const updatePrice = (product, price) => {
     if (!product.history)
         product.history = {}
     product.history[today()] = price
@@ -101,12 +100,11 @@ const track = (products, onlineData) =>
 const _percentage = (a, b) =>
     parseInt(a/b*100%100)
 
-const checkPriceChange = (product, price, changeType) => {
+const checkPriceChange = (product, changeType) => {
     const history = Object.keys(product.history).map(k => product.history[k])
-    if (history.length) {
-        const latestPrice = history.pop()
-        const oldPrice = Number(latestPrice),
-              newPrice = Number(price)
+    if (history.length > 1) {
+        const newPrice = Number(history.pop()),
+            oldPrice = Number(history.pop())
         if (changeType === PRICE_INCREASE && newPrice > oldPrice)
             return _percentage(newPrice, oldPrice)
         else if (changeType === PRICE_DECREASE && newPrice < oldPrice)

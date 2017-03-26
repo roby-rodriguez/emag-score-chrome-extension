@@ -27,6 +27,9 @@ export class Scanner {
                         let newPrice
                         if (container && container.length)
                             newPrice = Scanner.prototype._extractPrice(container) || PRICE_NOT_FOUND
+                        // update price for local product
+                        updatePrice(product, newPrice, onlineData)
+                        // and remote
                         EmagTrackerAPI
                             .updatePrice(product.pid, newPrice)
                             .done(() => resolve(newPrice))
@@ -34,10 +37,6 @@ export class Scanner {
                                 console.warn('Could not scan pid=' + product.pid + '. Problem was '
                                     + JSON.stringify({xhr: xhr, status: status, error: error}))
                                 reject('Could not update price for pid=' + product.pid)
-                            })
-                            .always(() => {
-                                // also update price for local product
-                                updatePrice(product, newPrice, onlineData)
                             })
                     }
                 })

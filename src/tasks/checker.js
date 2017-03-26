@@ -26,6 +26,7 @@ const updateProductsPrice = ({ onlineData, notify, variationType, responseCallba
         if (now !== date.lastCheck) {
             updateStartingPoint(now, notify)
 
+            const changed = []
             const pids = clean(yield StorageAPI.getSync(null))
             for (const pid of Object.keys(pids)) {
                 let product
@@ -51,10 +52,10 @@ const updateProductsPrice = ({ onlineData, notify, variationType, responseCallba
                 if ($.isEmptyObject(product))
                     console.warn("Checker did not find product with pid: " + pid)
                 else {
-                    const newPrice = yield Scanner.scanProductHomepage(product, onlineData)
-                    const percentage = checkPriceChange(product, newPrice, variationType)
+                    yield Scanner.scanProductHomepage(product, onlineData)
+                    const percentage = checkPriceChange(product, variationType)
                     if (percentage) {
-                        // TODO maybe add some flag to product in local store and display change in sidebar
+                        changed.push(pid)
                         if (notify)
                             NotificationsAPI.info('scan.title', 'scan.priceChanged.' + variationType, {
                                 pid,
@@ -66,6 +67,14 @@ const updateProductsPrice = ({ onlineData, notify, variationType, responseCallba
                     }
                 }
             }
+
+            let variation
+            if (changed.length)
+                variation = variationType
+            StorageAPI.setLocal({
+                trending: { variation, changed }
+            })
+
             if (notify && !$.isEmptyObject(pids))
                     NotificationsAPI.info('scan.title', 'scan.finished')
             if (typeof responseCallback === "function")
